@@ -3,19 +3,63 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aielo <aielo@student.42.fr>                +#+  +:+       +#+        */
+/*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 14:49:22 by aielo             #+#    #+#             */
-/*   Updated: 2025/09/10 17:06:55 by aielo            ###   ########.fr       */
+/*   Updated: 2025/09/11 22:02:23 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "minishell.h"
 
+/* 
+	< should redirect input.
+	> should redirect output (create/truncate).
+	>> should redirect output (create/append).
+	<< (heredoc) should be given a delimiter, then read the input until a line containing the delimiter is seen. 
+*/
 
+int	handle_redirect_in(char *filename)
+{
+	int	fd;
 
-// << (heredoc) should be given a delimiter, then read the input until a line containing the
-// delimiter is seen. However, it doesn’t have to update the history!
-// get_next_line ha 1 byte still reachable da sistemare
+	fd = open(filename, O_RDONLY);
+	if (fd == -1)
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(filename, 2);
+		ft_putstr_fd(": No such file or directory\n", 2);
+	}
+	return (fd);
+}
+
+int	handle_redirect_out(char *filename, int mode)
+{
+	int	fd;
+
+	if (mode == O_TRUNC)
+		fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	else if (mode == O_APPEND)
+		fd = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	else
+	{
+		ft_putstr_fd("Invalid redirection mode\n", 2);
+		return (-1);
+	}
+	if (fd == -1)
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(filename, 2);
+		ft_putstr_fd(": Permission denied\n", 2);
+	}
+	return (fd);
+}
+
+/* 
+	<< (heredoc) should be given a delimiter, then read the input until a line containing the
+	delimiter is seen. However, it doesn’t have to update the history!
+	get_next_line ha 1 byte still reachable da sistemare
+*/
 
 int	here_doc(char *limiter)
 {
@@ -23,7 +67,7 @@ int	here_doc(char *limiter)
 	int		fd;
 
 	line = NULL;
-	fd = open("heredoc_tmp", O_CREAT | O_WRONLY | O_TRUNC, 0600);
+	fd = open(".heredoc_tmp", O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (fd < 0)
 		return (-1);
 	while (1)
@@ -42,6 +86,42 @@ int	here_doc(char *limiter)
 		free(line);
 	}
 	close(fd);
-	fd = open("heredoc_tmp", O_RDONLY);
+	fd = open(".heredoc_tmp", O_RDONLY);
 	return (fd);
 }
+/*
+	Usare unlink("heredoc_tmp"); nel cleanup.
+	Just remember to handle the temporary file correctly, perhaps by using O_UNLINK or simply unlinking the file after the command finishes.
+
+int here_doc(char *limiter)
+{
+	int pipe_fd[2];
+	char *line;
+	
+	if (pipe(pipe_fd) == -1)
+		return (-1);
+	pid_t pid = fork();
+	if (pid == 0)
+	{
+		close(pipe_fd[0]);
+		while (1)
+		{
+			ft_putstr_fd("heredoc> ", 1);
+			line = get_next_line(STDIN_FILENO);
+			if (!line || (ft_strncmp(line, limiter, ft_strlen(limiter)) == 0 
+				&& line[ft_strlen(limiter)] == '\n'))
+			{
+				free(line);
+				break;
+			}
+			write(pipe_fd[1], line, ft_strlen(line));
+			free(line);
+		}
+		close(pipe_fd[1]);
+		exit(0);
+	}
+	close(pipe_fd[1]);
+	waitpid(pid, NULL, 0);
+	return (pipe_fd[0]);
+}
+*/
