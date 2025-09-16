@@ -15,6 +15,7 @@ t_token	*new_token(char *value)
 	tok->next = NULL;
 	return (tok);
 }
+
 t_table *init_list(void)
 {
     t_table *list = malloc(sizeof(t_table));

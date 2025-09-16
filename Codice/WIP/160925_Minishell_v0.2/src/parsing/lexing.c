@@ -1,6 +1,5 @@
 #include "parsing.h"
 
-
 t_state	state_tracker(char c, t_state state)
 {
 	if (state == STATE_NORMAL)
@@ -16,6 +15,7 @@ t_state	state_tracker(char c, t_state state)
         return (STATE_NORMAL);
     return (state);
 }
+
 void	tokenizer_norm(char *str, t_state state, t_table *list)
 {
 	int		i;

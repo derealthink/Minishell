@@ -1,6 +1,5 @@
 #include "parsing.h"
 
-
 static int	count_words(char *str, char del)
 {
 	int	i;
@@ -62,7 +61,7 @@ static char	*sub_str(char *str, char del)
 	return (res);
 }
 
-char	**ft_split(char *str, char del)
+char	**ftt_split(char *str, char del)
 {
 	char	**arr;
 	char	*word;
