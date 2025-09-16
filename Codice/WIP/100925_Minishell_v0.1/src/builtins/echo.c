@@ -1,36 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_flag_width.c                                    :+:      :+:    :+:   */
+/*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/23 17:42:28 by aielo             #+#    #+#             */
-/*   Updated: 2025/06/25 19:23:17 by aielo            ###   ########.fr       */
+/*   Created: 2025/09/15 14:05:15 by aielo             #+#    #+#             */
+/*   Updated: 2025/09/16 13:32:17 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "builtins.h"
 
-int	ft_flag_width(t_flags *flag, int length)
+int	ft_echo(char **args)
 {
-	int		width;
-	int		fill;
-	char	fill_chr;
+	int	i;
+	int	newline;
 
-	width = flag->width;
-	fill_chr = ' ';
-	if (flag->zero && !flag->left && flag->prec < 0)
-		fill_chr = '0';
-	if (width > length)
+	i = 0;
+	newline = 1;
+	if (args[i] && ft_strncmp(args[i], "-n", 3) == 0)
 	{
-		fill = width - length;
-		while (fill > 0)
-		{
-			write(1, &fill_chr, 1);
-			fill--;
-		}
-		return (width - length);
+		newline = 0;
+		i++;
 	}
+	while (args[i])
+	{
+		ft_putstr_fd(args[i], 1);
+		if (args[i + 1])
+			ft_putstr_fd(" ", 1);
+		i++;
+	}
+	if (newline)
+		ft_putendl_fd("", 1);
 	return (0);
 }

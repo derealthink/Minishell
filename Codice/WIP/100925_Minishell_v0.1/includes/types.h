@@ -1,16 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isdigit.c                                       :+:      :+:    :+:   */
+/*   types.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/12 11:23:35 by aielo             #+#    #+#             */
-/*   Updated: 2025/06/27 23:43:45 by aielo            ###   ########.fr       */
+/*   Created: 2025/09/15 18:05:02 by aielo             #+#    #+#             */
+/*   Updated: 2025/09/15 18:10:07 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_isdigit(int c)
+#ifndef TYPES_H
+# define TYPES_H
+
+typedef struct s_cmd
 {
-	return (c >= '0' && c <= '9');
-}
+	char			*path;
+	char			**args;
+	int				input_fd;
+	int				output_fd;
+	struct s_cmd	*next;
+} t_cmd;
+
+#endif

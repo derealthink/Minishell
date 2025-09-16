@@ -3,82 +3,93 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: aielo <aielo@student.42.fr>                +#+  +:+       +#+         #
+#    By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/09 13:19:32 by aielo             #+#    #+#              #
-#    Updated: 2025/09/10 14:49:57 by aielo            ###   ########.fr        #
+#    Updated: 2025/09/16 13:35:07 by aielo            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = minishell
+NAME 		= minishell
 
-LIB_DIR = Libft
-LIB_NAME = ft
-LIB_LIB = $(LIB_DIR)/lib$(LIB_NAME).a
-LIB_INC = $(LIB_DIR)
+# Libraries
+LIB_DIR 	= libft
+LIB_NAME 	= ft
+LIB_LIB 	= $(LIB_DIR)/lib$(LIB_NAME).a
+LIB_INC 	= $(LIB_DIR)
 
-PRINT_DIR = Ft_Printf
-PRINT_NAME = ftprintf
-PRINT_LIB = $(PRINT_DIR)/lib$(PRINT_NAME).a
-PRINT_INC = $(PRINT_DIR)
+# Directories
+INCLUDES 	= includes
+OBJ_DIR 	= obj
 
-SRC_DIR = src
+BUILT_DIR 	= src/builtins
+EXEC_DIR 	= src/execution
+PARS_DIR 	= src/parsing
+UTILS_DIR 	= src/utils
 
-SOURCES = minishell.c \
-		$(SRC_DIR)/print_logo.c
+# Sources
+BUILT_SRCS 	=
+EXEC_SRCS 	=
+PARS_SRCS 	=
+UTILS_SRCS 	= $(UTILS_DIR)/print_logo.c
 
-OBJECTS = $(SOURCES:.c=.o)
+SOURCES 	= minishell.c \
+				$(BUILT_SRCS) \
+				$(EXEC_SRCS) \
+				$(PARS_SRCS) \
+				$(UTILS_SRCS)
 
-CC = cc
-CFLAGS = -Wall -Wextra -Werror -g
-CEXTRA_INC = -I. -I$(LIB_INC) -I$(PRINT_INC)
-CEXTRA_LIB = -L$(LIB_DIR) -l$(LIB_NAME) -L$(PRINT_DIR) -l$(PRINT_NAME)
+# Objects
+OBJECTS 	= $(SOURCES:%.c=$(OBJ_DIR)/%.o)
 
-all: libft libftprintf $(NAME)
+# Compiler
+CC 			= cc
+CFLAGS 		= -Wall -Wextra -Werror
+CEXTRA_INC 	= -I. -I$(LIB_INC) -I$(INCLUDES)
+CEXTRA_LIB 	= -L$(LIB_DIR) -l$(LIB_NAME)
 
-bonus: libft libftprintf $(NAME)
+# Dependency
+DEPENDS 	= $(OBJECTS:.o=.d)
 
-$(NAME):  $(LIB_LIB) $(PRINT_LIB) $(OBJECTS)
-	@echo "\033[32m----Compiling $(NAME)----"
-	@echo "\033[0m"
+# Rules
+all: $(OBJ_DIR) libft $(NAME)
+
+$(OBJ_DIR):
+	mkdir -p $(OBJ_DIR)
+
+$(NAME): $(LIB_LIB) $(OBJECTS)
 	$(CC) $(CFLAGS) $(CEXTRA_INC) $(OBJECTS) -o $(NAME) $(CEXTRA_LIB)
-	@echo "\033[32m----$(NAME) compiled!----"
-	@echo "\033[0m"
 
 libft:
-	@echo "\033[32m----Compiling libft----"
-	@echo "\033[0m"
 	$(MAKE) -C $(LIB_DIR)
-	@echo "\033[32m----Libft compiled!----"
-	@echo "\033[0m"
 
-libftprintf:
-	@echo "\033[32m----Compiling printf----"
-	@echo "\033[0m"
-	$(MAKE) -C $(PRINT_DIR)
-	@echo "\033[32m----Printf compiled!----"
-	@echo "\033[0m"
+$(OBJ_DIR)/%.o: %.c
+	mkdir -p $(dir $@)
+	$(CC) $(CFLAGS) $(CEXTRA_INC) -MMD -MP -c $< -o $@
 
-%.o: %.c
-	$(CC) $(CFLAGS) $(CEXTRA_INC) -c $< -o $@
+-include $(DEPENDS)
 
 clean:
-	rm -f $(OBJECTS)
+	rm -rf $(OBJ_DIR)
 	$(MAKE) -C $(LIB_DIR) clean
-	$(MAKE) -C $(PRINT_DIR) clean
 
 fclean: clean
-	@echo "\n\033[31m----Deleting EVERYTHING!----\n"
-	@echo "\033[0m"
 	rm -f $(NAME)
 	$(MAKE) -C $(LIB_DIR) fclean
-	$(MAKE) -C $(PRINT_DIR) fclean
-	@echo "\n\033[31m----EVERYTHING deleted!----\n"
-	@echo "\033[0m"
 
 re: fclean all
 
-val:	re
-	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose --log-file=valgrind-out.txt ./$(NAME)
+# Debug rules
+debug: CFLAGS += -g3 -fsanitize=address
+debug: re
 
-.PHONY: all bonus clean fclean re libft libftprintf
+# Valgrind ruels
+val: $(NAME)
+	valgrind --leak-check=full \
+		--show-leak-kinds=all \
+		--track-origins=yes \
+		./$(NAME)
+
+valre: re val
+
+.PHONY: all clean fclean re libft debug val valre

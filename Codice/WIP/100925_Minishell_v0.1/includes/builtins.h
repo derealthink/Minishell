@@ -1,23 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/12 11:58:54 by aielo             #+#    #+#             */
-/*   Updated: 2025/06/24 13:22:17 by aielo            ###   ########.fr       */
+/*   Created: 2025/09/15 15:44:14 by aielo             #+#    #+#             */
+/*   Updated: 2025/09/16 13:25:50 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
+#ifndef BUILTINS_H
+# define BUILTINS_H
 
-size_t	ft_strlen(const char *s)
-{
-	size_t	i;
+# include "libft.h"
+# include "types.h"
 
-	i = 0;
-	while (s[i])
-		i++;
-	return (i);
-}
+int	is_builtin(char *cmd);
+int	execute_builtin(t_cmd *cmd, char ***envp);
+
+int ft_echo(char **args);
+
+#endif

@@ -6,11 +6,11 @@
 /*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 14:49:22 by aielo             #+#    #+#             */
-/*   Updated: 2025/09/11 22:02:23 by aielo            ###   ########.fr       */
+/*   Updated: 2025/09/15 16:06:42 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "executions.h"
 
 /* 
 	< should redirect input.
@@ -61,58 +61,34 @@ int	handle_redirect_out(char *filename, int mode)
 	get_next_line ha 1 byte still reachable da sistemare
 */
 
+
 int	here_doc(char *limiter)
 {
-	char	*line;
-	int		fd;
-
-	line = NULL;
-	fd = open(".heredoc_tmp", O_CREAT | O_WRONLY | O_TRUNC, 0644);
-	if (fd < 0)
-		return (-1);
-	while (1)
-	{
-		ft_putstr_fd("heredoc>", 1);
-		line = get_next_line(STDIN_FILENO);
-		if (!line)
-			break ;
-		if ((ft_strncmp(line, limiter, ft_strlen(limiter)) == 0)
-			&& line[ft_strlen(limiter)] == '\n')
-		{
-			free(line);
-			break ;
-		}
-		write(fd, line, ft_strlen(line));
-		free(line);
-	}
-	close(fd);
-	fd = open(".heredoc_tmp", O_RDONLY);
-	return (fd);
-}
-/*
-	Usare unlink("heredoc_tmp"); nel cleanup.
-	Just remember to handle the temporary file correctly, perhaps by using O_UNLINK or simply unlinking the file after the command finishes.
-
-int here_doc(char *limiter)
-{
-	int pipe_fd[2];
-	char *line;
+	static char	*stash;
+	int			pipe_fd[2];
+	char		*line;
+	pid_t		pid;
 	
 	if (pipe(pipe_fd) == -1)
 		return (-1);
-	pid_t pid = fork();
+	pid = fork();
 	if (pid == 0)
 	{
 		close(pipe_fd[0]);
 		while (1)
 		{
 			ft_putstr_fd("heredoc> ", 1);
-			line = get_next_line(STDIN_FILENO);
+			line = get_next_line_delimiter(STDIN_FILENO, &stash);
 			if (!line || (ft_strncmp(line, limiter, ft_strlen(limiter)) == 0 
 				&& line[ft_strlen(limiter)] == '\n'))
 			{
 				free(line);
-				break;
+				if (stash)
+				{
+					free(stash);
+					stash = NULL;
+				}
+			break;
 			}
 			write(pipe_fd[1], line, ft_strlen(line));
 			free(line);
@@ -124,4 +100,41 @@ int here_doc(char *limiter)
 	waitpid(pid, NULL, 0);
 	return (pipe_fd[0]);
 }
+
+/*
+int	here_doc(char *limiter)
+{
+	static char	*stash[MAX_FD];
+	char	*line;
+	int		fd;
+
+	line = NULL;
+	fd = open(".heredoc_tmp", O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	if (fd < 0)
+		return (-1);
+	while (1)
+	{
+		ft_putstr_fd("heredoc>", 1);
+		line = get_next_line_delimiter(STDIN_FILENO, &stash[0]);
+		if (!line)
+			break ;
+		if ((ft_strncmp(line, limiter, ft_strlen(limiter)) == 0)
+			&& line[ft_strlen(limiter)] == '\n')
+		{
+			free(line);
+			free(stash[0]);
+			stash[0] = NULL;
+			break ;
+		}
+		write(fd, line, ft_strlen(line));
+		free(line);
+	}
+	close(fd);
+	fd = open(".heredoc_tmp", O_RDONLY);
+	return (fd);
+}
+
+	Usare unlink("heredoc_tmp"); nel cleanup.
+	Just remember to handle the temporary file correctly, perhaps by using O_UNLINK or simply unlinking the file after the command finishes.
+
 */

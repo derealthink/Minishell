@@ -6,11 +6,11 @@
 /*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 21:28:03 by aielo             #+#    #+#             */
-/*   Updated: 2025/09/11 22:01:24 by aielo            ###   ########.fr       */
+/*   Updated: 2025/09/15 16:29:13 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "executions.h"
 
 int	execute_pipeline(t_cmd *cmd_list, char **envp)
 {

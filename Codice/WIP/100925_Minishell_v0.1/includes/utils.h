@@ -1,25 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
+/*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/17 15:02:14 by aielo             #+#    #+#             */
-/*   Updated: 2025/05/17 15:11:15 by aielo            ###   ########.fr       */
+/*   Created: 2025/09/15 15:44:44 by aielo             #+#    #+#             */
+/*   Updated: 2025/09/15 15:52:58 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
+#ifndef UTILS_H
+# define UTILS_H
 
-void	ft_putstr_fd(char *s, int fd)
-{
-	size_t	i;
+# include <stdio.h>
 
-	if (!s)
-		return ;
-	i = 0;
-	while (s[i])
-		i++;
-	write(fd, s, i);
-}
+void	print_logo(void);
+
+#endif
