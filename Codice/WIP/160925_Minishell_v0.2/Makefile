@@ -30,7 +30,8 @@ UTILS_DIR 	= src/utils
 # Sources
 BUILT_SRCS 	=
 EXEC_SRCS 	=
-PARS_SRCS 	=
+PARS_SRCS 	= $(PARS_DIR)/lex_utils.c \
+		$(PARS_DIR)/lexing.c
 UTILS_SRCS 	= $(UTILS_DIR)/print_logo.c
 
 SOURCES 	= minishell.c \

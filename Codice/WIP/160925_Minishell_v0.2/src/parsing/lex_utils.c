@@ -34,3 +34,26 @@ int	is_quotes(char c)
 		return (0);
 }
 
+void	print_tokens(t_table *list)//temp
+{
+	t_token	*current;
+	int		count;
+
+	if (!list || !list->head)
+	{
+		printf("Token list is empty\n");
+		return;
+	}
+	current = list->head;
+	count = 0;
+	printf("=== LEXER OUTPUT ===\n");
+	while (current)
+	{
+		printf("Token %d: [%s]\n", count, current->value);
+		current = current->next;
+		count++;
+	}
+	printf("Total tokens: %d\n", count);
+	printf("==================\n");
+}
+

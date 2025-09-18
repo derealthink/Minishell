@@ -15,7 +15,7 @@
 int	main()
 {
 	char	*line;
-//	t_table	*token_list;
+	t_table	*token_list;
 
 	print_logo();
 	while (1)
@@ -26,6 +26,9 @@ int	main()
 			free (line);
 			break ;
 		}
+	token_list = lexer(line);
+	print_tokens(token_list);
+
 	free(line);
 	}
 	return (0);

@@ -16,6 +16,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include "libft.h"
 
 typedef	enum e_state
 {
@@ -41,6 +42,11 @@ int		is_space(char c);
 t_token	*new_token(char *value);
 t_table *init_list(void);
 int		is_quotes(char c);
+t_table	*lexer(char *str);
+char	*str_div(char *str);
+char	*str_div_q(char *str);
+int		process_token_at_position(char *str, int pos, t_state state, t_table *list);
+void	print_tokens(t_table *list);//temp
 
 #endif
 
