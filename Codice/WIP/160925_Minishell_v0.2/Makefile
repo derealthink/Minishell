@@ -6,7 +6,7 @@
 #    By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/09 13:19:32 by aielo             #+#    #+#              #
-#    Updated: 2025/09/16 16:51:14 by aielo            ###   ########.fr        #
+#    Updated: 2025/09/20 10:45:24 by aielo            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -84,11 +84,13 @@ re: fclean all
 debug: CFLAGS += -g3 -fsanitize=address
 debug: re
 
-# Valgrind ruels
+# Valgrind rules
 val: $(NAME)
-	valgrind --leak-check=full \
+	valgrind \
+		--leak-check=full \
 		--show-leak-kinds=all \
 		--track-origins=yes \
+		--suppressions=supp.supp \
 		./$(NAME)
 
 valre: re val

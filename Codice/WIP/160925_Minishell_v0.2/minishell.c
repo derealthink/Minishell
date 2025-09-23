@@ -6,7 +6,7 @@
 /*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 13:33:49 by aielo             #+#    #+#             */
-/*   Updated: 2025/09/16 17:03:11 by aielo            ###   ########.fr       */
+/*   Updated: 2025/09/18 17:39:49 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,10 @@ int	main()
 			free (line);
 			break ;
 		}
-	token_list = lexer(line);
-	print_tokens(token_list);
-
-	free(line);
+		token_list = lexer(line);
+		print_tokens(token_list);
+		free(line);
+// free della linked list token_list?
 	}
 	return (0);
 }
