@@ -126,9 +126,9 @@ int	process_token_at_position(char *str, int pos, t_state state, t_table *list)
 	if (state == STATE_NORMAL && !is_space(str[pos]))
 		return (tokenizer_norm(&str[pos], list));
 	else if (state == STATE_SQUOTES && str[pos] == '\'')
-		return (tokenizer_squotes(&str[pos - 1], list));//this is not safe change to bounded logic
+		return (tokenizer_squotes(&str[pos], list));
 	else if (state == STATE_DQUOTES && str[pos] == '"')
-		return (tokenizer_dquotes(&str[pos - 1], list));
+		return (tokenizer_dquotes(&str[pos], list));
 	return (0);
 }
 
@@ -170,15 +170,15 @@ char	*str_div_q(char *str)//not edge case solid
 	size_t			count;
 	unsigned int	start;
 	char			*res;
-	char			quote_char;
+	//char			quote_char;
 
 	i = 0;
 	count = 0;
-	quote_char = str[i];
+	//quote_char = str[i];
 	if (is_quotes(str[i]))
 		i++;
 	start = i;
-	while (str[i] && str[i] != quote_char)
+	while (str[i] && !is_quotes(str[i]))
 	{
 		count++;
 		i++;
