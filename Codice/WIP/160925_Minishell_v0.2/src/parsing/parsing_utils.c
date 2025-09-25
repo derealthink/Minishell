@@ -15,14 +15,27 @@ int	is_pipe(char *str)
 	return (0);
 }
 
-int	is_redir(char *str)
+int	is_rin(char *str)
 {
 	int	i;
 
 	i = 0;
 	while (str[i])
 	{
-		if(str[i] == '<' || str[i] == '>')
+		if(str[i] == '<')
+			return (1);
+		i++;
+	}
+	return (0);
+}
+int	is_rout(char *str)
+{
+	int	i;
+
+	i = 0;
+	while(str[i])
+	{
+		if (str[i] == '>')
 			return (1);
 		i++;
 	}
