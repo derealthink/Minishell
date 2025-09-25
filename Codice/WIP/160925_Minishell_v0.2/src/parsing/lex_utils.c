@@ -13,6 +13,8 @@ t_token	*new_token(char *value)
 	t_token *tok = malloc(sizeof(t_token));
 	tok->value = ft_strdup(value);
 	tok->next = NULL;
+	tok->type = 0;
+	tok->moved = 0;
 	return (tok);
 }
 
