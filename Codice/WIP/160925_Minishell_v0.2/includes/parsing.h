@@ -50,7 +50,8 @@ char	*str_div_q(char *str);
 int		process_token_at_position(char *str, int pos, t_state state, t_table *list);
 void	print_tokens(t_table *list);//temp
 int		is_pipe(char *str);
-int		is_redir(char *str);
+int		is_rout(char *str);
+int		is_rin(char *str);
 int		is_append(char *str);
 int		is_heredoc(char *str);
 

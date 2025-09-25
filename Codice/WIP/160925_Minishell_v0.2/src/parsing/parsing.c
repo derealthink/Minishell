@@ -8,8 +8,10 @@ void	type_tracking(t_table tokens)
 	temp = tokens.head;
 	while (temp)
 	{
-		if(is_redir(temp->value))
-			temp->type = TYPE_REDIR;
+		if(is_rin(temp->value))
+			temp->type = TYPE_RIN;
+		else if (is_rout(temp->value))
+			temp->type = TYPE_ROUT;
 		else if (is_pipe(temp->value))
 			temp->type = TYPE_PIPE;
 		else if (is_append(temp->value))
@@ -22,21 +24,45 @@ void	type_tracking(t_table tokens)
 	}
 }
 
-void	sort_redir(t_table tokens, t_cmd table)
+void	sort_redir(t_table *tokens, t_cmd *table)
+{
+	t_token *temp;
+
+	temp = tokens->head;
+	while(temp)
+	{
+		if (temp->type == TYPE_RIN)
+		{
+			temp->moved = 1;
+			temp = temp->next;
+			table->input_file= ft_strdup(temp->value);
+			temp->moved = 1;
+		}
+		else if (temp->type == TYPE_ROUT)
+		{
+			temp->moved = 1;
+			temp = temp->next;
+			table->output_file = ft_strdup(temp->value);
+			temp->moved = 1;
+		}
+		temp = temp->next;
+	}
+}
+
+void	sort_app_here(t_table tokens, t_cmd table)
 {
 	t_token *temp;
 
 	temp = tokens.head;
 	while(temp)
 	{
-		if (temp->type == TYPE_REDIR)
+		if (temp->type == TYPE_APP)
 		{
 			temp->moved = 1;
 			temp = temp->next;
-			table
+			table.input_file
 		}
 	}
-
 }
 
 
