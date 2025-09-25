@@ -6,7 +6,7 @@
 /*   By: aielo <aielo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 14:49:22 by aielo             #+#    #+#             */
-/*   Updated: 2025/09/25 13:45:49 by aielo            ###   ########.fr       */
+/*   Updated: 2025/09/25 15:49:51 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,28 +19,32 @@
 	<< (heredoc) should be given a delimiter, then read the input until a line containing the delimiter is seen. 
 */
 
-int	handle_redirect_in(char *filename) // struct->filename char*
+int	handle_redirect_in(t_cmd *cmd_list)
 {
 	int	fd;
-
-	fd = open(filename, O_RDONLY);
-	if (fd == -1)
+	if (!cmd_list->input_file)
 	{
-		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(filename, 2);
-		ft_putstr_fd(": No such file or directory\n", 2);
+		fd = open(cmd_list->input_file, O_RDONLY);
+		if (fd == -1)
+		{
+			ft_putstr_fd("minishell: ", 2);
+			ft_putstr_fd(cmd_list->input_file, 2);
+			ft_putstr_fd(": No such file or directory\n", 2);
+		}
 	}
-	return (fd); //struct->infilefd
+	else if (cmd_list->delimiter)
+		fd = here_doc(cmd_list->delimiter);
+	return (fd);
 }
 
-int	handle_redirect_out(char *filename, int mode) // aggiungere here_doc in base a struct->delimiter if(!delimiter)
+int	handle_redirect_out(t_cmd *cmd_list)
 {
 	int	fd;
 
-	if (mode == O_TRUNC)
-		fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	else if (mode == O_APPEND)
-		fd = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	if (cmd_list->trunc_mode == 1)
+		fd = open(cmd_list->output_file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	else if (cmd_list->trunc_mode == 0)
+		fd = open(cmd_list->output_file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	else
 	{
 		ft_putstr_fd("Invalid redirection mode\n", 2);
@@ -49,7 +53,7 @@ int	handle_redirect_out(char *filename, int mode) // aggiungere here_doc in base
 	if (fd == -1)
 	{
 		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(filename, 2);
+		ft_putstr_fd(cmd_list->output_file, 2);
 		ft_putstr_fd(": Permission denied\n", 2);
 	}
 	return (fd);

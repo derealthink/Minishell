@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   types.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
+/*   By: aielo <aielo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 18:05:02 by aielo             #+#    #+#             */
-/*   Updated: 2025/09/15 18:10:07 by aielo            ###   ########.fr       */
+/*   Updated: 2025/09/25 15:41:04 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@ typedef struct	s_cmd
 	char			**args;
 	char			*input_file;
 	char			*output_file;
-	int				input_fd;
-	int				output_fd;
+	char			*delimiter;
+	bool			trunc_mode;  // 1 = truncate , 0 = append
 	struct s_cmd	*next;
-} t_cmd;
+}	t_cmd;
 
 typedef enum	s_type
 {

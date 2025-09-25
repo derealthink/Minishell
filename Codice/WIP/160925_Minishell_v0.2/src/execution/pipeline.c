@@ -6,7 +6,7 @@
 /*   By: aielo <aielo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 21:28:03 by aielo             #+#    #+#             */
-/*   Updated: 2025/09/25 13:40:49 by aielo            ###   ########.fr       */
+/*   Updated: 2025/09/25 15:48:42 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 int	execute_pipeline(t_cmd *cmd_list, char **envp)
 {
 	int		i;
+	int		fd:
 	int		num_cmds;
 	int		*pipes;
 	int		status;
@@ -35,27 +36,17 @@ int	execute_pipeline(t_cmd *cmd_list, char **envp)
 		pid = fork();
 		if (pid == 0)
 		{
-/*			if (cmd_list->input_fd != STDIN_FILENO)
+			if (!cmd_list->input_file || !cmd_list->delimiter)
 			{
-				dup2(cmd_list->input_fd, STDIN_FILENO);
-				close(cmd_list->input_fd);
-			}
-			if (cmd_list->output_fd != STDOUT_FILENO)
-			{
-				dup2(cmd_list->output_fd, STDOUT_FILENO);
-				close(cmd_list->output_fd);
-			}*/
-			if (!cmd_list->file_name_in)
-			{
-				int fd = handle_redirect_in(cmd_list->filename)
+				fd = handle_redirect_in(cmd_list);
 				dup2(fd, STDIN_FILENO);
-				close(fd):
+				close(fd);
 			}
-			if (!cmd_list->file_name_out)
+			if (!cmd_list->output_file)
 			{
-				fd = handle_redirect_out(cmd_list->filename, cmd_list->out_mode)
-				dup2(fd, STDIN_FILENO);
-				close(fd):
+				fd = handle_redirect_out(cmd_list);
+				dup2(fd, STDOUT_FILENO);
+				close(fd);
 			}
 			if (is_builtin(cmd_list->args[0]))
 			{
@@ -138,17 +129,19 @@ int	create_pipes(int num_cmds, int *pipes)
 
 void	setup_in_out(t_cmd *cmd, int *pipes, int i, int num_cmds)
 {
-	if (cmd->input_fd != STDIN_FILENO)
+	if (!cmd_list->input_file || !cmd_list->delimiter)
 	{
-		dup2(cmd->input_fd, STDIN_FILENO);
-		close(cmd->input_fd);
+		fd = handle_redirect_in(cmd_list);
+		dup2(fd, STDIN_FILENO);
+		close(fd);
 	}
 	else if (i > 0)
 		dup2(pipes[(i - 1) * 2], STDIN_FILENO);
-	if (cmd->output_fd != STDOUT_FILENO)
+	if (!cmd_list->output_file)
 	{
-		dup2(cmd->output_fd, STDOUT_FILENO);
-		close(cmd->output_fd);
+		fd = handle_redirect_out(cmd_list);
+		dup2(fd, STDOUT_FILENO);
+		close(fd);
 	}
 	else if (i < num_cmds - 1)
 		dup2(pipes[i * 2 + 1], STDOUT_FILENO);
