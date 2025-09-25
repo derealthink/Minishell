@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirection.c                                      :+:      :+:    :+:   */
+/*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
+/*   By: aielo <aielo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 14:49:22 by aielo             #+#    #+#             */
-/*   Updated: 2025/09/15 16:06:42 by aielo            ###   ########.fr       */
+/*   Updated: 2025/09/25 13:45:49 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 	<< (heredoc) should be given a delimiter, then read the input until a line containing the delimiter is seen. 
 */
 
-int	handle_redirect_in(char *filename)
+int	handle_redirect_in(char *filename) // struct->filename char*
 {
 	int	fd;
 
@@ -30,10 +30,10 @@ int	handle_redirect_in(char *filename)
 		ft_putstr_fd(filename, 2);
 		ft_putstr_fd(": No such file or directory\n", 2);
 	}
-	return (fd);
+	return (fd); //struct->infilefd
 }
 
-int	handle_redirect_out(char *filename, int mode)
+int	handle_redirect_out(char *filename, int mode) // aggiungere here_doc in base a struct->delimiter if(!delimiter)
 {
 	int	fd;
 
@@ -60,7 +60,6 @@ int	handle_redirect_out(char *filename, int mode)
 	delimiter is seen. However, it doesn’t have to update the history!
 	get_next_line ha 1 byte still reachable da sistemare
 */
-
 
 int	here_doc(char *limiter)
 {

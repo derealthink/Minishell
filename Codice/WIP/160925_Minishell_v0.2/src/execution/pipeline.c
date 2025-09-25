@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipe.c                                             :+:      :+:    :+:   */
+/*   pipeline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
+/*   By: aielo <aielo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 21:28:03 by aielo             #+#    #+#             */
-/*   Updated: 2025/09/15 16:29:13 by aielo            ###   ########.fr       */
+/*   Updated: 2025/09/25 13:40:49 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	execute_pipeline(t_cmd *cmd_list, char **envp)
 		pid = fork();
 		if (pid == 0)
 		{
-			if (cmd_list->input_fd != STDIN_FILENO)
+/*			if (cmd_list->input_fd != STDIN_FILENO)
 			{
 				dup2(cmd_list->input_fd, STDIN_FILENO);
 				close(cmd_list->input_fd);
@@ -44,6 +44,18 @@ int	execute_pipeline(t_cmd *cmd_list, char **envp)
 			{
 				dup2(cmd_list->output_fd, STDOUT_FILENO);
 				close(cmd_list->output_fd);
+			}*/
+			if (!cmd_list->file_name_in)
+			{
+				int fd = handle_redirect_in(cmd_list->filename)
+				dup2(fd, STDIN_FILENO);
+				close(fd):
+			}
+			if (!cmd_list->file_name_out)
+			{
+				fd = handle_redirect_out(cmd_list->filename, cmd_list->out_mode)
+				dup2(fd, STDIN_FILENO);
+				close(fd):
 			}
 			if (is_builtin(cmd_list->args[0]))
 			{
