@@ -14,6 +14,11 @@
 # define TYPES_H
 
 # include <stdbool.h>
+<<<<<<< HEAD
+=======
+#define true 1
+#define false 0
+>>>>>>> 821996f5956f2940a42a57deaa41275e697cc7e7
 
 typedef struct	s_cmd
 {
