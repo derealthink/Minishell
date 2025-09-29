@@ -13,6 +13,10 @@
 #ifndef TYPES_H
 # define TYPES_H
 
+# include <stdbool.h>
+#define true 1
+#define false 0
+
 typedef struct	s_cmd
 {
 	char			*path;
