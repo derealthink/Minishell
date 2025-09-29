@@ -6,7 +6,7 @@
 /*   By: aielo <aielo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 21:28:03 by aielo             #+#    #+#             */
-/*   Updated: 2025/09/25 15:48:42 by aielo            ###   ########.fr       */
+/*   Updated: 2025/09/29 15:02:43 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	execute_pipeline(t_cmd *cmd_list, char **envp)
 			else
 			{
 				execute_cmd(cmd_list->args[0], cmd_list->args, envp);
-				exit(127);
+				exit(127);  //127 - command not found
 			}
 		}
 		waitpid(pid, NULL, 0);
@@ -167,7 +167,7 @@ void	parent_wait(int num_cmds)
 	i = 0;
 	while (i < num_cmds)
 	{
-		wait(NULL);
+		wait(&status); // or wait(NULL) ??
 		i++;
 	}
 }

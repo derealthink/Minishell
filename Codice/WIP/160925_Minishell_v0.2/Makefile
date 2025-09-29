@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+         #
+#    By: aielo <aielo@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/09 13:19:32 by aielo             #+#    #+#              #
-#    Updated: 2025/09/20 10:45:24 by aielo            ###   ########.fr        #
+#    Updated: 2025/09/25 18:54:25 by aielo            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,9 +29,12 @@ UTILS_DIR 	= src/utils
 
 # Sources
 BUILT_SRCS 	=
+
 EXEC_SRCS 	=
+
 PARS_SRCS 	= $(PARS_DIR)/lex_utils.c \
-		$(PARS_DIR)/lexing.c
+				$(PARS_DIR)/lexing.c
+
 UTILS_SRCS 	= $(UTILS_DIR)/print_logo.c
 
 SOURCES 	= minishell.c \

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
+/*   By: aielo <aielo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 15:44:44 by aielo             #+#    #+#             */
-/*   Updated: 2025/09/15 15:52:58 by aielo            ###   ########.fr       */
+/*   Updated: 2025/09/29 16:08:23 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define UTILS_H
 
 # include <stdio.h>
+# include <signal.h>
 
 void	print_logo(void);
 

@@ -6,18 +6,11 @@
 /*   By: aielo <aielo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 14:49:22 by aielo             #+#    #+#             */
-/*   Updated: 2025/09/25 15:49:51 by aielo            ###   ########.fr       */
+/*   Updated: 2025/09/29 15:46:30 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executions.h"
-
-/* 
-	< should redirect input.
-	> should redirect output (create/truncate).
-	>> should redirect output (create/append).
-	<< (heredoc) should be given a delimiter, then read the input until a line containing the delimiter is seen. 
-*/
 
 int	handle_redirect_in(t_cmd *cmd_list)
 {
@@ -32,7 +25,7 @@ int	handle_redirect_in(t_cmd *cmd_list)
 			ft_putstr_fd(": No such file or directory\n", 2);
 		}
 	}
-	else if (cmd_list->delimiter)
+	else if (!cmd_list->delimiter)
 		fd = here_doc(cmd_list->delimiter);
 	return (fd);
 }
@@ -58,12 +51,6 @@ int	handle_redirect_out(t_cmd *cmd_list)
 	}
 	return (fd);
 }
-
-/* 
-	<< (heredoc) should be given a delimiter, then read the input until a line containing the
-	delimiter is seen. However, it doesn’t have to update the history!
-	get_next_line ha 1 byte still reachable da sistemare
-*/
 
 int	here_doc(char *limiter)
 {
@@ -105,39 +92,16 @@ int	here_doc(char *limiter)
 }
 
 /*
-int	here_doc(char *limiter)
-{
-	static char	*stash[MAX_FD];
-	char	*line;
-	int		fd;
 
-	line = NULL;
-	fd = open(".heredoc_tmp", O_CREAT | O_WRONLY | O_TRUNC, 0644);
-	if (fd < 0)
-		return (-1);
-	while (1)
-	{
-		ft_putstr_fd("heredoc>", 1);
-		line = get_next_line_delimiter(STDIN_FILENO, &stash[0]);
-		if (!line)
-			break ;
-		if ((ft_strncmp(line, limiter, ft_strlen(limiter)) == 0)
-			&& line[ft_strlen(limiter)] == '\n')
-		{
-			free(line);
-			free(stash[0]);
-			stash[0] = NULL;
-			break ;
-		}
-		write(fd, line, ft_strlen(line));
-		free(line);
-	}
-	close(fd);
-	fd = open(".heredoc_tmp", O_RDONLY);
-	return (fd);
-}
+	< should redirect input.
+	> should redirect output (create/truncate).
+	>> should redirect output (create/append).
+	<< (heredoc) should be given a delimiter, then read the input until a line containing the delimiter is seen. 
+
+	<< (heredoc) should be given a delimiter, then read the input until a line containing the
+	delimiter is seen. However, it doesn’t have to update the history!
+	get_next_line ha 1 byte still reachable da sistemare?
 
 	Usare unlink("heredoc_tmp"); nel cleanup.
 	Just remember to handle the temporary file correctly, perhaps by using O_UNLINK or simply unlinking the file after the command finishes.
-
 */
