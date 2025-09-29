@@ -6,7 +6,7 @@
 /*   By: aielo <aielo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 14:05:15 by aielo             #+#    #+#             */
-/*   Updated: 2025/09/29 14:46:17 by aielo            ###   ########.fr       */
+/*   Updated: 2025/09/29 16:55:29 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	ft_pwd(void)
 {
 	char	*directory;
 
-	directory = getcwd(NULL, 0)
+	directory = getcwd(NULL, 0);
 	if (!directory)
 	{
 		perror("pwd: ");

@@ -6,9 +6,11 @@
 /*   By: aielo <aielo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 14:32:42 by aielo             #+#    #+#             */
-/*   Updated: 2025/09/29 15:01:38 by aielo            ###   ########.fr       */
+/*   Updated: 2025/09/29 16:57:14 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "builtins.h"
 
 int ft_export(char **envp)
 {
@@ -52,13 +54,13 @@ int	env_variable(char **args, char **envp)
 		i++;
 	}
 	if (!path_value)
-		return (NULL);
+		return (0);
 	printf("%s\n", path_value);
 	return (0);
 }
-
+/*
 int	exit_status()
 {
 	printf("%d\n", WEXITSTATUS(status));
 	return (0);
-}
+}*/

@@ -6,7 +6,7 @@
 /*   By: aielo <aielo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 21:39:14 by aielo             #+#    #+#             */
-/*   Updated: 2025/09/29 15:44:49 by aielo            ###   ########.fr       */
+/*   Updated: 2025/09/29 16:54:56 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ int is_builtin(char *cmd) // passiamo struct->args[0]
 		ft_strcmp(cmd, "export") == 0 ||
 		ft_strcmp(cmd, "unset") == 0 ||
 		ft_strcmp(cmd, "env") == 0 ||
-		ft_strcmp(cmd, "exit") == 0 ||
-		ft_strcmp(cmd[0], "$") == 0 && ft_strcmp(cmd[1], "?") != 0) 
+		ft_strcmp(cmd, "exit") == 0)
+//		ft_strcmp(cmd[0], "$") == 0 && ft_strcmp(cmd[1], "?") != 0) 
 
 		return (1);
 	return (0);
@@ -42,11 +42,11 @@ int execute_builtin(t_cmd *cmd_list, char ***envp)
 	else if (ft_strcmp(cmd_list->args[0], "unset"))
 		return (ft_unset(cmd_list->args));
 	else if (ft_strcmp(cmd_list->args[0], "env"))
-		return (ft_env(envp));
-	else if (ft_strcmp(cmd_list->args[0], "exit"))
-		return (ft_exit(cmd_list->args));
-	else if (ft_strcmp(cmd_list->args[0][0], "$") && (!ft_strcmp(cmd_list->args[0][1], "?")))
-		return (env_variable(cmd_list->args, envp));
+		return (ft_env(*envp));
+//	else if (ft_strcmp(cmd_list->args[0], "exit"))
+//		return (ft_exit(cmd_list->args));
+//	else if (ft_strcmp(cmd_list->args[0][0], "$") && (!ft_strcmp(cmd_list->args[0][1], "?")))
+//		return (env_variable(cmd_list->args, envp));
 	return (0);
 }
 

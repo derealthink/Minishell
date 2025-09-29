@@ -6,7 +6,7 @@
 /*   By: aielo <aielo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 18:05:02 by aielo             #+#    #+#             */
-/*   Updated: 2025/09/25 18:42:21 by aielo            ###   ########.fr       */
+/*   Updated: 2025/09/29 18:26:26 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,43 @@
 # define TYPES_H
 
 # include <stdbool.h>
-<<<<<<< HEAD
-=======
-#define true 1
-#define false 0
->>>>>>> 821996f5956f2940a42a57deaa41275e697cc7e7
+# include <signal.h>
+
+# define true 1
+# define false 0
+
+extern volatile sig_atomic_t global_signal;
+
+typedef	enum e_state
+{
+	STATE_NORMAL,
+	STATE_SQUOTES,
+	STATE_DQUOTES
+}	t_state;
+
+typedef enum	s_type
+{
+	TYPE_ARG,
+	TYPE_RIN,
+	TYPE_ROUT,
+	TYPE_HERED,
+	TYPE_APP,
+	TYPE_PIPE
+}	t_type;
+
+typedef	struct s_token
+{
+	char	*value;
+	struct	s_token	*next;
+	t_type	type;
+	int		moved;
+}	t_token;
+
+typedef	struct l_table
+{
+	t_token	*head;
+	t_token	*tail;
+}	t_table;
 
 typedef struct	s_cmd
 {

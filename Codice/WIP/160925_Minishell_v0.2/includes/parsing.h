@@ -6,7 +6,7 @@
 /*   By: aielo <aielo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 15:44:32 by aielo             #+#    #+#             */
-/*   Updated: 2025/09/25 18:42:17 by aielo            ###   ########.fr       */
+/*   Updated: 2025/09/29 17:29:10 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,37 +17,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include "libft.h"
-
-typedef	enum e_state
-{
-	STATE_NORMAL,
-	STATE_SQUOTES,
-	STATE_DQUOTES
-}	t_state;
-
-typedef enum	s_type
-{
-	TYPE_ARG,
-	TYPE_RIN,
-	TYPE_ROUT,
-	TYPE_HERED,
-	TYPE_APP,
-	TYPE_PIPE
-}	t_type;
-
-typedef	struct s_token
-{
-	char	*value;
-	struct	s_token	*next;
-	t_type	type;
-	int		moved;
-}	t_token;
-
-typedef	struct l_table
-{
-	t_token	*head;
-	t_token	*tail;
-}	t_table;
+# include "types.h"
 
 char	**ftt_split(char *str, char del);
 int		is_space(char c);
@@ -66,6 +36,7 @@ int		is_append(char *str);
 int		is_heredoc(char *str);
 t_cmd 	*new_cmd(t_cmd *prev);
 void 	init_cmd(t_cmd *cmd);
+void	parser(t_table *list, t_cmd *table);
 
 #endif
 

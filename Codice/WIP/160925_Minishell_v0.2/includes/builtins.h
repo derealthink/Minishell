@@ -6,7 +6,7 @@
 /*   By: aielo <aielo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 15:44:14 by aielo             #+#    #+#             */
-/*   Updated: 2025/09/29 15:41:38 by aielo            ###   ########.fr       */
+/*   Updated: 2025/09/29 16:56:58 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,6 @@ int ft_unset(char **envp);
 int ft_env(char **envp);
 
 int	env_variable(char **args, char **envp);
-int	exit_status();
+//int	exit_status();
 
 #endif

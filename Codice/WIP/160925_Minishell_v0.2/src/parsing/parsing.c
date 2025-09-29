@@ -75,6 +75,7 @@ t_token	*sort_app(t_token *token, t_cmd *table)
 	}
 	return (NULL);
 }
+
 t_token	*sort_herd(t_token *token, t_cmd *table)
 {
 	t_token	*temp;
@@ -113,7 +114,7 @@ void	args_to_cmd(t_cmd *cmd, t_table *list)
 	n_args = malloc(sizeof(char*) * (count + 1));
 	if (!n_args)
 		return ;
-		temp = list->head;
+	temp = list->head;
 	i = 0;
 	while (temp && i < count)
 	{

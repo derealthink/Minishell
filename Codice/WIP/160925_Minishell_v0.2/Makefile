@@ -6,7 +6,7 @@
 #    By: aielo <aielo@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/09 13:19:32 by aielo             #+#    #+#              #
-#    Updated: 2025/09/25 18:54:25 by aielo            ###   ########.fr        #
+#    Updated: 2025/09/29 18:18:24 by aielo            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,14 +28,23 @@ PARS_DIR 	= src/parsing
 UTILS_DIR 	= src/utils
 
 # Sources
-BUILT_SRCS 	=
+BUILT_SRCS 	= $(BUILT_DIR)/builtin_manager.c \
+				$(BUILT_DIR)/directories.c \
+				$(BUILT_DIR)/enviroment.c
 
-EXEC_SRCS 	=
+EXEC_SRCS 	= $(EXEC_DIR)/exec_command.c \
+				$(EXEC_DIR)/path.c \
+				$(EXEC_DIR)/pipeline.c \
+				$(EXEC_DIR)/redirections.c \
 
 PARS_SRCS 	= $(PARS_DIR)/lex_utils.c \
-				$(PARS_DIR)/lexing.c
+				$(PARS_DIR)/lexing.c \
+				$(PARS_DIR)/parsing.c \
+				$(PARS_DIR)/parsing_utils.c \
 
-UTILS_SRCS 	= $(UTILS_DIR)/print_logo.c
+UTILS_SRCS 	= $(UTILS_DIR)/print_logo.c \
+				$(UTILS_DIR)/free.c \
+				$(UTILS_DIR)/signal.c
 
 SOURCES 	= minishell.c \
 				$(BUILT_SRCS) \

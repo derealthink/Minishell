@@ -6,7 +6,7 @@
 /*   By: aielo <aielo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 10:32:01 by aielo             #+#    #+#             */
-/*   Updated: 2025/08/22 16:17:15 by aielo            ###   ########.fr       */
+/*   Updated: 2025/09/29 17:07:30 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ void	ft_lstiter(t_list *lst, void (*f)(void *));
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 long	ft_atoi_long(const char *nptr);
 char	*get_next_line(int fd);
+char	*get_next_line_delimiter(int fd, char **stash);
 int		ft_strcmp(char *s1, char *s2);
 int		ft_strrint(const char *s, int c);
 void	*ft_realloc(void *ptr, size_t old_size, size_t new_size);

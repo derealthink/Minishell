@@ -6,7 +6,7 @@
 /*   By: aielo <aielo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 14:49:22 by aielo             #+#    #+#             */
-/*   Updated: 2025/09/29 15:46:30 by aielo            ###   ########.fr       */
+/*   Updated: 2025/09/29 17:06:29 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 int	handle_redirect_in(t_cmd *cmd_list)
 {
 	int	fd;
+
+	fd = -1; // da rivedere
 	if (!cmd_list->input_file)
 	{
 		fd = open(cmd_list->input_file, O_RDONLY);

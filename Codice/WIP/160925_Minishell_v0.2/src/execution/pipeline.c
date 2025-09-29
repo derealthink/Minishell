@@ -6,7 +6,7 @@
 /*   By: aielo <aielo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 21:28:03 by aielo             #+#    #+#             */
-/*   Updated: 2025/09/29 15:02:43 by aielo            ###   ########.fr       */
+/*   Updated: 2025/09/29 17:04:26 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	execute_pipeline(t_cmd *cmd_list, char **envp)
 {
 	int		i;
-	int		fd:
+	int		fd;
 	int		num_cmds;
 	int		*pipes;
 	int		status;
@@ -127,8 +127,10 @@ int	create_pipes(int num_cmds, int *pipes)
 	return (0);
 }
 
-void	setup_in_out(t_cmd *cmd, int *pipes, int i, int num_cmds)
+void	setup_in_out(t_cmd *cmd_list, int *pipes, int i, int num_cmds)
 {
+	int	fd;
+	
 	if (!cmd_list->input_file || !cmd_list->delimiter)
 	{
 		fd = handle_redirect_in(cmd_list);
@@ -167,7 +169,7 @@ void	parent_wait(int num_cmds)
 	i = 0;
 	while (i < num_cmds)
 	{
-		wait(&status); // or wait(NULL) ??
+		wait(NULL); // wait(&status); ??
 		i++;
 	}
 }
