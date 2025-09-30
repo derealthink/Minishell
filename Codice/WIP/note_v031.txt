@@ -1,0 +1,120 @@
+*** 01 ***
+
+il bool ">" e ">>" non cambia da truncate a append in cmd_list,
+pero' viene creato e scritto in truncate il file out
+
+
+minishell> < test_in cat > test_out
+
+=== PARSER OUTPUT ===
+
+--- Command 0 ---
+Path: (null)
+Args: [cat] (total: 1 args)
+Input file: test_in
+Output file: test_out
+Delimiter: (null)
+Trunc mode: 1 (1=truncate, 0=append)
+Next command: no
+
+Total commands: 1
+====================
+
+minishell> < test_in cat >> test_out
+
+=== PARSER OUTPUT ===
+
+--- Command 0 ---
+Path: (null)
+Args: [cat] (total: 1 args)
+Input file: test_in
+Output file: test_out
+Delimiter: (null)
+Trunc mode: 1 (1=truncate, 0=append)
+Next command: no
+
+Total commands: 1
+====================
+
+
+*** 02 ***
+
+il delimiter non viene aggiornato in cmd_list
+
+
+minishell> << stop cat > out
+
+=== PARSER OUTPUT ===
+
+--- Command 0 ---
+Path: (null)
+Args: [cat] (total: 1 args)
+Input file: stop
+Output file: out
+Delimiter: (null)
+Trunc mode: 1 (1=truncate, 0=append)
+Next command: no
+
+Total commands: 1
+====================
+
+
+*** 03 ***
+
+con quotes o double quotes non prosegue il parsing
+
+minishell> "<<" stop cat > out
+=== LEXER OUTPUT ===
+Token 0: [<<]
+Total tokens: 1
+==================
+
+
+*** 04 ***
+
+ho sistemato il main perche' il cmd andrebbe inizializziato tra calls, nel main loop.
+senno´ input file rimaneva tra le calls, ora funziona
+
+minishell> < test_in cat
+
+=== PARSER OUTPUT ===
+
+--- Command 0 ---
+Path: (null)
+Args: [cat] (total: 1 args)
+Input file: test_in
+Output file: (null)
+Delimiter: (null)
+Trunc mode: 1 (1=truncate, 0=append)
+Next command: no
+
+Total commands: 1
+====================
+
+
+minishell> echo test
+
+=== PARSER OUTPUT ===
+
+--- Command 0 ---
+Path: (null)
+Args: [echo] [test] (total: 2 args)
+Input file: test_in
+Output file: (null)
+Delimiter: (null)
+Trunc mode: 1 (1=truncate, 0=append)
+Next command: no
+
+Total commands: 1
+====================
+
+test
+
+
+*** 05 ***
+
+se premo invio e lascio la stringa empty ho segfault
+
+minishell> 
+
+Segmentation fault (core dumped)

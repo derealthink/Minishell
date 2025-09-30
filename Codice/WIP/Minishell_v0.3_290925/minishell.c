@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aielo <aielo@student.42.fr>                +#+  +:+       +#+        */
+/*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 13:33:49 by aielo             #+#    #+#             */
-/*   Updated: 2025/09/29 18:38:54 by aielo            ###   ########.fr       */
+/*   Updated: 2025/09/30 11:47:41 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	main(int argc, char **argv, char **envp)
 {
 	t_table	*token_list;
-	t_cmd	*cmd_list;
+	t_cmd	*cmd_list = NULL;
 	char	*line;
 
 	(void)argc;

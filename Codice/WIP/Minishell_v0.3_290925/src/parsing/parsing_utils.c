@@ -76,8 +76,8 @@ int	is_heredoc(char *str)
 
 void init_cmd(t_cmd *cmd)
 {
-    if (!cmd)
-        return;
+ //   if (!cmd)
+   //     return;
     cmd->path = NULL;
     cmd->args = NULL;
     cmd->input_file = NULL;
