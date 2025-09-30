@@ -36,7 +36,7 @@ int		is_append(char *str);
 int		is_heredoc(char *str);
 t_cmd 	*new_cmd(t_cmd *prev);
 void 	init_cmd(t_cmd *cmd);
-void	parser(t_table *list, t_cmd *table);
+t_cmd	*parser(t_table *list, t_cmd *table);
 
 #endif
 

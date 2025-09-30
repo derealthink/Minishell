@@ -133,7 +133,6 @@ void	args_to_cmd(t_cmd *cmd, t_table *list)
 t_token	*parser_loop(t_token *temp, t_cmd *table, t_table *list)
 {
 	
-	init_cmd(table);
 	while (temp && temp->type != TYPE_PIPE)
 	{
 		if (temp->type == TYPE_RIN || temp->type == TYPE_ROUT)
@@ -149,11 +148,12 @@ t_token	*parser_loop(t_token *temp, t_cmd *table, t_table *list)
 	return (temp);
 }
 
-void	parser(t_table *list, t_cmd *table)// undestand how to handle double input or output update and free? or array of strings
+t_cmd	*parser(t_table *list, t_cmd *table)// undestand how to handle double input or output update and free? or array of strings
 {
 	t_token	*temp;
 	t_cmd	*pipe;
 
+	init_cmd(table);
 	temp = list->head;
 	if (!temp->moved)
 		temp = parser_loop(temp, table, list);
@@ -174,4 +174,5 @@ void	parser(t_table *list, t_cmd *table)// undestand how to handle double input 
 		else
 			temp = temp->next;
 	}
+	return (table);
 }
