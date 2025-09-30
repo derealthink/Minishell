@@ -153,7 +153,8 @@ t_cmd	*parser(t_table *list, t_cmd *table)// undestand how to handle double inpu
 	t_token	*temp;
 	t_cmd	*pipe;
 
-	init_cmd(table);
+	//init_cmd(table);
+	type_tracking(*list);
 	temp = list->head;
 	if (!temp->moved)
 		temp = parser_loop(temp, table, list);

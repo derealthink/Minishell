@@ -33,7 +33,9 @@ int	main(int argc, char **argv, char **envp)
 //set_signal_action();		
 		add_history(line);
 		token_list = lexer(line);
+		init_cmd(cmd_list);
 		cmd_list = parser(token_list, cmd_list);
+		print_cmd_list(cmd_list);
 //print_tokens(token_list);
 		execute_pipeline(cmd_list, envp);
 		free(line);
