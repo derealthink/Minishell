@@ -59,7 +59,7 @@ typedef struct	s_cmd
 	char			*input_file;
 	char			*output_file;
 	char			*delimiter;
-	bool			trunc_mode;  // 1 = truncate , 0 = append
+	int				trunc_mode;  // 1 = truncate , 0 = append
 	struct s_cmd	*next;
 }	t_cmd;
 

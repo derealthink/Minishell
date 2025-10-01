@@ -29,7 +29,7 @@ int	main(int argc, char **argv, char **envp)
 		if(global_signal == SIGINT)
 		{
 			global_signal = 0;
-			rl_replace_line("", 0);
+			//rl_replace_line("", 0);
 			rl_on_new_line();
 //			rl_redisplay();
 			continue ;
@@ -43,7 +43,7 @@ int	main(int argc, char **argv, char **envp)
 		add_history(line);
 		token_list = lexer(line);
 		cmd_list = NULL;
-//print_tokens(token_list);
+print_tokens(token_list);
 		cmd_list = parser(token_list, cmd_list);
 print_cmd_list(cmd_list);
 		execute_pipeline(cmd_list, envp);

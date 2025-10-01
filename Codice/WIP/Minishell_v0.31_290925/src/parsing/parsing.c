@@ -1,25 +1,26 @@
 #include "parsing.h"
 #include "types.h"
 
-void	type_tracking(t_table tokens)
+void	type_tracking(t_table *tokens)
 {
 	t_token	*temp;
+	printf("entering type_tracking\n");
 
-	temp = tokens.head;
+	temp = tokens->head;
 	while (temp)
 	{
-		if(is_rin(temp->value))
-			temp->type = TYPE_RIN;
-		else if (is_rout(temp->value))
-			temp->type = TYPE_ROUT;
-		else if (is_pipe(temp->value))
-			temp->type = TYPE_PIPE;
+		if (is_pipe(temp->value))
+			temp->type = TYPE_PIPE, printf("TYPE_PIPE\n");
 		else if (is_append(temp->value))
-			temp->type = TYPE_APP;
+			temp->type = TYPE_APP, printf("TYPE_APP\n");
 		else if (is_heredoc(temp->value))
-			temp->type = TYPE_HERED;
+			temp->type = TYPE_HERED, printf("TYPE_HERED\n");
+		 else if(is_rin(temp->value))
+			temp->type = TYPE_RIN, printf("TYPE_RIN\n");
+		else if (is_rout(temp->value))
+			temp->type = TYPE_ROUT, printf("TYPE_ROUT\n");
 		else
-			temp->type = TYPE_ARG;
+			temp->type = TYPE_ARG, printf("TYPE_ARG\n");
 		temp = temp->next;
 	}
 }
@@ -61,6 +62,7 @@ t_token	*sort_app(t_token *token, t_cmd *table)
 	t_token *temp;
 
 	temp = token;
+	printf("entered sort_app\n");
 	if (temp->type == TYPE_APP)
 	{
 		temp->moved = 1;
@@ -68,8 +70,8 @@ t_token	*sort_app(t_token *token, t_cmd *table)
 		{
 			temp = temp->next;
 			table->output_file = ft_strdup(temp->value);
-			temp->moved = 1;
 			table->trunc_mode = 0;
+			temp->moved = 1;
 			return (temp->next);
 		}
 	}
@@ -120,13 +122,13 @@ void	args_to_cmd(t_cmd *cmd, t_table *list)
 	{
 		if (!temp->moved && temp->type == TYPE_ARG)
 		{
-			n_args[i] = ft_strdup(temp->value);  // Copy token value
-			temp->moved = 1;  // Mark as processed
+			n_args[i] = ft_strdup(temp->value);
+			temp->moved = 1;
 			i++;
 		}
 		temp = temp->next;
 	}
-	n_args[count] = NULL;  // NULL terminate
+	n_args[count] = NULL;
 	cmd->args = n_args;
 }
 
@@ -159,7 +161,7 @@ t_cmd	*parser(t_table *list, t_cmd *table)// undestand how to handle double inpu
 		if (!table)
 			return (NULL);
 	}
-	type_tracking(*list);
+	type_tracking(list);
 	temp = list->head;
 	if (!temp->moved)
 		temp = parser_loop(temp, table, list);

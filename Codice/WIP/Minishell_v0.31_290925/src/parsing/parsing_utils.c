@@ -58,7 +58,6 @@ int	is_append(char *str)
 	}
 	return (0);
 }
-
 int	is_heredoc(char *str)
 {
 	int	i;
@@ -85,7 +84,7 @@ void init_cmd(t_cmd *cmd)
     cmd->input_file = NULL;
     cmd->output_file = NULL;
     cmd->delimiter = NULL;
-    cmd->trunc_mode = true;   // standard: default is truncate
+    cmd->trunc_mode = 1;   // standard: default is truncate
     cmd->next = NULL;
 }
 
