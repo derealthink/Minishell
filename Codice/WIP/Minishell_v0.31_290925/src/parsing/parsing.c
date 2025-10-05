@@ -31,7 +31,7 @@ t_token	*sort_redir(t_token *token, t_cmd *table)
 
 	temp = token;
 	{
-		if (temp->type == TYPE_RIN)
+		if (!temp->moved && temp->type == TYPE_RIN)
 		{
 			temp->moved = 1;
 			if (temp->next)
@@ -63,7 +63,7 @@ t_token	*sort_app(t_token *token, t_cmd *table)
 
 	temp = token;
 	printf("entered sort_app\n");
-	if (temp->type == TYPE_APP)
+	if (!temp->moved && temp->type == TYPE_APP)
 	{
 		temp->moved = 1;
 		if (temp->next)
@@ -83,7 +83,7 @@ t_token	*sort_herd(t_token *token, t_cmd *table)
 	t_token	*temp;
 
 	temp = token;
-	if (temp->type == TYPE_HERED)
+	if (!temp->moved && temp->type == TYPE_HERED)
 	{
 		temp->moved = 1;
 		if (temp->next)
@@ -138,7 +138,7 @@ t_token	*parser_loop(t_token *temp, t_cmd *table, t_table *list)
 	while (temp && temp->type != TYPE_PIPE)
 	{
 		if (temp->type == TYPE_RIN || temp->type == TYPE_ROUT)
-			temp = sort_redir(temp, table);
+				temp = sort_redir(temp, table);
 		else if (temp->type == TYPE_APP)
 			temp = sort_app(temp, table);
 		else if (temp->type == TYPE_HERED)
@@ -163,11 +163,10 @@ t_cmd	*parser(t_table *list, t_cmd *table)// undestand how to handle double inpu
 	}
 	type_tracking(list);
 	temp = list->head;
-	if (!temp->moved)
-		temp = parser_loop(temp, table, list);
+	temp = parser_loop(temp, table, list);
 	while(temp)
 	{
-		if (temp->type == TYPE_PIPE)
+		if (!temp->moved && temp->type == TYPE_PIPE)
 		{
 			pipe = new_cmd(table);
 			temp->moved = 1;
@@ -175,7 +174,6 @@ t_cmd	*parser(t_table *list, t_cmd *table)// undestand how to handle double inpu
 			{
 				temp = temp->next;
 				table->next = pipe;
-				table = pipe;
 				if (!temp->moved)
 					temp = parser_loop(temp, pipe, list);
 			}
