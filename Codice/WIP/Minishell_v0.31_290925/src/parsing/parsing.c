@@ -97,89 +97,89 @@ t_token	*sort_herd(t_token *token, t_cmd *table)
 	return (NULL);
 }
 
-void	args_to_cmd(t_cmd *cmd, t_table *list)
+void args_to_cmd(t_cmd *cmd, t_token *start)
 {
+    int count = 0;
+    t_token *temp = start;
+    char **n_args;
+    int i;
 
-	int		count;
-	t_token	*temp;
-	char	**n_args;
-	int		i;
-
-	temp = list->head;
-	count = 0;
-	while (temp)
-	{
-		if(!temp->moved && temp->type == TYPE_ARG)
-			count++;
-		temp = temp->next;
-	}
-	n_args = malloc(sizeof(char*) * (count + 1));
-	if (!n_args)
-		return ;
-	temp = list->head;
-	i = 0;
-	while (temp && i < count)
-	{
-		if (!temp->moved && temp->type == TYPE_ARG)
-		{
-			n_args[i] = ft_strdup(temp->value);
-			temp->moved = 1;
-			i++;
-		}
-		temp = temp->next;
-	}
-	n_args[count] = NULL;
-	cmd->args = n_args;
+    while (temp && temp->type != TYPE_PIPE)
+    {
+        if (!temp->moved && temp->type == TYPE_ARG)
+            count++;
+        temp = temp->next;
+    }
+    n_args = malloc(sizeof(char *) * (count + 1));
+    if (!n_args)
+        return;
+    temp = start;
+    i = 0;
+    while (temp && temp->type != TYPE_PIPE)
+    {
+        if (!temp->moved && temp->type == TYPE_ARG)
+        {
+            n_args[i] = ft_strdup(temp->value);
+            temp->moved = 1;
+            i++;
+        }
+        temp = temp->next;
+    }
+    n_args[i] = NULL;
+    cmd->args = n_args;
 }
 
-t_token	*parser_loop(t_token *temp, t_cmd *table, t_table *list)
+t_token	*parser_loop(t_token *temp, t_cmd *table)
 {
-	
-	while (temp && temp->type != TYPE_PIPE)
-	{
-		if (temp->type == TYPE_RIN || temp->type == TYPE_ROUT)
-				temp = sort_redir(temp, table);
-		else if (temp->type == TYPE_APP)
-			temp = sort_app(temp, table);
-		else if (temp->type == TYPE_HERED)
-			temp = sort_herd(temp, table);
-		else
-			temp = temp->next;
-	}
-	args_to_cmd(table,list);
-	return (temp);
+    t_token *start = temp; // <-- save where this command begins
+
+    while (temp && temp->type != TYPE_PIPE)
+    {
+        if (temp->type == TYPE_RIN || temp->type == TYPE_ROUT)
+            temp = sort_redir(temp, table);
+        else if (temp->type == TYPE_APP)
+            temp = sort_app(temp, table);
+        else if (temp->type == TYPE_HERED)
+            temp = sort_herd(temp, table);
+        else
+            temp = temp->next;
+    }
+    args_to_cmd(table, start); // <-- pass the real start
+    return (temp);
 }
 
 t_cmd	*parser(t_table *list, t_cmd *table)// undestand how to handle double input or output update and free? or array of strings
 {
 	t_token	*temp;
 	t_cmd	*pipe;
+	t_cmd	*head;
 
 	if (table == NULL)
 	{
 		table = new_cmd(NULL);
 		if (!table)
 			return (NULL);
+		head = table;
 	}
 	type_tracking(list);
 	temp = list->head;
-	temp = parser_loop(temp, table, list);
+	temp = parser_loop(temp, table);
 	while(temp)
 	{
 		if (!temp->moved && temp->type == TYPE_PIPE)
 		{
 			pipe = new_cmd(table);
-			temp->moved = 1;
+			//temp->moved = 1;
 			if (temp->next)
 			{
 				temp = temp->next;
 				table->next = pipe;
-				if (!temp->moved)
-					temp = parser_loop(temp, pipe, list);
+				table = pipe;
+				temp = parser_loop(temp, pipe);
 			}
 		}
 		else
 			temp = temp->next;
 	}
-	return (table);
+	return (head);
 }
