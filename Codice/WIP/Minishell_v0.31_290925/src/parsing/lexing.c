@@ -109,26 +109,28 @@ t_table	*lexer(char *str)
 		return (NULL);
 	state = STATE_NORMAL;
 	i = 0;
-	while (str[i])
+while (str[i])
 	{
-		state = state_tracker(str[i], state);
 		advance = process_token_at_position(str, i, state, res);
 		if (advance > 0)
 			i += advance;
 		else
+		{
+			state = state_tracker(str[i], state);
 			i++;
+		}
 	}
 	return (res);
 }
 
 int	process_token_at_position(char *str, int pos, t_state state, t_table *list)
 {
-	if (state == STATE_NORMAL && !is_space(str[pos]))
-		return (tokenizer_norm(&str[pos], list));
-	else if (state == STATE_SQUOTES && str[pos] == '\'')
+	if (state == STATE_NORMAL && str[pos] == '\'')
 		return (tokenizer_squotes(&str[pos], list));
-	else if (state == STATE_DQUOTES && str[pos] == '"')
+	else if (state == STATE_NORMAL && str[pos] == '"')
 		return (tokenizer_dquotes(&str[pos], list));
+	else if (state == STATE_NORMAL && !is_space(str[pos]))
+		return (tokenizer_norm(&str[pos], list));
 	return (0);
 }
 
@@ -164,7 +166,7 @@ char	*str_div(char *str)
 	return (res);
 }
 
-char	*str_div_q(char *str)//not edge case solid
+char	*str_div_q(char *str)
 {
 	int				i;
 	size_t			count;
@@ -186,3 +188,4 @@ char	*str_div_q(char *str)//not edge case solid
 	res = ft_substr(str, start, count);
 	return (res);
 }
+
