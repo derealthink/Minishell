@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   types.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aielo <aielo@student.42.fr>                +#+  +:+       +#+        */
+/*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 18:05:02 by aielo             #+#    #+#             */
-/*   Updated: 2025/09/29 18:26:26 by aielo            ###   ########.fr       */
+/*   Updated: 2025/10/04 21:00:04 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ typedef	enum e_state
 	STATE_DQUOTES
 }	t_state;
 
-typedef enum	s_type
+typedef enum s_type
 {
 	TYPE_ARG,
 	TYPE_RIN,
@@ -40,8 +40,8 @@ typedef enum	s_type
 
 typedef	struct s_token
 {
-	char	*value;
 	struct	s_token	*next;
+	char	*value;
 	t_type	type;
 	int		moved;
 }	t_token;
@@ -52,15 +52,37 @@ typedef	struct l_table
 	t_token	*tail;
 }	t_table;
 
-typedef struct	s_cmd
+typedef struct s_cmd
 {
+	struct s_cmd	*next;
 	char			*path;
 	char			**args;
 	char			*input_file;
 	char			*output_file;
 	char			*delimiter;
 	bool			trunc_mode;  // 1 = truncate , 0 = append
-	struct s_cmd	*next;
 }	t_cmd;
+
+typedef struct s_new_envp
+{
+	struct s_new_envp	*next;
+	char				*name;
+	char				*value;
+}	t_new_envp;
+
+typedef struct s_env_list
+{
+	t_new_envp	*head;
+	int			len_envp;
+}	t_env_list;
+
+typedef struct s_minishell
+{
+	t_env_list	*env_list;
+	t_table		*token_list;
+	t_cmd		*cmd_list;
+	int			last_exit_status;
+	bool		is_interactive;
+}	t_minishell;
 
 #endif

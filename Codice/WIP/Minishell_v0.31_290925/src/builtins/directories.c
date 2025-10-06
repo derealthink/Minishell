@@ -6,7 +6,7 @@
 /*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 14:05:15 by aielo             #+#    #+#             */
-/*   Updated: 2025/09/30 13:45:06 by aielo            ###   ########.fr       */
+/*   Updated: 2025/10/05 15:39:48 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,14 +35,26 @@ int	ft_echo(char **args)
 		ft_putstr_fd("\n", 1);
 	return (0);
 }
-
-int	ft_cd(char **args)
+/*
+ cd also updates PWD and OLDPWD variables within the t_env_list structure using your built-in export logic.
+*/
+int	ft_cd(char **args, char **new_envp)
 {
 	char	*path;
+	int		i;
 
+	i = 0;
 	if (args[1] == NULL || (args[1][0] == '~' && args[1][1] == '\0'))
 	{
-		path = getenv("HOME");
+		while (new_envp[i])
+		{
+			if (ft_strncmp(new_envp[i], "HOME=", 5) == 0)
+			{
+				path = new_envp[i] + 5;
+				break;
+			}
+			i++;
+		}
 		if (path == NULL)
 		{
 			ft_putstr_fd("HOME environment variable not set.", 2);
@@ -56,20 +68,36 @@ int	ft_cd(char **args)
 		perror("cd: ");
 		return (-1);
 	}
+//read PWD and copy to OLDPWD
+//export path to PWD
 	return (0);
 }
 
-int	ft_pwd(void)
+int	ft_pwd(char **new_envp)
 {
 	char	*directory;
+	int		i;
 
-	directory = getcwd(NULL, 0);
+	i = 0;
+	while (new_envp[i])
+	{
+		if (ft_strncmp(new_envp[i], "PWD=", 4) == 0)
+		{
+			directory = new_envp[i] + 4;
+			printf("%s\n", directory);
+			break;
+		}
+		i++;
+	}
+//	directory = getcwd(NULL, 0);
 	if (!directory)
 	{
 		perror("pwd: ");
 		return (1);
 	}
-	printf("%s\n", directory);
-	free(directory);
+//	printf("%s\n", directory);
+//	free(directory);
 	return (0);
 }
+// dopo il test uncommentare le lines di ft_pwd, servono da failsafe
+// nel caso pwd venga modificata da fuori dalla shell e non con cd

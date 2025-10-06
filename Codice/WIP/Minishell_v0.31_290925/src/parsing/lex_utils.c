@@ -59,7 +59,6 @@ void	print_tokens(t_table *list)
 	printf("==================\n");
 }
 
-
 void	print_cmd_list(t_cmd *cmd_list)
 {
 	t_cmd	*current;

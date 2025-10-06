@@ -6,7 +6,7 @@
 /*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 15:44:44 by aielo             #+#    #+#             */
-/*   Updated: 2025/09/30 16:36:58 by aielo            ###   ########.fr       */
+/*   Updated: 2025/10/04 20:56:45 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,11 @@ void	set_terminal_mode(void);
 void	signal_handler(int signum);
 void	reset_signals_child(void);
 
+void	final_cleanup(t_minishell *shell);
 void	token_list_clear(t_table *list);
 void	cmd_list_clear(t_cmd *cmd_list);
+void	args_clean(char **args);
+void	env_list_clear(t_env_list *env_list);
+void	new_envp_clear(char **new_envp);
 
 #endif

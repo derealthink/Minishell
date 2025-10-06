@@ -6,7 +6,7 @@
 /*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 15:44:14 by aielo             #+#    #+#             */
-/*   Updated: 2025/09/30 14:00:56 by aielo            ###   ########.fr       */
+/*   Updated: 2025/10/05 17:01:14 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,19 +19,24 @@
 # include <stdlib.h>
 # include <string.h>
 # include "libft.h"
+# include "environment.h"
 # include "types.h"
+# include "utils.h"
 
 int is_parent_builtin(char *cmd);
 int is_child_builtin(char *cmd);
-int	execute_builtin(t_cmd *cmd, char ***envp);
+int	execute_builtin(t_minishell *shell, t_cmd *cmd, char ***new_envp);
 
 int ft_echo(char **args);
-int	ft_cd(char **args);
-int	ft_pwd(void);
+int	ft_cd(char **args, char **envp);
+int	ft_pwd(char **envp);
 
-int ft_export(char **envp);
+int ft_export(t_minishell *shell, char **args);
 int ft_unset(char **envp);
-int ft_env(char **envp);
+int ft_env(t_minishell *shell, char **envp);
+
+//void	ft_exit(t_cmd *cmd_list, char **envp);
+int	ft_exit(t_minishell *shell, char **new_envp);
 
 int	env_variable(char **args, char **envp);
 //int	exit_status();

@@ -6,24 +6,28 @@
 /*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 21:28:03 by aielo             #+#    #+#             */
-/*   Updated: 2025/09/30 16:36:13 by aielo            ###   ########.fr       */
+/*   Updated: 2025/10/05 15:53:20 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executions.h"
 
-int	execute_pipeline(t_cmd *cmd_list, char **envp)
+//int	execute_pipeline(t_cmd *cmd_list, char **new_envp) //dovro´ passare t_minishell *shell e usare shell->cmd_list, shell->env_list e shell->exit_status
+int	execute_pipeline(t_minishell *shell, char **new_envp) 
 {
 	int		i;
 	int		fd;
 	int		num_cmds;
 	int		*pipes;
 	int		status;
+	t_cmd	*cmd_list;
 	t_cmd	*current;
 	pid_t	pid;
 
-	if (!cmd_list || !envp)
+	if (!shell->cmd_list || !new_envp)
 		return (1);
+	status = shell->last_exit_status;
+	cmd_list = shell->cmd_list;
 	current = cmd_list;
 	num_cmds = 0;
 	while (current)
@@ -33,8 +37,8 @@ int	execute_pipeline(t_cmd *cmd_list, char **envp)
 	}
 	if (num_cmds == 1 && is_parent_builtin(cmd_list->args[0]))
 	{
-		status = execute_builtin(cmd_list, &envp);
-		return(status);
+			status = execute_builtin(shell, cmd_list, &new_envp);
+			return(status);
 	}
 	if (num_cmds == 1)
 	{
@@ -60,16 +64,21 @@ int	execute_pipeline(t_cmd *cmd_list, char **envp)
 			}
 			if (is_child_builtin(cmd_list->args[0]))
 			{
-				status = execute_builtin(cmd_list, &envp);
+				status = execute_builtin(shell, cmd_list, &new_envp);
 				exit(status);
 			}
 			else
 			{
-				execute_cmd(cmd_list->args[0], cmd_list->args, envp);
-				exit(127);  //127 - command not found
+				execute_cmd(cmd_list->args[0], cmd_list->args, new_envp);
+				exit(status = 127);
 			}
 		}
-		waitpid(pid, NULL, 0);
+//		waitpid(pid, NULL, 0);
+		while ((pid = wait(&status)) > 0)
+		{
+			if (WIFEXITED(status))
+				status = WEXITSTATUS(status);
+		}
 		return (0);
 	}
 	pipes = malloc(sizeof(int) * (num_cmds - 1) * 2);
@@ -96,20 +105,20 @@ int	execute_pipeline(t_cmd *cmd_list, char **envp)
 			setup_in_out(current, pipes, i, num_cmds);
 			if (is_child_builtin(current->args[0]))
 			{
-				status = execute_builtin(current, &envp);
+				status = execute_builtin(shell, current, &new_envp);
 				exit(status);
 			}
 			else
 			{
-				execute_cmd(current->args[0], current->args, envp);
-				exit(127);
+				execute_cmd(current->args[0], current->args, new_envp);
+				exit(status = 127);
 			}
 		}
 		i++;
 		current = current->next;
 	}
 	close_all_pipes(pipes, (num_cmds - 1) * 2);
-	parent_wait(num_cmds);
+	parent_wait(shell, num_cmds);
 	free(pipes);
 	return (0);
 }
@@ -173,14 +182,17 @@ void	close_all_pipes(int *pipes, int num_fds)
 	}
 }
 
-void	parent_wait(int num_cmds)
+void	parent_wait(t_minishell *shell, int num_cmds)
 {
+	int	status;
 	int	i;
 
 	i = 0;
 	while (i < num_cmds)
 	{
-		wait(NULL); // wait(&status); ??
+		wait(&status);
+		if (WIFEXITED(status))
+			shell->last_exit_status = WEXITSTATUS(status);
 		i++;
 	}
 }

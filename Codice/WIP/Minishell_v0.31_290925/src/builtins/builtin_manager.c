@@ -6,26 +6,24 @@
 /*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 21:39:14 by aielo             #+#    #+#             */
-/*   Updated: 2025/09/30 14:01:03 by aielo            ###   ########.fr       */
+/*   Updated: 2025/10/05 17:01:29 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 
-int is_parent_builtin(char *cmd) // passiamo struct->args[0]
+int is_parent_builtin(char *cmd)
 {
 	if (!cmd)
 		return (0);
 	if (ft_strcmp(cmd, "cd") == 0 ||
 		ft_strcmp(cmd, "export") == 0 ||
-		ft_strcmp(cmd, "unset") == 0 ||
-		ft_strcmp(cmd, "exit") == 0)
-//		ft_strcmp(cmd[0], "$") == 0 && ft_strcmp(cmd[1], "?") != 0) 
+		ft_strcmp(cmd, "unset") == 0)
 			return (1);
 	return (0);
 }
 
-int is_child_builtin(char *cmd) // passiamo struct->args[0]
+int is_child_builtin(char *cmd)
 {
 	if (!cmd)
 		return (0);
@@ -36,26 +34,26 @@ int is_child_builtin(char *cmd) // passiamo struct->args[0]
 	return (0);
 }
 
-int execute_builtin(t_cmd *cmd_list, char ***envp)
+int execute_builtin(t_minishell *shell, t_cmd *cmd_list, char ***new_envp) //int execute_builtin(t_cmd *cmd_list, char ***new_envp)
 {
 	if (ft_strcmp(cmd_list->args[0], "echo") == 0)
 		return (ft_echo(cmd_list->args));
 	else if (ft_strcmp(cmd_list->args[0], "cd") == 0)
-		return (ft_cd(cmd_list->args));
+		return (ft_cd(cmd_list->args, *new_envp)); //envp
 	else if (ft_strcmp(cmd_list->args[0], "pwd") == 0)
-		return (ft_pwd());
+		return (ft_pwd(*new_envp)); //envp
 	else if (ft_strcmp(cmd_list->args[0], "export") == 0)
-		return (ft_export(cmd_list->args));
+		return (ft_export(shell, cmd_list->args)); //shell
 	else if (ft_strcmp(cmd_list->args[0], "unset") == 0)
-		return (ft_unset(cmd_list->args));
+		return (ft_unset(cmd_list->args)); //envp + shell
 	else if (ft_strcmp(cmd_list->args[0], "env") == 0)
-		return (ft_env(*envp));
+		return (ft_env(shell, *new_envp)); //envp
 //	else if (ft_strcmp(cmd_list->args[0], "exit"))
-//		return (ft_exit(cmd_list->args));
-//	else if (ft_strcmp(cmd_list->args[0][0], "$") && (!ft_strcmp(cmd_list->args[0][1], "?")))
-//		return (env_variable(cmd_list->args, envp));
+//		return (ft_exit(cmd_list));
 	return (0);
 }
+
+// shell lo uso per aggiornare shell->env_list->len_envp, cmd_list per avere commands e new_envp per aggiornare envp
 
 /*
 Builtins implementation
