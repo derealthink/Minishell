@@ -6,7 +6,7 @@
 /*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 18:17:00 by aielo             #+#    #+#             */
-/*   Updated: 2025/10/05 16:53:57 by aielo            ###   ########.fr       */
+/*   Updated: 2025/10/06 15:52:19 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,18 +129,3 @@ int	list_size(t_new_envp *lst)
 	}
 	return (i);
 }
-
-/*
-typedef struct s_new_envp
-{
-	struct s_new_envp	*next;
-	char				*name;
-	char				*value;
-}	t_new_envp;
-
-typedef struct s_env_list
-{
-	t_new_envp	*head;
-	int			len_envp;
-}	t_env_list;
-*/

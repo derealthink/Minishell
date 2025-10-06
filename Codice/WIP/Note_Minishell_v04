@@ -1,0 +1,6 @@
+minishell> cat test_1 | wc >> out
+entered sort_app
+
+
+minishell > (Enter)
+[Makefile:109: val] Segmentation fault (core dumped)

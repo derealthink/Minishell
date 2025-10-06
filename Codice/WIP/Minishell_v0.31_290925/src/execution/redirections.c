@@ -6,7 +6,7 @@
 /*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 14:49:22 by aielo             #+#    #+#             */
-/*   Updated: 2025/09/30 14:08:16 by aielo            ###   ########.fr       */
+/*   Updated: 2025/10/06 15:14:12 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,18 +92,3 @@ int	here_doc(char *limiter)
 	waitpid(pid, NULL, 0);
 	return (pipe_fd[0]);
 }
-
-/*
-
-	< should redirect input.
-	> should redirect output (create/truncate).
-	>> should redirect output (create/append).
-	<< (heredoc) should be given a delimiter, then read the input until a line containing the delimiter is seen. 
-
-	<< (heredoc) should be given a delimiter, then read the input until a line containing the
-	delimiter is seen. However, it doesn’t have to update the history!
-	get_next_line ha 1 byte still reachable da sistemare?
-
-	Usare unlink("heredoc_tmp"); nel cleanup.
-	Just remember to handle the temporary file correctly, perhaps by using O_UNLINK or simply unlinking the file after the command finishes.
-*/

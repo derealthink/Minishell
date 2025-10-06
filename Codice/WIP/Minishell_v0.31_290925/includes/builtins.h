@@ -6,7 +6,7 @@
 /*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 15:44:14 by aielo             #+#    #+#             */
-/*   Updated: 2025/10/05 17:01:14 by aielo            ###   ########.fr       */
+/*   Updated: 2025/10/06 15:41:58 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ int ft_env(t_minishell *shell, char **envp);
 int	ft_exit(t_minishell *shell, char **new_envp);
 
 int	env_variable(char **args, char **envp);
+int	ft_is_valid_name(const char *name);
 //int	exit_status();
 
 #endif

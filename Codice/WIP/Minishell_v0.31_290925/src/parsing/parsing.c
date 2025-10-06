@@ -4,23 +4,23 @@
 void	type_tracking(t_table *tokens)
 {
 	t_token	*temp;
-	printf("entering type_tracking\n");
+//	printf("entering type_tracking\n");
 
 	temp = tokens->head;
 	while (temp)
 	{
 		if (is_pipe(temp->value))
-			temp->type = TYPE_PIPE, printf("TYPE_PIPE\n");
+			temp->type = TYPE_PIPE; //, printf("TYPE_PIPE\n");
 		else if (is_append(temp->value))
-			temp->type = TYPE_APP, printf("TYPE_APP\n");
+			temp->type = TYPE_APP; //, printf("TYPE_APP\n");
 		else if (is_heredoc(temp->value))
-			temp->type = TYPE_HERED, printf("TYPE_HERED\n");
+			temp->type = TYPE_HERED; //, printf("TYPE_HERED\n");
 		 else if(is_rin(temp->value))
-			temp->type = TYPE_RIN, printf("TYPE_RIN\n");
+			temp->type = TYPE_RIN; //, printf("TYPE_RIN\n");
 		else if (is_rout(temp->value))
-			temp->type = TYPE_ROUT, printf("TYPE_ROUT\n");
+			temp->type = TYPE_ROUT; //, printf("TYPE_ROUT\n");
 		else
-			temp->type = TYPE_ARG, printf("TYPE_ARG\n");
+			temp->type = TYPE_ARG; //, printf("TYPE_ARG\n");
 		temp = temp->next;
 	}
 }

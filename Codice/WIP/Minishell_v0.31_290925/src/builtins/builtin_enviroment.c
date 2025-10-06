@@ -1,54 +1,86 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   enviroment.c                                       :+:      :+:    :+:   */
+/*   builtin_enviroment.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 14:32:42 by aielo             #+#    #+#             */
-/*   Updated: 2025/10/05 17:02:38 by aielo            ###   ########.fr       */
+/*   Updated: 2025/10/06 16:19:14 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
-
-//rinominare builtins_environment.c e builtins_directories.c e un altro nome per environment/environment.c
 
 int ft_export(t_minishell *shell, char **args)
 {
 	t_new_envp	*current;
 	t_new_envp	*new;
 	char		**new_var;
+	int			found;
 	int			i;
 
 	if (!shell || !args)
-		return (0);
-	current = shell->env_list->head;
+		return (shell->last_exit_status = 1);
+	i = 1;
 	while (args[i])
 	{
-		new_var = NULL;
 		new_var = ft_split(args[i], '=');
+		if (ft_is_valid_name(new_var[0]) ==  0)
+		{
+			ft_putstr_fd("export: not a valid identifier\n", 2); //corretto messaggio di error?
+			args_clear(new_var);
+			shell->last_exit_status = 1;
+			i++;
+			continue ;
+		}
+		current = shell->env_list->head;
+		found = 0;
 		while (current)
 		{
 			if (ft_strcmp(new_var[0], current->name) == 0 )
 			{
+				free(current->value);
 				if (new_var[1])
 					current->value = strdup(new_var[1]);
 				else
-					current->value = "";
-				free (new_var);
-				return (shell->last_exit_status = 0);
+					current->value = strdup("");
+				found = 1;
+				break ;
 			}
 			current = current->next;
 		}
-		new = new_env_node(new_var);
-		list_add_back(&shell->env_list->head, new);
+		if (found == 0 && new_var[1] != NULL)
+		{
+			new = new_env_node(new_var);
+			list_add_back(&shell->env_list->head, new);
+			shell->env_list->len_envp++;
+		}
+		args_clear(new_var);
 		i++;
 	}
-	return (0);
+	if (shell->last_exit_status != 1)
+		shell->last_exit_status = 0;
+	return (shell->last_exit_status);
 }
 
-///ask gemini what errors do I get if I use too many args in export? 
+int	ft_is_valid_name(const char *name)
+{
+	int	i;
+
+	if (!name || *name == '\0' || *name == '=')
+		return (0);
+	if (!ft_isalpha(name[0]) && name[0] != '_')
+		return (0);
+	i = 1;
+	while (name[i] && name[i] != '=')
+	{
+		if (!ft_isalnum(name[i]) && name[i] != '_')
+			return (0);
+		i++;
+	}
+	return (1);
+}
 
 int ft_unset(char **envp)
 {
@@ -82,18 +114,18 @@ int ft_env(t_minishell *shell, char **new_envp)
 }
 
 // trova il valore della envp (ex $HOME)
-int	env_variable(char **args, char **envp)
+int	env_variable(char **args, char **new_envp)
 {
 	int		i;
 	char	*path_value;
 	
 	i = 0;
 	path_value = NULL;
-	while (envp[i])
+	while (new_envp[i])
 	{
-		if (ft_strncmp(envp[i], args[1], ft_strlen(args[1])) == 0)
+		if (ft_strncmp(new_envp[i], args[1], ft_strlen(args[1])) == 0)
 		{
-			path_value = envp[i] + ft_strlen(args[1]);
+			path_value = new_envp[i] + ft_strlen(args[1]);
 			break;
 		}
 		i++;

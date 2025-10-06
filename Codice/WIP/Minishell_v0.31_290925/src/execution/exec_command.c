@@ -3,22 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   exec_command.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aielo <aielo@student.42.fr>                +#+  +:+       +#+        */
+/*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 21:39:14 by aielo             #+#    #+#             */
-/*   Updated: 2025/09/29 15:47:41 by aielo            ###   ########.fr       */
+/*   Updated: 2025/10/06 15:12:43 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executions.h"
 
-/**
- * Main execution function for the pipeline
- * @param cmd_path: either absolute path or command name
- * @param args: pre-parsed argument array (including cmd as args[0])
- * @param envp: environment variables
- * @return: 0 on success, 1 on failure
- */
 int execute_cmd(char *cmd_path, char **args, char **envp)
 {
 	char *executable_path;
@@ -56,12 +49,6 @@ int execute_cmd(char *cmd_path, char **args, char **envp)
 	return (1);
 }
 
-/**
- * Search for executable in path directories
- * @param cmd: command name
- * @param path_dirs: array of PATH directories
- * @return: allocated full path string, or NULL if not found
- */
 char *find_executable(char *cmd, char **path_dirs)
 {
 	int		i;

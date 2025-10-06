@@ -6,7 +6,7 @@
 /*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 18:05:02 by aielo             #+#    #+#             */
-/*   Updated: 2025/10/06 14:12:05 by aielo            ###   ########.fr       */
+/*   Updated: 2025/10/06 14:13:41 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,7 @@ typedef struct s_cmd
 	char			*input_file;
 	char			*output_file;
 	char			*delimiter;
-	bool			trunc_mode;  // 1 = truncate , 0 = append
 	int				trunc_mode;  // 1 = truncate , 0 = append
-	struct s_cmd	*next;
 }	t_cmd;
 
 typedef struct s_new_envp

@@ -6,15 +6,12 @@
 /*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 16:07:37 by aielo             #+#    #+#             */
-/*   Updated: 2025/10/04 20:57:52 by aielo            ###   ########.fr       */
+/*   Updated: 2025/10/06 16:05:42 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
 #include "types.h"
-
-//	creare una free_total function con free cmd_list,
-//	rl_clear_history e free env_list da aggiungere in in ft_exit()
 
 void	final_cleanup(t_minishell *shell)
 {
@@ -70,7 +67,7 @@ void	cmd_list_clear(t_cmd *cmd_list)
 		if (ptr->path)
 			free(ptr->path);
 		if (ptr->args)
-			args_clean(ptr->args);
+			args_clear(ptr->args);
 		if (ptr->input_file)
 			free(ptr->input_file);
 		if (ptr->output_file)
@@ -82,10 +79,12 @@ void	cmd_list_clear(t_cmd *cmd_list)
 	}
 }
 
-void	args_clean(char **args)
+void	args_clear(char **args)
 {
 	int	i;
 
+	if (!args)
+		return ;
 	i = 0;
 	while (args[i])
 	{
@@ -115,6 +114,7 @@ void	env_list_clear(t_env_list *env_list)
 	}
 }
 
+/*
 void	new_envp_clear(char **new_envp)
 {
 	int	i;
@@ -128,4 +128,4 @@ void	new_envp_clear(char **new_envp)
 		i++;
 	}
 	free(new_envp);
-}
+}*/

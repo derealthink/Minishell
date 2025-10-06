@@ -6,7 +6,7 @@
 /*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 13:33:49 by aielo             #+#    #+#             */
-/*   Updated: 2025/10/05 12:38:14 by aielo            ###   ########.fr       */
+/*   Updated: 2025/10/06 16:04:29 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@ static void	init_minishell(t_minishell *shell);
 
 int	main(int argc, char **argv, char **envp)
 {
-//	t_table	*token_list;
-//	t_cmd	*cmd_list;
 	t_minishell	shell;
 	char		**new_envp;
 	char		*line;
@@ -57,10 +55,10 @@ int	main(int argc, char **argv, char **envp)
 		if(shell.cmd_list)
 		{
 			if (ft_exit(&shell, new_envp) == -1)
-				execute_pipeline(&shell, new_envp); //execute_pipeline(shell.cmd_list, new_envp);
+				execute_pipeline(&shell, new_envp);
 		}
 		if (new_envp)
-			new_envp_clear(new_envp);
+			args_clear(new_envp);
 		if (shell.cmd_list)
 			cmd_list_clear(shell.cmd_list);
 		shell.cmd_list = NULL;

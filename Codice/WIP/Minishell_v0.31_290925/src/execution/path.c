@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aielo <aielo@student.42.fr>                +#+  +:+       +#+        */
+/*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 21:39:14 by aielo             #+#    #+#             */
-/*   Updated: 2025/09/25 18:01:38 by aielo            ###   ########.fr       */
+/*   Updated: 2025/10/06 15:12:58 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,6 @@
 static char	**get_path_dirs(char **envp);
 static void	free_path_dirs(char **path_dirs);
 
-/**
- * Find a command in PATH directories
- * @param cmd: command name to find
- * @param envp: environment variables
- * @return: allocated string with full path, or NULL if not found
- */
 char *find_command_in_path(char *cmd, char **envp)
 {
 	char	**path_dirs;
@@ -36,11 +30,6 @@ char *find_command_in_path(char *cmd, char **envp)
 	return (result);
 }
 
-/**
- * Extract PATH directories from environment
- * @param envp: environment variables
- * @return: allocated array of path directories, or NULL
- */
 static char **get_path_dirs(char **envp)
 {
 	int		i;

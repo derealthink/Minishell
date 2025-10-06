@@ -6,7 +6,7 @@
 /*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 15:44:25 by aielo             #+#    #+#             */
-/*   Updated: 2025/10/05 12:50:34 by aielo            ###   ########.fr       */
+/*   Updated: 2025/10/06 15:07:30 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include "libft.h"
 # include "types.h"
 # include "builtins.h"
+# include "signals.h"
 # include "utils.h"
 
 int		execute_cmd(char *cmd_path, char **args, char **envp);

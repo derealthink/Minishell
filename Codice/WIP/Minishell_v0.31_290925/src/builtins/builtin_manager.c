@@ -6,7 +6,7 @@
 /*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 21:39:14 by aielo             #+#    #+#             */
-/*   Updated: 2025/10/05 17:01:29 by aielo            ###   ########.fr       */
+/*   Updated: 2025/10/06 14:53:01 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,6 @@ int execute_builtin(t_minishell *shell, t_cmd *cmd_list, char ***new_envp) //int
 		return (ft_unset(cmd_list->args)); //envp + shell
 	else if (ft_strcmp(cmd_list->args[0], "env") == 0)
 		return (ft_env(shell, *new_envp)); //envp
-//	else if (ft_strcmp(cmd_list->args[0], "exit"))
-//		return (ft_exit(cmd_list));
 	return (0);
 }
 

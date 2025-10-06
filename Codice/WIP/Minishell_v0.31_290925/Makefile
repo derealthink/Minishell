@@ -6,7 +6,7 @@
 #    By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/09 13:19:32 by aielo             #+#    #+#              #
-#    Updated: 2025/10/03 18:16:05 by aielo            ###   ########.fr        #
+#    Updated: 2025/10/06 16:11:30 by aielo            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,13 +26,14 @@ BUILT_DIR 	= src/builtins
 ENV_DIR		= src/environment
 EXEC_DIR 	= src/execution
 PARS_DIR 	= src/parsing
+SIGN_DIR	= src/signals
 UTILS_DIR 	= src/utils
 
 # Sources
 BUILT_SRCS 	= $(BUILT_DIR)/builtin_manager.c \
-				$(BUILT_DIR)/directories.c \
-				$(BUILT_DIR)/enviroment.c \
-				$(BUILT_DIR)/exit.c
+				$(BUILT_DIR)/builtin_directories.c \
+				$(BUILT_DIR)/builtin_enviroment.c \
+				$(BUILT_DIR)/builtin_exit.c
 
 ENV_SRCS 	= $(ENV_DIR)/environment.c
 
@@ -46,15 +47,17 @@ PARS_SRCS 	= $(PARS_DIR)/lex_utils.c \
 				$(PARS_DIR)/parsing.c \
 				$(PARS_DIR)/parsing_utils.c \
 
+SIGN_SRCS 	= $(SIGN_DIR)/signals.c
+
 UTILS_SRCS 	= $(UTILS_DIR)/print_logo.c \
-				$(UTILS_DIR)/free.c \
-				$(UTILS_DIR)/signal.c
+				$(UTILS_DIR)/free.c 
 
 SOURCES 	= minishell.c \
 				$(BUILT_SRCS) \
 				$(ENV_SRCS) \
 				$(EXEC_SRCS) \
 				$(PARS_SRCS) \
+				$(SIGN_SRCS) \
 				$(UTILS_SRCS)
 
 # Objects
@@ -62,7 +65,7 @@ OBJECTS 	= $(SOURCES:%.c=$(OBJ_DIR)/%.o)
 
 # Compiler
 CC 			= cc
-CFLAGS 		= -Wall -Wextra -Werror
+CFLAGS 		= -Wall -Wextra -Werror -g
 CEXTRA_INC 	= -I. -I$(LIB_INC) -I$(INCLUDES)
 CEXTRA_LIB 	= -L$(LIB_DIR) -l$(LIB_NAME) -lreadline
 

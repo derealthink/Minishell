@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit.c                                             :+:      :+:    :+:   */
+/*   builtin_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 15:13:58 by aielo             #+#    #+#             */
-/*   Updated: 2025/10/05 16:07:31 by aielo            ###   ########.fr       */
+/*   Updated: 2025/10/06 16:05:51 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	ft_exit(t_minishell *shell, char **new_envp)
 			shell->last_exit_status = atoi(args[1]);
 		}
 		if (new_envp)
-			new_envp_clear(new_envp);
+			args_clear(new_envp);
 		final_cleanup(shell);
 		exit (shell->last_exit_status);
 	}
