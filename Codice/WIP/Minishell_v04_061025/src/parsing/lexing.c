@@ -108,6 +108,8 @@ t_table	*lexer(char *str)
 	if (!res)
 		return (NULL);
 	state = STATE_NORMAL;
+	if (!str)
+		exit (1);
 	i = 0;
 while (str[i])
 	{

@@ -8,7 +8,7 @@ int	is_pipe(char *str)
 	i = 0;
 	while(str[i])
 	{
-		if (str[i] == '|')
+		if (str[i] == '|' && i == 1)
 			return (1);
 		i++;
 	}
@@ -22,7 +22,7 @@ int	is_rin(char *str)
 	i = 0;
 	while (str[i])
 	{
-		if(str[i] == '<')
+		if(str[i] == '<' && i == 1)
 			return (1);
 		i++;
 	}
@@ -36,7 +36,7 @@ int	is_rout(char *str)
 	i = 0;
 	while(str[i])
 	{
-		if (str[i] == '>')
+		if (str[i] == '>' && i == 1)
 			return (1);
 		i++;
 	}
@@ -52,7 +52,7 @@ int	is_append(char *str)
 	len = ft_strlen(str);
 	while (i < len - 1)
 	{
-		if(str[i] == '>' && str[i + 1] == '>')
+		if(str[i] == '>' && str[i + 1] == '>' && i == 2)
 			return (1);
 		i++;
 	}
@@ -68,7 +68,7 @@ int	is_heredoc(char *str)
 //	while(i < len - 1)
 	while(str[i + 1])
 	{
-		if (str[i] == '<' && str[i + 1] == '<')
+		if (str[i] == '<' && str[i + 1] == '<' && i == 2)
 			return (1);
 		i++;
 	}
