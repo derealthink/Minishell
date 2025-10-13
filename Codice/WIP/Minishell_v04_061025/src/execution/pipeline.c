@@ -6,13 +6,136 @@
 /*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 21:28:03 by aielo             #+#    #+#             */
-/*   Updated: 2025/10/06 15:13:14 by aielo            ###   ########.fr       */
+/*   Updated: 2025/10/09 21:09:58 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executions.h"
 
-int	execute_pipeline(t_minishell *shell, char **new_envp) 
+static int	single_command(t_minishell *shell,
+				t_cmd *cmd_list, char **new_envp);
+static int	handle_pipe(t_minishell *shell, t_cmd *cmd_list,
+				int num_cmds, char **new_envp);
+static int	check_redirection(t_cmd *cmd_list);
+static int	exe_child(t_minishell *shell, t_cmd *cmd_list, char **new_envp);
+
+int	execute_pipeline(t_minishell *shell, char **new_envp)
+{
+	int		num_cmds;
+	t_cmd	*cmd_list;
+
+	if (!shell->cmd_list || !new_envp)
+		return (1);
+	cmd_list = shell->cmd_list;
+	num_cmds = list_size(cmd_list);
+	if (num_cmds == 0)
+		return (shell->last_exit_status);
+	if (num_cmds == 1)
+		return (single_command(shell, cmd_list, new_envp));
+	return (handle_pipe(shell, cmd_list, num_cmds, new_envp));
+}
+
+static int	single_command(t_minishell *shell, t_cmd *cmd_list, char **new_envp)
+{
+	pid_t	pid;
+	int		status;
+
+	status = 0;
+	if (is_parent_builtin(cmd_list->args[0]))
+	{
+		shell->last_exit_status = execute_builtin(shell, cmd_list, &new_envp);
+		return (shell->last_exit_status);
+	}
+	pid = fork();
+	if (pid == 0)
+	{
+		reset_signals_child();
+		if (check_redirection(cmd_list) == -1)
+			exit(1);
+		exe_child(shell, cmd_list, new_envp);
+	}
+	waitpid(pid, &status, 0);
+	if (WIFEXITED(status))
+		shell->last_exit_status = WEXITSTATUS(status);
+	else if (WIFSIGNALED(status))
+		shell->last_exit_status = 128 + WTERMSIG(status);
+	else
+		shell->last_exit_status = 1;
+	return (shell->last_exit_status);
+}
+
+static int	handle_pipe(t_minishell *shell, t_cmd *cmd_list,
+				int num_cmds, char **new_envp)
+{
+	t_cmd	*current;
+	pid_t	pid;
+	int		*pipes;
+	int		i;
+
+	pipes = initialize_pipes(num_cmds);
+	if (!pipes)
+		return (1);
+	current = cmd_list;
+	i = 0;
+	while (current)
+	{
+		pid = fork();
+		if (pid == -1)
+			return (fork_failed(pipes, num_cmds));
+		if (pid == 0)
+		{
+			fork_set_child(current, pipes, num_cmds, i);
+			exe_child(shell, current, new_envp);
+		}
+		i++;
+		current = current->next;
+	}
+	close_pipes_and_wait(shell, pipes, num_cmds);
+	return (shell->last_exit_status);
+}
+
+static int	check_redirection(t_cmd *cmd_list)
+{
+	int	fd;
+
+	if (cmd_list->input_file || cmd_list->delimiter)
+	{
+		fd = handle_redirect_in(cmd_list);
+		if (fd == -1)
+			return (-1);
+		dup2(fd, STDIN_FILENO);
+		close(fd);
+	}
+	if (cmd_list->output_file)
+	{
+		fd = handle_redirect_out(cmd_list);
+		if (fd == -1)
+			return (-1);
+		dup2(fd, STDOUT_FILENO);
+		close(fd);
+	}
+	return (0);
+}
+
+static int	exe_child(t_minishell *shell, t_cmd *cmd_list, char **new_envp)
+{
+	int	status;
+
+	status = shell->last_exit_status;
+	if (is_child_builtin(cmd_list->args[0]))
+	{
+		status = execute_builtin(shell, cmd_list, &new_envp);
+		exit(status);
+	}
+	else
+	{
+		execute_cmd(cmd_list->args[0], cmd_list->args, new_envp);
+		exit(status = 127);
+	}
+}
+
+/*
+int	execute_pipeline(t_minishell *shell, char **new_envp)
 {
 	int		i;
 	int		fd;
@@ -34,10 +157,12 @@ int	execute_pipeline(t_minishell *shell, char **new_envp)
 		num_cmds++;
 		current = current->next;
 	}
+//	if (num_cmds == 0)
+//		return (status);
 	if (num_cmds == 1 && is_parent_builtin(cmd_list->args[0]))
 	{
-			status = execute_builtin(shell, cmd_list, &new_envp);
-			return(status);
+		status = execute_builtin(shell, cmd_list, &new_envp);
+		return (status);
 	}
 	if (num_cmds == 1)
 	{
@@ -72,7 +197,6 @@ int	execute_pipeline(t_minishell *shell, char **new_envp)
 				exit(status = 127);
 			}
 		}
-//		waitpid(pid, NULL, 0);
 		while ((pid = wait(&status)) > 0)
 		{
 			if (WIFEXITED(status))
@@ -121,77 +245,46 @@ int	execute_pipeline(t_minishell *shell, char **new_envp)
 	free(pipes);
 	return (0);
 }
-
-int	create_pipes(int num_cmds, int *pipes)
+*/
+/*
+static int	handle_pipe(t_minishell *shell, t_cmd *cmd_list,
+				int num_cmds, char **new_envp)
 {
-	int	i;
-	int	j;
+	t_cmd	*current;
+	pid_t	pid;
+	int		*pipes;
+	int		i;
 
-	i = 0;
-	while (i < num_cmds - 1)
+	pipes = malloc(sizeof(int) * (num_cmds - 1) * 2);
+	if (!pipes || create_pipes(num_cmds, pipes))
 	{
-		if (pipe(&pipes[i * 2]) == -1)
+		free(pipes);
+		return (1);
+	}
+	current = cmd_list;
+	i = 0;
+	while (current)
+	{
+		pid = fork();
+		if (pid == -1)
 		{
-			j = 0;
-			while (j < i)
-			{
-				close(pipes[j * 2]);
-				close(pipes[j * 2 + 1]);
-				j++;
-			}
+			close_all_pipes(pipes, (num_cmds - 1) * 2);
+			free(pipes);
 			return (1);
 		}
+		if (pid == 0)
+		{
+			reset_signals_child();
+			setup_in_out(current, pipes, i, num_cmds);
+			close_all_pipes(pipes, (num_cmds - 1) * 2);
+			exe_child(shell, current, new_envp);
+		}
 		i++;
+		current = current->next;
 	}
-	return (0);
-}
-
-void	setup_in_out(t_cmd *cmd_list, int *pipes, int i, int num_cmds)
-{
-	int	fd;
-	
-	if (cmd_list->input_file || cmd_list->delimiter)
-	{
-		fd = handle_redirect_in(cmd_list);
-		dup2(fd, STDIN_FILENO);
-		close(fd);
-	}
-	else if (i > 0)
-		dup2(pipes[(i - 1) * 2], STDIN_FILENO);
-	if (cmd_list->output_file)
-	{
-		fd = handle_redirect_out(cmd_list);
-		dup2(fd, STDOUT_FILENO);
-		close(fd);
-	}
-	else if (i < num_cmds - 1)
-		dup2(pipes[i * 2 + 1], STDOUT_FILENO);
 	close_all_pipes(pipes, (num_cmds - 1) * 2);
+	parent_wait(shell, num_cmds);
+	free(pipes);
+	return (shell->last_exit_status);
 }
-
-void	close_all_pipes(int *pipes, int num_fds)
-{
-	int	i;
-
-	i = 0;
-	while (i < num_fds)
-	{
-		close(pipes[i]);
-		i++;
-	}
-}
-
-void	parent_wait(t_minishell *shell, int num_cmds)
-{
-	int	status;
-	int	i;
-
-	i = 0;
-	while (i < num_cmds)
-	{
-		wait(&status);
-		if (WIFEXITED(status))
-			shell->last_exit_status = WEXITSTATUS(status);
-		i++;
-	}
-}
+*/

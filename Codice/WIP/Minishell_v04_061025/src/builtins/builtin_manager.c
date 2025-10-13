@@ -6,11 +6,28 @@
 /*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 21:39:14 by aielo             #+#    #+#             */
-/*   Updated: 2025/10/06 14:53:01 by aielo            ###   ########.fr       */
+/*   Updated: 2025/10/08 13:25:36 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
+
+int execute_builtin(t_minishell *shell, t_cmd *cmd_list, char ***new_envp)
+{
+	if (ft_strcmp(cmd_list->args[0], "echo") == 0)
+		return (ft_echo(cmd_list->args));
+	else if (ft_strcmp(cmd_list->args[0], "cd") == 0)
+		return (ft_cd(shell, cmd_list->args, *new_envp)); //envp
+	else if (ft_strcmp(cmd_list->args[0], "pwd") == 0)
+		return (ft_pwd(*new_envp)); //envp
+	else if (ft_strcmp(cmd_list->args[0], "export") == 0)
+		return (ft_export(shell, cmd_list->args)); //shell
+	else if (ft_strcmp(cmd_list->args[0], "unset") == 0)
+		return (ft_unset(cmd_list->args)); //envp + shell
+	else if (ft_strcmp(cmd_list->args[0], "env") == 0)
+		return (ft_env(shell, *new_envp)); //envp
+	return (0);
+}
 
 int is_parent_builtin(char *cmd)
 {
@@ -31,23 +48,6 @@ int is_child_builtin(char *cmd)
 		ft_strcmp(cmd, "pwd") == 0 ||
 		ft_strcmp(cmd, "env") == 0)
 			return (1);
-	return (0);
-}
-
-int execute_builtin(t_minishell *shell, t_cmd *cmd_list, char ***new_envp) //int execute_builtin(t_cmd *cmd_list, char ***new_envp)
-{
-	if (ft_strcmp(cmd_list->args[0], "echo") == 0)
-		return (ft_echo(cmd_list->args));
-	else if (ft_strcmp(cmd_list->args[0], "cd") == 0)
-		return (ft_cd(cmd_list->args, *new_envp)); //envp
-	else if (ft_strcmp(cmd_list->args[0], "pwd") == 0)
-		return (ft_pwd(*new_envp)); //envp
-	else if (ft_strcmp(cmd_list->args[0], "export") == 0)
-		return (ft_export(shell, cmd_list->args)); //shell
-	else if (ft_strcmp(cmd_list->args[0], "unset") == 0)
-		return (ft_unset(cmd_list->args)); //envp + shell
-	else if (ft_strcmp(cmd_list->args[0], "env") == 0)
-		return (ft_env(shell, *new_envp)); //envp
 	return (0);
 }
 

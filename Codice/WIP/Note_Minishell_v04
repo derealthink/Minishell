@@ -2,5 +2,22 @@ minishell> cat test_1 | wc >> out
 entered sort_app
 
 
+risolto----
 minishell > (Enter)
 [Makefile:109: val] Segmentation fault (core dumped)
+-----
+
+minishell> << stop | wc -l
+Segmentation fault (core dumped)
+
+
+<< stop > out
+Segmentation fault (core dumped)
+dovrebbe creare il file out ma vuoto e ritornare 0
+
+
+minishell> echo test test\n1 2 3
+test test\n1 2 3
+dovrebbe essere
+echo test\ntest
+testntest

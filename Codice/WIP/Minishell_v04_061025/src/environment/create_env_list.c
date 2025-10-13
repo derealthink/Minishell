@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   environment.c                                      :+:      :+:    :+:   */
+/*   create_env_list.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 18:17:00 by aielo             #+#    #+#             */
-/*   Updated: 2025/10/06 16:22:42 by aielo            ###   ########.fr       */
+/*   Updated: 2025/10/09 21:42:38 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ t_new_envp	*new_env_node(char **tmp)
 {
 	t_new_envp	*node;
 
-	if(!tmp)
+	if (!tmp)
 		return (NULL);
 	node = (t_new_envp *) malloc (sizeof(t_new_envp));
 	if (!node)
@@ -80,52 +80,4 @@ void	list_add_back(t_new_envp **lst, t_new_envp *new)
 			ptr = ptr->next;
 		ptr->next = new;
 	}
-}
-
-char **env_list_array(t_env_list *env_list)
-{
-	t_new_envp	*tmp;
-	char		*temp_env;
-	char		**full_env;
-	int			i;
-	
-	if (!env_list || env_list->len_envp == 0)
-	{
-		full_env = (char **)malloc(sizeof(char *));
-		if (full_env)
-			full_env[0] = NULL;
-		return (full_env);
-	}
-	tmp = env_list->head;
-	i = 0;
-	full_env = (char **)malloc(sizeof(char *) * (env_list->len_envp + 1));
-	if (!full_env)
-		return (NULL);
-	while (tmp != NULL)
-	{
-		temp_env = ft_strjoin(tmp->name, "=");
-		if (!temp_env)
-			return (NULL);    
-		full_env[i] = ft_strjoin(temp_env, tmp->value);
-		free(temp_env);
-		tmp = tmp->next;
-		i++;
-	}
-	full_env[i] = '\0';
-	return (full_env);
-}
-
-int	list_size(t_new_envp *lst)
-{
-	int	i;
-
-	if (!lst)
-		return (0);
-	i = 0;
-	while (lst != NULL)
-	{
-		i++;
-		lst = lst->next;
-	}
-	return (i);
 }

@@ -6,12 +6,27 @@
 /*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 16:07:37 by aielo             #+#    #+#             */
-/*   Updated: 2025/10/06 16:05:42 by aielo            ###   ########.fr       */
+/*   Updated: 2025/10/09 21:45:58 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
 #include "types.h"
+
+void	array_clear(char **args)
+{
+	int	i;
+
+	if (!args)
+		return ;
+	i = 0;
+	while (args[i])
+	{
+		free(args[i]);
+		i++;
+	}
+	free(args);
+}
 
 void	final_cleanup(t_minishell *shell)
 {
@@ -28,12 +43,11 @@ void	final_cleanup(t_minishell *shell)
 	if (shell->env_list)
 	{
 		env_list_clear(shell->env_list);
-		free(shell->env_list);
 		shell->env_list = NULL;
 	}
 	rl_clear_history();
-}		
-	
+}
+
 void	token_list_clear(t_table *token_list)
 {
 	t_token	*ptr;
@@ -67,7 +81,7 @@ void	cmd_list_clear(t_cmd *cmd_list)
 		if (ptr->path)
 			free(ptr->path);
 		if (ptr->args)
-			args_clear(ptr->args);
+			array_clear(ptr->args);
 		if (ptr->input_file)
 			free(ptr->input_file);
 		if (ptr->output_file)
@@ -79,21 +93,6 @@ void	cmd_list_clear(t_cmd *cmd_list)
 	}
 }
 
-void	args_clear(char **args)
-{
-	int	i;
-
-	if (!args)
-		return ;
-	i = 0;
-	while (args[i])
-	{
-		free(args[i]);
-		i++;
-	}
-	free(args);
-}
-	
 void	env_list_clear(t_env_list *env_list)
 {
 	t_new_envp	*ptr;
@@ -112,20 +111,5 @@ void	env_list_clear(t_env_list *env_list)
 		free(ptr);
 		ptr = next;
 	}
+	free(env_list);
 }
-
-/*
-void	new_envp_clear(char **new_envp)
-{
-	int	i;
-
-	if (!new_envp)
-		return ;
-	i = 0;
-	while (new_envp[i])
-	{
-		free(new_envp[i]);
-		i++;
-	}
-	free(new_envp);
-}*/

@@ -6,7 +6,7 @@
 /*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 18:05:02 by aielo             #+#    #+#             */
-/*   Updated: 2025/10/06 14:13:41 by aielo            ###   ########.fr       */
+/*   Updated: 2025/10/13 14:09:59 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,14 @@
 # define true 1
 # define false 0
 
-extern volatile sig_atomic_t global_signal;
+extern volatile sig_atomic_t	g_global_signal;
 
-typedef	enum e_state
+typedef struct s_generic_list
+{
+	struct s_generic_list	*next;
+}	t_generic_list;
+
+typedef enum e_state
 {
 	STATE_NORMAL,
 	STATE_SQUOTES,
@@ -38,15 +43,15 @@ typedef enum s_type
 	TYPE_PIPE
 }	t_type;
 
-typedef	struct s_token
+typedef struct s_token
 {
-	struct	s_token	*next;
-	char	*value;
-	t_type	type;
-	int		moved;
+	struct s_token	*next;
+	char			*value;
+	t_type			type;
+	int				moved;
 }	t_token;
 
-typedef	struct l_table
+typedef struct l_table
 {
 	t_token	*head;
 	t_token	*tail;
@@ -60,7 +65,7 @@ typedef struct s_cmd
 	char			*input_file;
 	char			*output_file;
 	char			*delimiter;
-	int				trunc_mode;  // 1 = truncate , 0 = append
+	int				trunc_mode;
 }	t_cmd;
 
 typedef struct s_new_envp

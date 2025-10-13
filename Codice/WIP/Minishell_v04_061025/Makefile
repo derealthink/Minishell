@@ -6,7 +6,7 @@
 #    By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/09 13:19:32 by aielo             #+#    #+#              #
-#    Updated: 2025/10/06 16:11:30 by aielo            ###   ########.fr        #
+#    Updated: 2025/10/09 22:14:45 by aielo            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,25 +31,34 @@ UTILS_DIR 	= src/utils
 
 # Sources
 BUILT_SRCS 	= $(BUILT_DIR)/builtin_manager.c \
-				$(BUILT_DIR)/builtin_directories.c \
-				$(BUILT_DIR)/builtin_enviroment.c \
-				$(BUILT_DIR)/builtin_exit.c
+				$(BUILT_DIR)/ft_cd.c \
+				$(BUILT_DIR)/ft_echo.c \
+				$(BUILT_DIR)/ft_env.c \
+				$(BUILT_DIR)/ft_exit.c \
+				$(BUILT_DIR)/ft_export.c \
+				$(BUILT_DIR)/ft_pwd.c \
+				$(BUILT_DIR)/ft_unset.c
 
-ENV_SRCS 	= $(ENV_DIR)/environment.c
+ENV_SRCS 	= $(ENV_DIR)/create_env_list.c \
+				$(ENV_DIR)/create_env_array.c
 
-EXEC_SRCS 	= $(EXEC_DIR)/exec_command.c \
+EXEC_SRCS 	= $(EXEC_DIR)/execute_command.c \
 				$(EXEC_DIR)/path.c \
 				$(EXEC_DIR)/pipeline.c \
-				$(EXEC_DIR)/redirections.c \
+				$(EXEC_DIR)/pipeline_utils_one.c \
+				$(EXEC_DIR)/pipeline_utils_two.c \
+				$(EXEC_DIR)/redirections.c
 
-PARS_SRCS 	= $(PARS_DIR)/lex_utils.c \
-				$(PARS_DIR)/lexing.c \
+PARS_SRCS 	= $(PARS_DIR)/lexing.c \
+				$(PARS_DIR)/lex_utils.c \
 				$(PARS_DIR)/parsing.c \
-				$(PARS_DIR)/parsing_utils.c \
+				$(PARS_DIR)/parsing_utils.c
 
 SIGN_SRCS 	= $(SIGN_DIR)/signals.c
 
 UTILS_SRCS 	= $(UTILS_DIR)/print_logo.c \
+				$(UTILS_DIR)/print_error.c \
+				$(UTILS_DIR)/list_utils.c \
 				$(UTILS_DIR)/free.c 
 
 SOURCES 	= minishell.c \

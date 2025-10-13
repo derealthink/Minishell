@@ -6,7 +6,7 @@
 /*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 15:44:25 by aielo             #+#    #+#             */
-/*   Updated: 2025/10/06 15:07:30 by aielo            ###   ########.fr       */
+/*   Updated: 2025/10/09 21:09:05 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,17 @@ char	*find_executable(char *cmd, char **path_dirs);
 
 char	*find_command_in_path(char *cmd, char **envp);
 
-//int		execute_pipeline(t_cmd *cmd_list, char **envp);
-int		execute_pipeline(t_minishell *shell, char **new_envp) ;
+int		execute_pipeline(t_minishell *shell, char **new_envp);
+
 int		create_pipes(int num_cmds, int *pipes);
 void	setup_in_out(t_cmd *cmd, int *pipes, int i, int num_cmds);
 void	close_all_pipes(int *pipes, int num_fds);
-//void	parent_wait(int num_cmds);
 void	parent_wait(t_minishell *shell, int num_cmds);
+
+int		*initialize_pipes(int num_cmds);
+int		fork_failed(int *pipes, int num_cmds);
+void	close_pipes_and_wait(t_minishell *shell, int *pipes, int num_cmds);
+void	fork_set_child(t_cmd *current, int *pipes, int num_cmds, int i);
 
 int		handle_redirect_in(t_cmd *cmd_list);
 int		handle_redirect_out(t_cmd *cmd_list);

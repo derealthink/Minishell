@@ -6,13 +6,13 @@
 /*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 17:35:44 by aielo             #+#    #+#             */
-/*   Updated: 2025/10/06 14:58:52 by aielo            ###   ########.fr       */
+/*   Updated: 2025/10/13 14:10:07 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "signals.h"
 
-volatile sig_atomic_t global_signal = 0;
+volatile sig_atomic_t g_global_signal = 0;
 
 // alla fine del file ci sono note su quale env uploadare allo start di shell
 

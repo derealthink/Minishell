@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_exit.c                                     :+:      :+:    :+:   */
+/*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 15:13:58 by aielo             #+#    #+#             */
-/*   Updated: 2025/10/06 16:05:51 by aielo            ###   ########.fr       */
+/*   Updated: 2025/10/09 21:45:58 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,18 @@
 
 int	ft_exit(t_minishell *shell, char **new_envp)
 {
-	char	**args = shell->cmd_list->args;
+	char	**args;
 	int		i;
 
 	i = 0;
+	args = shell->cmd_list->args;
 	if (ft_strcmp(args[0], "exit") == 0)
 	{
-		while(args[i])
+		while (args[i])
 			i++;
 		if (i > 2)
 		{
-			ft_putstr_fd("bash: exit: too many arguments\n", 2);
+			print_simple_error("exit", "too many arguments");
 			shell->last_exit_status = 1;
 			return (shell->last_exit_status);
 		}
@@ -35,9 +36,8 @@ int	ft_exit(t_minishell *shell, char **new_envp)
 			{
 				if (args[1][i] < '0' || args[1][i] > '9')
 				{
-					ft_putstr_fd("bash: ", 2);
-					ft_putstr_fd(args[1], 2);
-					ft_putstr_fd(": numeric argument required\n", 2);
+					print_unquoted_error("exit", args[1],
+						"numeric argument required");
 					shell->last_exit_status = 255;
 					return (shell->last_exit_status);
 				}
@@ -46,7 +46,7 @@ int	ft_exit(t_minishell *shell, char **new_envp)
 			shell->last_exit_status = atoi(args[1]);
 		}
 		if (new_envp)
-			args_clear(new_envp);
+			array_clear(new_envp);
 		final_cleanup(shell);
 		exit (shell->last_exit_status);
 	}

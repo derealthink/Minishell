@@ -6,7 +6,7 @@
 /*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 15:44:44 by aielo             #+#    #+#             */
-/*   Updated: 2025/10/06 16:05:51 by aielo            ###   ########.fr       */
+/*   Updated: 2025/10/09 22:18:42 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,18 @@
 
 void	print_logo(void);
 
+void	print_simple_error(char *cmd, char *text);
+void	print_quoted_error(char *cmd, char *arg, char *text);
+void	print_unquoted_error(char *cmd, char *arg, char *text);
+void	print_quoted_exe_error(char *cmd, char *arg, char *text);
+void	print_unquoted_exe_error(char *cmd, char *text);
+
+void	array_clear(char **args);
 void	final_cleanup(t_minishell *shell);
 void	token_list_clear(t_table *list);
 void	cmd_list_clear(t_cmd *cmd_list);
-void	args_clear(char **args);
 void	env_list_clear(t_env_list *env_list);
-//void	new_envp_clear(char **new_envp);
+
+int		list_size(void *lst);
 
 #endif
