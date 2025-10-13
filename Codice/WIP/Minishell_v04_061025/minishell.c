@@ -6,7 +6,7 @@
 /*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 13:33:49 by aielo             #+#    #+#             */
-/*   Updated: 2025/10/09 21:45:58 by aielo            ###   ########.fr       */
+/*   Updated: 2025/10/13 14:25:34 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ int	main(int argc, char **argv, char **envp)
 	{
 		new_envp = NULL;
 		line = readline("minishell> ");
-		if(global_signal == SIGINT)  // definire prima se interactive o non interactive
+		if(g_global_signal == SIGINT)  // definire prima se interactive o non interactive
 		{
-			global_signal = 0;
+			g_global_signal = 0;
 			rl_replace_line("", 0);
 			rl_on_new_line();
 			write(STDOUT_FILENO, "\n", 1);

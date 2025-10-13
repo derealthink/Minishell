@@ -6,7 +6,7 @@
 /*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 17:35:44 by aielo             #+#    #+#             */
-/*   Updated: 2025/10/13 14:10:07 by aielo            ###   ########.fr       */
+/*   Updated: 2025/10/13 14:25:57 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	set_terminal_mode(void)
 void	signal_handler(int signum)
 {
 	if (signum == SIGINT)
-		global_signal = signum;
+		g_global_signal = signum;
 }
 
 void	reset_signals_child(void)
