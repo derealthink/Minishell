@@ -62,7 +62,7 @@ t_token	*sort_app(t_token *token, t_cmd *table)
 	t_token *temp;
 
 	temp = token;
-	printf("entered sort_app\n");
+	//printf("entered sort_app\n");
 	if (!temp->moved && temp->type == TYPE_APP)
 	{
 		temp->moved = 1;

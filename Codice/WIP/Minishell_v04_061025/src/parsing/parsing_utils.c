@@ -1,78 +1,28 @@
 #include "parsing.h"
 #include "types.h"
 
-int	is_pipe(char *str)
+int is_pipe(char *str)
 {
-	int	i;
-
-	i = 0;
-	while(str[i])
-	{
-		if (str[i] == '|' && i == 1)
-			return (1);
-		i++;
-	}
-	return (0);
+    return (str && str[0] == '|' && str[1] == '\0');
 }
 
-int	is_rin(char *str)
+int is_rin(char *str)
 {
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if(str[i] == '<' && i == 1)
-			return (1);
-		i++;
-	}
-	return (0);
+    return (str && str[0] == '<' && str[1] == '\0');
 }
 
-int	is_rout(char *str)
+int is_rout(char *str)
 {
-	int	i;
-
-	i = 0;
-	while(str[i])
-	{
-		if (str[i] == '>' && i == 1)
-			return (1);
-		i++;
-	}
-	return (0);
+    return (str && str[0] == '>' && str[1] == '\0');
 }
 
-int	is_append(char *str)
+int is_append(char *str)
 {
-	int	i;
-	int	len;
-
-	i = 0;
-	len = ft_strlen(str);
-	while (i < len - 1)
-	{
-		if(str[i] == '>' && str[i + 1] == '>' && i == 2)
-			return (1);
-		i++;
-	}
-	return (0);
+    return (str && str[0] == '>' && str[1] == '>' && str[2] == '\0');
 }
-int	is_heredoc(char *str)
+int is_heredoc(char *str)
 {
-	int	i;
-//	int	len;
-
-	i = 0;
-//	len = ft_strlen(str);
-//	while(i < len - 1)
-	while(str[i + 1])
-	{
-		if (str[i] == '<' && str[i + 1] == '<' && i == 2)
-			return (1);
-		i++;
-	}
-	return (0);
+    return (str && str[0] == '<' && str[1] == '<' && str[2] == '\0');
 }
 
 void init_cmd(t_cmd *cmd)
