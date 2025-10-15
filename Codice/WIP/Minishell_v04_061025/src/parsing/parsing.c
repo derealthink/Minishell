@@ -19,6 +19,8 @@ void	type_tracking(t_table *tokens)
 			temp->type = TYPE_RIN; //, printf("TYPE_RIN\n");
 		else if (is_rout(temp->value))
 			temp->type = TYPE_ROUT; //, printf("TYPE_ROUT\n");
+		else if (is_env(temp->value))
+			temp->type = TYPE_ENV;
 		else
 			temp->type = TYPE_ARG; //, printf("TYPE_ARG\n");
 		temp = temp->next;

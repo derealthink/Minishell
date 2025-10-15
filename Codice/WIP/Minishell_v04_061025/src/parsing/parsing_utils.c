@@ -25,6 +25,11 @@ int is_heredoc(char *str)
     return (str && str[0] == '<' && str[1] == '<' && str[2] == '\0');
 }
 
+int is_env(char *str)
+{
+    return(str && str[0] == '$');
+}
+
 void init_cmd(t_cmd *cmd)
 {
     if (!cmd)

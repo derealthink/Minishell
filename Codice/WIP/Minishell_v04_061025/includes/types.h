@@ -40,6 +40,7 @@ typedef enum s_type
 	TYPE_ROUT,
 	TYPE_HERED,
 	TYPE_APP,
+	TYPE_ENV,
 	TYPE_PIPE
 }	t_type;
 
