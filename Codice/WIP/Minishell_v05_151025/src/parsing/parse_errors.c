@@ -21,11 +21,11 @@ int unclosed_quotes(char *str)
 int pipe_misuse(char *str)
 {
     int len;
-    int i;
+    int i;//aggiungere check per |  | deve esserci qulcos' altro
 
     i = 0;
     if (str[i] == '|')
-        return (0);
+        return (0);//edxit status deve eseere 2
     len = ft_strlen(str);
     if (str[len] == '|')
         return (0);
@@ -37,4 +37,10 @@ int pipe_misuse(char *str)
     }
     return (1);
 }
+
+//redir misuse
+
+//pipe redir misuse
+
+
 
