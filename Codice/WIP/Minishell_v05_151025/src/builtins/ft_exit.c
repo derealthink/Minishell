@@ -6,7 +6,7 @@
 /*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 15:13:58 by aielo             #+#    #+#             */
-/*   Updated: 2025/10/15 13:11:00 by aielo            ###   ########.fr       */
+/*   Updated: 2025/10/15 18:21:51 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ int	ft_exit(t_minishell *shell, char **new_envp)
 	int		i;
 
 	args = shell->cmd_list->args;
+//	if (!args)
+//		return (-1);
 	if (ft_strcmp(args[0], "exit") != 0)
 		return (-1);
 	write(STDERR_FILENO, "exit\n", 5);

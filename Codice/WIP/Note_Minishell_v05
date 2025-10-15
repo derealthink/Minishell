@@ -1,26 +1,69 @@
 minishell> << stop | wc -l
 Segmentation fault (core dumped)
 
+rivedere address sanitizer e ft_exit ft_strcmp
+build ins protection?
+
+***
 
 << stop > out
 Segmentation fault (core dumped)
 dovrebbe creare il file out ma vuoto e ritornare 0
 
-
-*****da non fare
-minishell> echo test test\n1 2 3
-test test\n1 2 3
-dovrebbe essere
-echo test\ntest
-testntest
-******
-
+***
 
 echo "test" |
+echo "|" crash!
 > exit
 ale@noise:Minishell_v04_061025$ echo "test" | exit
 ale@noise:Minishell_v04_061025$ echo "test
 > test"
 test
 test
+
+***
+
+echo "unclosed
+a noi stampa la stringa come se fosse chiusa tra quotes.
+dobbiamo dare errore, uscire senza fare nulla?
+
+***
+
+Test only spaces or tabs.
+con space, gli space vengono scritti ma a noi poi da segfault
+con tab, il tab non dovrebbe venir scritto, a noi esce il contenuto della cartella.
+
+***
+
+signal ctrl-C - tenere ^C??
+ale@noise:Minishell_v05_151025$ bash
+ale@noise:Minishell_v05_151025$ fdsjkhdsfhjkdshjkf^C
+ale@noise:Minishell_v05_151025$ ^C
+ale@noise:Minishell_v05_151025$ 
+
+***
+
+echo '$USER' - single quote
+$USER
+a noi non stampa un cazzo
+echo ´<´ non stampa, non e´ singolo nel token
+
+***
+
+<< stop > out > out_2
+
+non crea entrambi out e out_2
+
+***
+
+
+==28082==ERROR: AddressSanitizer: SEGV on unknown address 0x000000000000 (pc 0x560b1c53b49a bp 0x7ffcb4d779a0 sp 0x7ffcb4d779a0 T0)                                   
+==28082==The signal is caused by a READ memory access.                             
+==28082==Hint: address points to the zero page.
+    #0 0x560b1c53b49a in ft_strcmp (/home/ale/Documents/Code/42/WIP/Minishell/Codice/WIP/Minishell_v05_151025/minishell+0xe49a) (BuildId: 893f45326b293c1271cdfb4216469d5e6452789c)
+    #1 0x560b1c5320fe in ft_exit src/builtins/ft_exit.c:27
+    #2 0x560b1c530adc in main /home/ale/Documents/Code/42/WIP/Minishell/Codice/WIP/Minishell_v05_151025/minishell.c:63
+    #3 0x793cf382a1c9 in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+    #4 0x793cf382a28a in __libc_start_main_impl ../csu/libc-start.c:360
+    #5 0x560b1c530644 in _start (/home/ale/Documents/Code/42/WIP/Minishell/Codice/WIP/Minishell_v05_151025/minishell+0x3644) (BuildId: 893f45326b293c1271cdfb4216469d5e6452789c)
 

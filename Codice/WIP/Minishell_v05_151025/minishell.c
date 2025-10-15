@@ -6,7 +6,7 @@
 /*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 13:33:49 by aielo             #+#    #+#             */
-/*   Updated: 2025/10/13 17:48:21 by aielo            ###   ########.fr       */
+/*   Updated: 2025/10/15 17:56:39 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,10 @@ int	main(int argc, char **argv, char **envp)
 		}
 		if (!line)
 			break ;
+//else if (parse_error(shell, line)) shell per exit status
+//		add_history(line);
+//		free(line);
+//		else if (line && *line != '\0')
 		if (line && *line != '\0')
 		{
 			add_history(line);
@@ -52,7 +56,7 @@ int	main(int argc, char **argv, char **envp)
 			if (shell.token_list)
 				token_list_clear(shell.token_list);
 			shell.token_list = NULL;
-//print_cmd_list(shell.cmd_list);
+print_cmd_list(shell.cmd_list);
 			new_envp = env_list_array(shell.env_list);
 			if(shell.cmd_list)
 			{
