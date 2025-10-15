@@ -1,0 +1,15 @@
+{
+    "makefile.launchConfigurations": [
+        {
+            "cwd": "/home/ale/Documents/Code/42/WIP/Minishell/Codice/WIP/100925_Minishell_v0.1",
+            "binaryPath": "/home/ale/Documents/Code/42/WIP/Minishell/Codice/WIP/100925_Minishell_v0.1/minishell",
+            "binaryArgs": []
+        }
+    ],
+    "files.associations": {
+		"executions.h": "c",
+		"utils.h": "c",
+		"environment.h": "c",
+		"builtins.h": "c"
+	}
+}
