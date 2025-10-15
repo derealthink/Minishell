@@ -36,6 +36,7 @@ int		is_rout(char *str);
 int		is_rin(char *str);
 int		is_append(char *str);
 int		is_heredoc(char *str);
+int 	is_env(char *str);
 t_cmd 	*new_cmd(t_cmd *prev);
 void 	init_cmd(t_cmd *cmd);
 t_cmd	*parser(t_table *list, t_cmd *table);

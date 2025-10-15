@@ -19,6 +19,8 @@ void	type_tracking(t_table *tokens)
 			temp->type = TYPE_RIN; //, printf("TYPE_RIN\n");
 		else if (is_rout(temp->value))
 			temp->type = TYPE_ROUT; //, printf("TYPE_ROUT\n");
+		else if (is_env(temp->value))
+			temp->type = TYPE_ENV;
 		else
 			temp->type = TYPE_ARG; //, printf("TYPE_ARG\n");
 		temp = temp->next;
@@ -62,7 +64,7 @@ t_token	*sort_app(t_token *token, t_cmd *table)
 	t_token *temp;
 
 	temp = token;
-	printf("entered sort_app\n");
+	//printf("entered sort_app\n");
 	if (!temp->moved && temp->type == TYPE_APP)
 	{
 		temp->moved = 1;
