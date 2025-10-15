@@ -6,7 +6,7 @@
 #    By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/09 13:19:32 by aielo             #+#    #+#              #
-#    Updated: 2025/10/15 14:06:11 by aielo            ###   ########.fr        #
+#    Updated: 2025/10/15 15:54:46 by aielo            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -77,7 +77,7 @@ OBJECTS 	= $(SOURCES:%.c=$(OBJ_DIR)/%.o)
 
 # Compiler
 CC 			= cc
-CFLAGS 		= -Wall -Wextra -Werror -g
+CFLAGS 		= -Wall -Wextra -Werror
 CEXTRA_INC 	= -I. -I$(LIB_INC) -I$(INCLUDES)
 CEXTRA_LIB 	= -L$(LIB_DIR) -l$(LIB_NAME) -lreadline
 
@@ -90,7 +90,7 @@ all: $(OBJ_DIR) libft $(NAME)
 $(OBJ_DIR):
 	mkdir -p $(OBJ_DIR)
 
-$(NAME): $(LIB_LIB) $(OBJECTS)
+$(NAME): | libft $(OBJECTS)
 	$(CC) $(CFLAGS) $(CEXTRA_INC) $(OBJECTS) -o $(NAME) $(CEXTRA_LIB)
 
 libft:
