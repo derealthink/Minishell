@@ -6,139 +6,157 @@
 /*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 14:32:42 by aielo             #+#    #+#             */
-/*   Updated: 2025/10/09 21:45:58 by aielo            ###   ########.fr       */
+/*   Updated: 2025/10/14 16:50:07 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 
-int ft_export(t_minishell *shell, char **args)
-{
-	t_new_envp	*current;
-	t_new_envp	*new;
-	char		**new_var;
-	int			found;
-	int			i;
+static int	handle_assignment_export(t_minishell *shell, char *arg, char *equals_sign);
+static int	handle_simple_export(t_minishell *shell, char *arg);
+static int	print_env_sort(t_minishell *shell);
+//static int	ft_print_export_list(t_minishell *shell);
+//static void	sort_env_list(t_minishell *shell);
+//static void swap_data(t_new_envp *a, t_new_envp *b);
 
-	if (!shell || !args)
-		return (shell->last_exit_status = 1);
+int	ft_export(t_minishell *shell, char **args)
+{
+	int i;
+	char *equals_sign;
+
+	if (!shell)
+		return (1);
+	shell->last_exit_status = 0;
+	if (!args[1])
+		return (print_env_sort(shell)); 
 	i = 1;
 	while (args[i])
 	{
-		new_var = ft_split(args[i], '=');
-		if (ft_is_valid_name(new_var[0]) ==  0)
+		equals_sign = ft_strchr(args[i], '=');
+		if (equals_sign)
 		{
-			print_quoted_error("export", new_var[0], "not a valid identifier");
-			array_clear(new_var);
-			shell->last_exit_status = 1;
-			i++;
-			continue ;
+			if (handle_assignment_export(shell, args[i], equals_sign) != 0)
+				return (shell->last_exit_status);
 		}
-		current = shell->env_list->head;
-		found = 0;
-		while (current)
+		else
 		{
-			if (ft_strcmp(new_var[0], current->name) == 0 )
-			{
-				free(current->value);
-				if (new_var[1])
-					current->value = strdup(new_var[1]);
-				else
-					current->value = strdup("");
-				found = 1;
-				break ;
-			}
-			current = current->next;
+			if (handle_simple_export(shell, args[i]) != 0)
+				return (shell->last_exit_status);
 		}
-		if (found == 0 && new_var[1] != NULL)
-		{
-			new = new_env_node(new_var);
-			if (!new)
-				return (shell->last_exit_status = -1);
-			list_add_back(&shell->env_list->head, new);
-			shell->env_list->len_envp++;
-		}
-		array_clear(new_var);
 		i++;
 	}
-	if (shell->last_exit_status != 1)
-		shell->last_exit_status = 0;
 	return (shell->last_exit_status);
 }
 
-int	ft_is_valid_name(const char *name)
+static int	handle_assignment_export(t_minishell *shell, char *arg, char *equals_sign)
 {
-	int	i;
+	size_t  name_len;
+	char    *name;
+	char    *value;
+	int     ret;
 
-	if (!name || *name == '\0' || *name == '=')
-		return (0);
-	if (!ft_isalpha(name[0]) && name[0] != '_')
-		return (0);
-	i = 1;
-	while (name[i] && name[i] != '=')
+	name_len = equals_sign - arg;
+	name = ft_strndup(arg, name_len); 
+	if (!name)
+		return (-1);
+	value = equals_sign + 1;
+	if (ft_is_valid_name(name) == 0)
 	{
-		if (!ft_isalnum(name[i]) && name[i] != '_')
-			return (0);
-		i++;
+		print_quoted_error("export", name, "not a valid identifier");
+		free(name); 
+		shell->last_exit_status = 1;
+		return (1);
 	}
-	return (1);
+	ret = update_env_var(shell, name, value); 
+	free(name);
+	return (ret);
 }
 
-// https://docs.vultr.com/how-to-set-environment-variables-in-bash-on-linux
+static int handle_simple_export(t_minishell *shell, char *arg)
+{
+	if (ft_is_valid_name(arg) == 0)
+	{
+		print_quoted_error("export", arg, "not a valid identifier");
+		shell->last_exit_status = 1;
+		return (1);
+	}
+	return (update_env_var(shell, arg, NULL)); 
+}
+
+static int	print_env_sort(t_minishell *shell)
+{
+	char	**sort_envp;
+
+	sort_envp = env_list_array(shell->env_list);
+//	printf("SORT_ENVP!\n\n");
+//	ft_env(shell, sort_envp);
+// va fatto con una copia della linked list perche¨ serve name e value
+	array_clear(sort_envp);
+	return (shell->last_exit_status = 0);
+}
 
 /*
-
-int ft_export(t_minishell *shell, char **args)
+static int ft_print_export_list(t_minishell *shell)
 {
-	t_new_envp	*current;
-	t_new_envp	*new;
-	char		**new_var;
-	int			found;
-	int			i;
-
-	if (!shell || !args)
-		return (shell->last_exit_status = 1);
-	i = 1;
-	while (args[i])
+	t_new_envp *current;
+	
+	sort_env_list(shell); fare copia di linked list?
+	current = shell->env_list->head;
+	while (current)
 	{
-		new_var = ft_split(args[i], '=');
-		if (ft_is_valid_name(new_var[0]) ==  0)
+		ft_putstr_fd("declare -x ", STDOUT_FILENO);
+		ft_putstr_fd(current->name, STDOUT_FILENO);
+		if (current->value && current->value[0] != '\0')
 		{
-			ft_putstr_fd("export: not a valid identifier\n", 2); //corretto messaggio di error?
-			array_clear(new_var);
-			shell->last_exit_status = 1;
-			i++;
-			continue ;
-		}
-		current = shell->env_list->head;
-		found = 0;
-		while (current)
+			ft_putstr_fd("=\"", STDOUT_FILENO);
+			ft_putstr_fd(current->value, STDOUT_FILENO);
+			ft_putstr_fd("\"", STDOUT_FILENO);
+		}		
+		ft_putstr_fd("\n", STDOUT_FILENO);
+		current = current->next;
+	}
+	return (0);
+}
+
+static void	sort_env_list(t_minishell *shell)
+{
+	t_new_envp	*head_ref;
+	t_new_envp	*end;
+	t_new_envp	*current;
+	int			swapped;
+
+	head_ref = shell->env_list->head;
+	end = NULL;
+	if(head_ref || head_ref->next == NULL)
+		return ;
+	swapped = 1;
+	while (swapped)
+	{
+		swapped = 0;
+		current = head_ref;
+		while (current != NULL && current->next != end)
 		{
-			if (ft_strcmp(new_var[0], current->name) == 0 )
+			if (ft_strcmp(current->name, current->next->name) > 0)
 			{
-				free(current->value);
-				if (new_var[1])
-					current->value = strdup(new_var[1]);
-				else
-					current->value = strdup("");
-				found = 1;
-				break ;
+				swap_data(current, current->next);
+				swapped = 1;
 			}
 			current = current->next;
 		}
-		if (found == 0 && new_var[1] != NULL)
-		{
-			new = new_env_node(new_var);
-			if (!new)
-				return (shell->last_exit_status = -1);
-			list_add_back(&shell->env_list->head, new);
-			shell->env_list->len_envp++;
-		}
-		array_clear(new_var);
-		i++;
+		end = current;
 	}
-	if (shell->last_exit_status != 1)
-		shell->last_exit_status = 0;
-	return (shell->last_exit_status);
+}
+
+static void swap_data(t_new_envp *a, t_new_envp *b)
+{
+	char *temp_name;
+	char *temp_value;
+
+	temp_name = a->name;
+	a->name = b->name;
+	b->name = temp_name;
+	temp_value = a->value;
+	a->value = b->value;
+	b->value = temp_value;
 }
 */

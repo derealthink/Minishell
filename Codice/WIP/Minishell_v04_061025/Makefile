@@ -6,7 +6,7 @@
 #    By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/09 13:19:32 by aielo             #+#    #+#              #
-#    Updated: 2025/10/09 22:14:45 by aielo            ###   ########.fr        #
+#    Updated: 2025/10/14 13:47:01 by aielo            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,7 +35,9 @@ BUILT_SRCS 	= $(BUILT_DIR)/builtin_manager.c \
 				$(BUILT_DIR)/ft_echo.c \
 				$(BUILT_DIR)/ft_env.c \
 				$(BUILT_DIR)/ft_exit.c \
+				$(BUILT_DIR)/ft_exit_utils.c \
 				$(BUILT_DIR)/ft_export.c \
+				$(BUILT_DIR)/ft_export_utils.c \
 				$(BUILT_DIR)/ft_pwd.c \
 				$(BUILT_DIR)/ft_unset.c
 
@@ -58,7 +60,7 @@ SIGN_SRCS 	= $(SIGN_DIR)/signals.c
 
 UTILS_SRCS 	= $(UTILS_DIR)/print_logo.c \
 				$(UTILS_DIR)/print_error.c \
-				$(UTILS_DIR)/list_utils.c \
+				$(UTILS_DIR)/ft_utils.c \
 				$(UTILS_DIR)/free.c 
 
 SOURCES 	= minishell.c \

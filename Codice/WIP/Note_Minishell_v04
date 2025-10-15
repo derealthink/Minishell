@@ -2,11 +2,6 @@ minishell> cat test_1 | wc >> out
 entered sort_app
 
 
-risolto----
-minishell > (Enter)
-[Makefile:109: val] Segmentation fault (core dumped)
------
-
 minishell> << stop | wc -l
 Segmentation fault (core dumped)
 
@@ -16,8 +11,20 @@ Segmentation fault (core dumped)
 dovrebbe creare il file out ma vuoto e ritornare 0
 
 
+*****da non fare
 minishell> echo test test\n1 2 3
 test test\n1 2 3
 dovrebbe essere
 echo test\ntest
 testntest
+******
+
+
+echo "test" |
+> exit
+ale@noise:Minishell_v04_061025$ echo "test" | exit
+ale@noise:Minishell_v04_061025$ echo "test
+> test"
+test
+test
+

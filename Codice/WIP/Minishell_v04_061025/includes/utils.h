@@ -6,7 +6,7 @@
 /*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 15:44:44 by aielo             #+#    #+#             */
-/*   Updated: 2025/10/09 22:18:42 by aielo            ###   ########.fr       */
+/*   Updated: 2025/10/14 15:58:02 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <readline/history.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <limits.h>
 # include "types.h"
 # include "libft.h"
 
@@ -35,5 +36,6 @@ void	cmd_list_clear(t_cmd *cmd_list);
 void	env_list_clear(t_env_list *env_list);
 
 int		list_size(void *lst);
+char	*ft_strndup(const char *s, size_t n);
 
 #endif

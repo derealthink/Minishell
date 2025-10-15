@@ -6,7 +6,7 @@
 /*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 18:17:00 by aielo             #+#    #+#             */
-/*   Updated: 2025/10/09 21:42:38 by aielo            ###   ########.fr       */
+/*   Updated: 2025/10/13 17:02:23 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	create_env_list(t_minishell *shell, char **envp)
 		j = 0;
 		tmp = NULL;
 		tmp = ft_split(envp[i], '=');
-		node = new_env_node(tmp);
+		node = new_env_node(tmp[0], tmp[1]);
 		list_add_back(&shell->env_list->head, node);
 		while (tmp[j])
 			free(tmp[j++]);
@@ -47,20 +47,30 @@ static void	init_env_list(t_env_list *lst)
 	lst->len_envp = 0;
 }
 
-t_new_envp	*new_env_node(char **tmp)
+t_new_envp	*new_env_node(char *name, char *value)
 {
 	t_new_envp	*node;
 
-	if (!tmp)
+	if (!name)
 		return (NULL);
 	node = (t_new_envp *) malloc (sizeof(t_new_envp));
 	if (!node)
 		return (NULL);
-	node->name = ft_strdup(tmp[0]);
-	if (tmp[1])
-		node->value = ft_strdup(tmp[1]);
+	node->name = ft_strdup(name);
+	if (!node->name)
+	{
+		free(node);
+		return (NULL);
+	}
+	if (value)
+		node->value = ft_strdup(value);
 	else
 		node->value = ft_strdup("");
+	if (!node->value)
+	{
+		free(node->name);
+		free(node);
+	}
 	node->next = NULL;
 	return (node);
 }

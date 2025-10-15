@@ -8,6 +8,8 @@
     ],
     "files.associations": {
 		"executions.h": "c",
-		"utils.h": "c"
+		"utils.h": "c",
+		"environment.h": "c",
+		"builtins.h": "c"
 	}
 }

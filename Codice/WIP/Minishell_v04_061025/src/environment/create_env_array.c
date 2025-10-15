@@ -6,14 +6,16 @@
 /*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 18:17:00 by aielo             #+#    #+#             */
-/*   Updated: 2025/10/09 22:11:57 by aielo            ###   ########.fr       */
+/*   Updated: 2025/10/15 12:23:02 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "environment.h"
 
-static char	**env_list_null(char **full_env);
-static int	build_array(char **full_env, t_new_envp *tmp, int i);
+static char		**env_list_null(char **full_env);
+static int		build_array(char **full_env, t_new_envp *tmp, int i);
+static char		*ft_strjoin_null(char const *s1, char const *s2);
+static size_t	ft_length(const char *s);
 
 char	**env_list_array(t_env_list *env_list)
 {
@@ -58,7 +60,7 @@ static int	build_array(char **full_env, t_new_envp *tmp, int i)
 		array_clear(full_env);
 		return (1);
 	}
-	full_env[i] = ft_strjoin(temp_env, tmp->value);
+	full_env[i] = ft_strjoin_null(temp_env, tmp->value);
 	free(temp_env);
 	if (!full_env[i])
 	{
@@ -66,4 +68,46 @@ static int	build_array(char **full_env, t_new_envp *tmp, int i)
 		return (1);
 	}
 	return (0);
+}
+
+static char	*ft_strjoin_null(char const *s1, char const *s2)
+{
+	size_t	i;
+	size_t	j;
+	char	*s3;
+
+	i = ft_length(s1);
+	j = ft_length(s2);
+	s3 = (char *) malloc (i + j + 1);
+	if (!s3)
+		return (NULL);
+	i = 0;
+	j = 0;
+	while (s1[i] != '\0')
+	{
+		s3[i] = s1[i];
+		i++;
+	}
+	if (s2)
+	{
+		while (s2[j] != '\0')
+		{
+			s3[i + j] = s2[j];
+			j++;
+		}
+	}
+	s3[i + j] = '\0';
+	return (s3);
+}
+
+static size_t	ft_length(const char *s)
+{
+	size_t	i;
+
+	i = 0;
+	if (!s)
+		return (0);
+	while (s[i] != '\0')
+		i++;
+	return (i);
 }
