@@ -6,7 +6,7 @@
 /*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 13:33:49 by aielo             #+#    #+#             */
-/*   Updated: 2025/10/21 18:10:48 by aielo            ###   ########.fr       */
+/*   Updated: 2025/10/21 19:45:44 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,20 +82,20 @@ static void	init_minishell(t_minishell *shell)
 	shell->token_list = NULL;
 	shell->cmd_list = NULL;
 	shell->last_exit_status = 0;
-	shell->is_interactive = isatty(STDIN_FILENO);
+	shell->is_interactive = shell_is_interactive();
 }
 
 
 int main(int argc, char **argv, char **envp)
 {
-	t_minishell shell;
-	char        **new_envp;
-	char        *line;
+	t_minishell	shell;
+	char		**new_envp;
+	char		*line;
 
 	(void)argc;
 	(void)argv;
 	init_minishell(&shell);
-	print_logo();
+//	print_logo();
 	if (shell.is_interactive)
 	{
 		set_terminal_mode(&shell);
@@ -116,11 +116,12 @@ int main(int argc, char **argv, char **envp)
 		{
 			line = readline("\033[32mminishell> \033[0m");
 			if (g_global_signal == SIGINT)
-			{
-				g_global_signal = 0;
-				free(line);
-				continue;
-			}
+            {
+                shell.last_exit_status = 130; // Set exit status for Ctrl-C
+                if (line)
+                    free(line);
+                continue;
+            }
 			if (!line)
 				break;
 		}

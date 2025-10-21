@@ -6,7 +6,7 @@
 /*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 17:35:44 by aielo             #+#    #+#             */
-/*   Updated: 2025/10/21 18:13:54 by aielo            ###   ########.fr       */
+/*   Updated: 2025/10/21 19:19:02 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	shell_is_interactive(void)
 
 void	setup_interactive_parent_signals(void)
 {
-	set_signal_handler(SIGINT, handle_sigint, SA_RESTART);
+	set_signal_handler(SIGINT, handle_sigint, 0);
 	set_signal_handler(SIGQUIT, SIG_IGN, 0);
 }
 
@@ -32,6 +32,7 @@ void	setup_child_signals(void)
 {
 	set_signal_handler(SIGINT, SIG_DFL, 0);
 	set_signal_handler(SIGQUIT, SIG_IGN, 0);
+//	set_signal_handler(SIGQUIT, SIG_DFL, 0);
 }
 
 void	set_signal_handler(int signum, void (*handler)(int), int flags) //passo shell per settare exit_status = -1 in caso fallisca sigaction?
@@ -47,19 +48,21 @@ void	set_signal_handler(int signum, void (*handler)(int), int flags) //passo she
 
 void	handle_sigint(int sig)
 {
-	write(1, "\n", 1);
-	rl_replace_line("", 0);
-	rl_on_new_line();
-	rl_redisplay();
 	g_global_signal = sig;
+	write(1, "\n", 1);
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
 }
 
 void	here_doc_sigint_handler(int sig)
 {
     (void)sig;
-    write(1, "\n", 1);
-    // Close pipe or cleanup if needed
-    exit(1); // Exit heredoc child process on SIGINT
+	g_global_signal = SIGINT;
+	write(STDOUT_FILENO, "\n", 1);
+    // Just close and exit - let parent handle the cleanup
+    //close(STDIN_FILENO);
+    //exit(130); // Exit heredoc child process on SIGINT
 }
 
 void	setup_heredoc_signals(void)
@@ -70,4 +73,5 @@ void	setup_heredoc_signals(void)
     sigemptyset(&sa.sa_mask);
     sa.sa_flags = 0;
     sigaction(SIGINT, &sa, NULL);
+	sigaction(SIGQUIT, &sa, NULL);
 }

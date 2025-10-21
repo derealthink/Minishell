@@ -6,7 +6,7 @@
 /*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 15:13:58 by aielo             #+#    #+#             */
-/*   Updated: 2025/10/17 16:25:48 by aielo            ###   ########.fr       */
+/*   Updated: 2025/10/21 19:53:12 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ int	ft_exit(t_minishell *shell, char **new_envp)
 		return (-1);
 	if (ft_strcmp(args[0], "exit") != 0)
 		return (-1);
-	write(STDERR_FILENO, "exit\n", 5);
+	if (shell->is_interactive)
+		write(STDERR_FILENO, "exit\n", 5);
 	i = 0;
 	while (args[i])
 		i++;
