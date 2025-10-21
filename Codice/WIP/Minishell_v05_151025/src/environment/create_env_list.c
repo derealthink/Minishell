@@ -6,7 +6,7 @@
 /*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 18:17:00 by aielo             #+#    #+#             */
-/*   Updated: 2025/10/15 13:27:52 by aielo            ###   ########.fr       */
+/*   Updated: 2025/10/16 18:26:16 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ void	create_env_list(t_minishell *shell, char **envp)
 	if (!shell)
 		return ;
 	shell->env_list = (t_env_list *) malloc (sizeof(t_env_list));
+	if (!shell->env_list)
+		return ;
 	init_env_list(shell->env_list);
 	i = 0;
 	while (envp[i])

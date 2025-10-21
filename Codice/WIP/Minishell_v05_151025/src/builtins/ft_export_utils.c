@@ -6,13 +6,13 @@
 /*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 14:32:42 by aielo             #+#    #+#             */
-/*   Updated: 2025/10/15 14:05:40 by aielo            ###   ########.fr       */
+/*   Updated: 2025/10/16 18:43:55 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 
-static int update_existing_node(t_new_envp *node, char *value);
+static int	update_existing_node(t_new_envp *node, char *value);
 
 int	ft_is_valid_name(const char *name)
 {
@@ -58,7 +58,7 @@ int	update_env_var(t_minishell *shell, char *name, char *value)
 	return (0);
 }
 
-static int update_existing_node(t_new_envp *node, char *value)
+static int	update_existing_node(t_new_envp *node, char *value)
 {
 	free(node->value);
 	if (value)

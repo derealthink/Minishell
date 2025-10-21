@@ -6,7 +6,7 @@
 /*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 18:17:00 by aielo             #+#    #+#             */
-/*   Updated: 2025/10/15 12:23:02 by aielo            ###   ########.fr       */
+/*   Updated: 2025/10/16 18:50:11 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,9 +76,7 @@ static char	*ft_strjoin_null(char const *s1, char const *s2)
 	size_t	j;
 	char	*s3;
 
-	i = ft_length(s1);
-	j = ft_length(s2);
-	s3 = (char *) malloc (i + j + 1);
+	s3 = (char *) malloc (ft_length(s1) + ft_length(s2) + 1);
 	if (!s3)
 		return (NULL);
 	i = 0;

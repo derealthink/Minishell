@@ -6,7 +6,7 @@
 /*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 16:07:37 by aielo             #+#    #+#             */
-/*   Updated: 2025/10/09 21:45:58 by aielo            ###   ########.fr       */
+/*   Updated: 2025/10/21 18:02:17 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ void	final_cleanup(t_minishell *shell)
 		env_list_clear(shell->env_list);
 		shell->env_list = NULL;
 	}
-	rl_clear_history();
+	if (shell->is_interactive)
+		rl_clear_history();
 }
 
 void	token_list_clear(t_table *token_list)

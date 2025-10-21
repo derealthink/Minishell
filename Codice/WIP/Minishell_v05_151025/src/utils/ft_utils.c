@@ -6,7 +6,7 @@
 /*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 11:56:09 by aielo             #+#    #+#             */
-/*   Updated: 2025/10/14 16:03:33 by aielo            ###   ########.fr       */
+/*   Updated: 2025/10/16 18:51:13 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ int	list_size(void *lst)
 
 char	*ft_strndup(const char *s, size_t n)
 {
-	size_t  len;
-	char    *dup;
-	size_t  i;
+	size_t	len;
+	char	*dup;
+	size_t	i;
 
 	if (!s)
 		return (NULL);

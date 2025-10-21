@@ -6,7 +6,7 @@
 /*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 21:28:03 by aielo             #+#    #+#             */
-/*   Updated: 2025/10/09 21:13:36 by aielo            ###   ########.fr       */
+/*   Updated: 2025/10/21 16:15:00 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	close_pipes_and_wait(t_minishell *shell, int *pipes, int num_cmds)
 
 void	fork_set_child(t_cmd *current, int *pipes, int num_cmds, int i)
 {
-	reset_signals_child();
+	setup_child_signals();
 	setup_in_out(current, pipes, i, num_cmds);
 	close_all_pipes(pipes, (num_cmds - 1) * 2);
 }

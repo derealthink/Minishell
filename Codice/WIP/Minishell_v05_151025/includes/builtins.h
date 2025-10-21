@@ -6,7 +6,7 @@
 /*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 15:44:14 by aielo             #+#    #+#             */
-/*   Updated: 2025/10/15 14:05:41 by aielo            ###   ########.fr       */
+/*   Updated: 2025/10/17 15:00:09 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <string.h>
 # include "libft.h"
 # include "environment.h"
+# include "configuration.h"
 # include "types.h"
 # include "utils.h"
 
@@ -32,9 +33,9 @@ int	ft_cd(t_minishell *shell, char **args, char **new_envp);
 int	ft_pwd(char **new_envp);
 
 int	ft_export(t_minishell *shell, char **args, char **new_envp);
-int print_env_sort(char **new_envp);
+int	print_env_sort(char **new_envp);
 
-int ft_unset(t_minishell *shell, char **args);
+int	ft_unset(t_minishell *shell, char **args);
 int	ft_env(t_minishell *shell, char **new_envp);
 
 int	ft_exit(t_minishell *shell, char **new_envp);

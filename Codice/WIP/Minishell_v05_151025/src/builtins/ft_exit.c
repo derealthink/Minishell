@@ -6,7 +6,7 @@
 /*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 15:13:58 by aielo             #+#    #+#             */
-/*   Updated: 2025/10/15 20:45:15 by aielo            ###   ########.fr       */
+/*   Updated: 2025/10/17 16:25:48 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,12 @@ int	ft_exit(t_minishell *shell, char **new_envp)
 	}
 	if (args[1])
 		return (handle_exit_args(shell, args, new_envp));
+	restore_terminal(shell);
 	cleanup_and_exit(shell, new_envp);
 	return (0);
 }
 
-static void cleanup_and_exit(t_minishell *shell, char **new_envp)
+static void	cleanup_and_exit(t_minishell *shell, char **new_envp)
 {
 	if (new_envp)
 		array_clear(new_envp);
@@ -50,7 +51,7 @@ static void cleanup_and_exit(t_minishell *shell, char **new_envp)
 	exit(shell->last_exit_status);
 }
 
-static int handle_exit_args(t_minishell *shell, char **args, char **new_envp)
+static int	handle_exit_args(t_minishell *shell, char **args, char **new_envp)
 {
 	ft_exit_status(shell, args);
 	cleanup_and_exit(shell, new_envp);
@@ -59,7 +60,7 @@ static int handle_exit_args(t_minishell *shell, char **args, char **new_envp)
 
 static int	ft_exit_status(t_minishell *shell, char **args)
 {
-	long long exit_val;
+	long long	exit_val;
 
 	if (ft_is_numeric(args[1]) == 0)
 	{

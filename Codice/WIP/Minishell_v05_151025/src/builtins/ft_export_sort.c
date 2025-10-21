@@ -6,7 +6,7 @@
 /*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 14:32:42 by aielo             #+#    #+#             */
-/*   Updated: 2025/10/15 15:07:46 by aielo            ###   ########.fr       */
+/*   Updated: 2025/10/16 18:43:30 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static void	create_new_list(t_env_list **sort_env, char **envp);
 static void	sort_env_list(t_new_envp *head_ref);
 static void	swap_data(t_new_envp *a, t_new_envp *b);
 
-int print_env_sort(char **new_envp)
+int	print_env_sort(char **new_envp)
 {
 	t_env_list	*sort_env;
 	t_new_envp	*current;
@@ -28,12 +28,10 @@ int print_env_sort(char **new_envp)
 	{
 		ft_putstr_fd("declare -x ", STDOUT_FILENO);
 		ft_putstr_fd(current->name, STDOUT_FILENO);
-//		if (current->value && current->value[0] != '\0')
-//		{
-			ft_putstr_fd("=\"", STDOUT_FILENO);
+		ft_putstr_fd("=\"", STDOUT_FILENO);
+		if (current->value && current->value[0] != '\0')
 			ft_putstr_fd(current->value, STDOUT_FILENO);
-			ft_putstr_fd("\"", STDOUT_FILENO);
-//		}		
+		ft_putstr_fd("\"", STDOUT_FILENO);
 		ft_putstr_fd("\n", STDOUT_FILENO);
 		current = current->next;
 	}
@@ -60,7 +58,6 @@ static void	create_new_list(t_env_list **sort_env, char **envp)
 		j = 0;
 		tmp = NULL;
 		tmp = ft_split(envp[i], '=');
-		tmp = ft_split(envp[i], '=');
 		node = new_env_node(tmp[0], tmp[1]);
 		list_add_back(&(*sort_env)->head, node);
 		while (tmp[j])
@@ -77,7 +74,7 @@ static void	sort_env_list(t_new_envp *head_ref)
 	t_new_envp	*current;
 	int			swapped;
 
-	if(head_ref  == NULL || head_ref->next == NULL)
+	if (head_ref == NULL || head_ref->next == NULL)
 		return ;
 	end = NULL;
 	swapped = 1;
@@ -98,10 +95,10 @@ static void	sort_env_list(t_new_envp *head_ref)
 	}
 }
 
-static void swap_data(t_new_envp *a, t_new_envp *b)
+static void	swap_data(t_new_envp *a, t_new_envp *b)
 {
-	char *temp_name;
-	char *temp_value;
+	char	*temp_name;
+	char	*temp_value;
 
 	temp_name = a->name;
 	a->name = b->name;

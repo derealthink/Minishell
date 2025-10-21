@@ -26,11 +26,22 @@ con tab, il tab non dovrebbe venir scritto, a noi esce il contenuto della cartel
 
 ***
 
-signal ctrl-C - tenere ^C??
-ale@noise:Minishell_v05_151025$ bash
-ale@noise:Minishell_v05_151025$ fdsjkhdsfhjkdshjkf^C
-ale@noise:Minishell_v05_151025$ ^C
-ale@noise:Minishell_v05_151025$ 
+cd -
+bash: cd: OLDPWD not set
+ora la mia dice no directory
+
+***
+
+env -i ./minishell
+passare solo 
+PWD=/home/ale/Documents/Code/42/WIP/Minishell/Codice/WIP/Minishell_v05_151025
+LS_COLORS=
+LESSCLOSE=/usr/bin/lesspipe %s %s
+LESSOPEN=| /usr/bin/lesspipe %s
+SHLVL=1 torna 1 dopo ogni env -i
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/home/ale/.local/bin
+_=/usr/bin/env
+
 
 ***
 
@@ -44,6 +55,21 @@ echo ´<´ non stampa, non e´ singolo nel token
 << stop > out > out_2
 
 non crea entrambi out e out_2
+
+
+***
+
+minishell> << stop > out
+heredoc> 
+minishell> minishell> 
+
+***
+
+minishell> ^C
+minishell> ^C
+minishell> << stop > out
+minishell> << stop > out
+heredoc> 
 
 ***
 
