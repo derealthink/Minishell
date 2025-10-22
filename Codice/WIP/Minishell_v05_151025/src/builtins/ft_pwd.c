@@ -6,13 +6,13 @@
 /*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 14:05:15 by aielo             #+#    #+#             */
-/*   Updated: 2025/10/16 18:41:34 by aielo            ###   ########.fr       */
+/*   Updated: 2025/10/22 10:47:33 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 
-int	ft_pwd(char **new_envp)
+int	ft_pwd(t_minishell *shell, char **new_envp)
 {
 	char	*directory;
 	int		i;
@@ -33,5 +33,5 @@ int	ft_pwd(char **new_envp)
 		perror("pwd: ");
 		return (1);
 	}
-	return (0);
+	return (shell->last_exit_status = 0);
 }

@@ -29,6 +29,7 @@ function pause() {
     echo -e "$BOLDCYAN"
     read -rsn1 -p "Press Enter to continue or ESC to stop..." key
     echo -e "$RESET"
+    clear
     if [[ $key == $'\e' ]]; then
         echo -e "$BOLDRED\nExiting tests...$RESET"
         exit 0

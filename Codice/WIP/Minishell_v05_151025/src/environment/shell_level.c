@@ -6,7 +6,7 @@
 /*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 19:12:24 by aielo             #+#    #+#             */
-/*   Updated: 2025/10/16 20:15:19 by aielo            ###   ########.fr       */
+/*   Updated: 2025/10/22 18:30:54 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	update_shlvl(t_minishell *shell)
 			shlvl = ft_atoi(target->value);
 			shlvl += 1;
 			shlvl_c = ft_itoa(shlvl);
-			if(!shlvl_c)
+			if (!shlvl_c)
 				return ;
 			free(target->value);
 			target->value = strdup(shlvl_c);

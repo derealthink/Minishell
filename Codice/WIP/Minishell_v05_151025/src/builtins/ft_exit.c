@@ -6,7 +6,7 @@
 /*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 15:13:58 by aielo             #+#    #+#             */
-/*   Updated: 2025/10/21 19:53:12 by aielo            ###   ########.fr       */
+/*   Updated: 2025/10/22 10:44:13 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,7 @@ int	ft_exit(t_minishell *shell, char **new_envp)
 	if (i > 2)
 	{
 		print_simple_error("exit", "too many arguments");
-		shell->last_exit_status = 1;
-		return (shell->last_exit_status);
+		return (shell->last_exit_status = 1);
 	}
 	if (args[1])
 		return (handle_exit_args(shell, args, new_envp));

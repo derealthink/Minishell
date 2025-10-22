@@ -6,7 +6,7 @@
 /*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 14:32:42 by aielo             #+#    #+#             */
-/*   Updated: 2025/10/16 18:46:08 by aielo            ###   ########.fr       */
+/*   Updated: 2025/10/22 10:42:06 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,7 @@ static int	handle_assignment_export(t_minishell *shell, char *arg,
 	{
 		print_quoted_error("export", name, "not a valid identifier");
 		free(name);
-		shell->last_exit_status = 1;
-		return (1);
+		return (shell->last_exit_status = 1);
 	}
 	ret = update_env_var(shell, name, value);
 	free(name);

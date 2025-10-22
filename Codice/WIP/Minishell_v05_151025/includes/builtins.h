@@ -6,7 +6,7 @@
 /*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 15:44:14 by aielo             #+#    #+#             */
-/*   Updated: 2025/10/17 15:00:09 by aielo            ###   ########.fr       */
+/*   Updated: 2025/10/22 10:47:06 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ int	is_parent_builtin(char *cmd);
 int	is_child_builtin(char *cmd);
 int	execute_builtin(t_minishell *shell, t_cmd *cmd, char ***new_envp);
 
-int	ft_echo(char **args);
+int	ft_echo(t_minishell *shell, char **args);
 int	ft_cd(t_minishell *shell, char **args, char **new_envp);
-int	ft_pwd(char **new_envp);
+int	ft_pwd(t_minishell *shell, char **new_envp);
 
 int	ft_export(t_minishell *shell, char **args, char **new_envp);
 int	print_env_sort(char **new_envp);

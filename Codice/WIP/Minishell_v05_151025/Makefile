@@ -6,7 +6,7 @@
 #    By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/09 13:19:32 by aielo             #+#    #+#              #
-#    Updated: 2025/10/16 20:55:23 by aielo            ###   ########.fr        #
+#    Updated: 2025/10/22 11:36:32 by aielo            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,6 +43,7 @@ BUILT_SRCS 	= $(BUILT_DIR)/builtin_manager.c \
 				$(BUILT_DIR)/ft_unset.c
 
 ENV_SRCS 	= $(ENV_DIR)/create_env_list.c \
+				$(ENV_DIR)/create_env_list_utils.c \
 				$(ENV_DIR)/create_env_array.c \
 				$(ENV_DIR)/shell_level.c
 

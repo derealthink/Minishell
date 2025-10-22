@@ -6,20 +6,20 @@
 /*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 14:05:15 by aielo             #+#    #+#             */
-/*   Updated: 2025/10/07 12:54:17 by aielo            ###   ########.fr       */
+/*   Updated: 2025/10/22 10:45:24 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 
-int	ft_echo(char **args)
+int	ft_echo(t_minishell *shell, char **args)
 {
 	int	i;
 	int	newline;
 
 	i = 1;
 	newline = 1;
-	if (args[1] && ft_strncmp(args[1], "-n", 3) == 0)
+	while (args[i] && ft_strncmp(args[i], "-n", 3) == 0)
 	{
 		newline = 0;
 		i++;
@@ -33,5 +33,5 @@ int	ft_echo(char **args)
 	}
 	if (newline)
 		ft_putstr_fd("\n", 1);
-	return (0);
+	return (shell->last_exit_status = 0);
 }

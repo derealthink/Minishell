@@ -24,24 +24,6 @@ dobbiamo dare errore, uscire senza fare nulla?
 Test only spaces or tabs.
 con tab, il tab non dovrebbe venir scritto, a noi esce il contenuto della cartella.
 
-***
-
-cd -
-bash: cd: OLDPWD not set
-ora la mia dice no directory
-
-***
-
-env -i ./minishell
-passare solo 
-PWD=/home/ale/Documents/Code/42/WIP/Minishell/Codice/WIP/Minishell_v05_151025
-LS_COLORS=
-LESSCLOSE=/usr/bin/lesspipe %s %s
-LESSOPEN=| /usr/bin/lesspipe %s
-SHLVL=1 torna 1 dopo ogni env -i
-PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/home/ale/.local/bin
-_=/usr/bin/env
-
 
 ***
 
