@@ -6,7 +6,7 @@
 /*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 14:32:42 by aielo             #+#    #+#             */
-/*   Updated: 2025/10/13 17:08:58 by aielo            ###   ########.fr       */
+/*   Updated: 2025/10/16 18:42:01 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	ft_unset(t_minishell *shell, char **args)
 {
-	int			i;
+	int	i;
 
 	if (!shell || !args)
 		return (shell->last_exit_status = 1);

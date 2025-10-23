@@ -6,7 +6,7 @@
 /*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 18:05:02 by aielo             #+#    #+#             */
-/*   Updated: 2025/10/14 14:22:20 by aielo            ###   ########.fr       */
+/*   Updated: 2025/10/17 15:14:30 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <stdbool.h>
 # include <signal.h>
+# include <termios.h>
 
 # define true 1
 # define false 0
@@ -86,11 +87,13 @@ typedef struct s_env_list
 
 typedef struct s_minishell
 {
-	t_env_list	*env_list;
-	t_table		*token_list;
-	t_cmd		*cmd_list;
-	int			last_exit_status;
-	bool		is_interactive;
+	t_env_list		*env_list;
+	t_table			*token_list;
+	t_cmd			*cmd_list;
+	struct termios	original_termios;
+	struct termios	new_termios;
+	int				last_exit_status;
+	bool			is_interactive;
 }	t_minishell;
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 15:44:25 by aielo             #+#    #+#             */
-/*   Updated: 2025/10/09 21:09:05 by aielo            ###   ########.fr       */
+/*   Updated: 2025/10/21 14:09:43 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,11 @@
 # include <fcntl.h>
 # include <stdio.h>
 # include <errno.h>
+# include <readline/readline.h>
 # include "libft.h"
 # include "types.h"
 # include "builtins.h"
-# include "signals.h"
+# include "configuration.h"
 # include "utils.h"
 
 int		execute_cmd(char *cmd_path, char **args, char **envp);

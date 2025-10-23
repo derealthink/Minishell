@@ -6,7 +6,7 @@
 #    By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/09 13:19:32 by aielo             #+#    #+#              #
-#    Updated: 2025/10/15 20:49:30 by aielo            ###   ########.fr        #
+#    Updated: 2025/10/22 11:36:32 by aielo            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ BUILT_DIR 	= src/builtins
 ENV_DIR		= src/environment
 EXEC_DIR 	= src/execution
 PARS_DIR 	= src/parsing
-SIGN_DIR	= src/signals
+CONFIG_DIR	= src/configuration
 UTILS_DIR 	= src/utils
 
 # Sources
@@ -43,7 +43,9 @@ BUILT_SRCS 	= $(BUILT_DIR)/builtin_manager.c \
 				$(BUILT_DIR)/ft_unset.c
 
 ENV_SRCS 	= $(ENV_DIR)/create_env_list.c \
-				$(ENV_DIR)/create_env_array.c
+				$(ENV_DIR)/create_env_list_utils.c \
+				$(ENV_DIR)/create_env_array.c \
+				$(ENV_DIR)/shell_level.c
 
 EXEC_SRCS 	= $(EXEC_DIR)/execute_command.c \
 				$(EXEC_DIR)/path.c \
@@ -57,7 +59,8 @@ PARS_SRCS 	= $(PARS_DIR)/lexing.c \
 				$(PARS_DIR)/parsing.c \
 				$(PARS_DIR)/parsing_utils.c
 
-SIGN_SRCS 	= $(SIGN_DIR)/signals.c
+CONFIG_SRCS	= $(CONFIG_DIR)/signals.c \
+				$(CONFIG_DIR)/terminal_config.c
 
 UTILS_SRCS 	= $(UTILS_DIR)/print_logo.c \
 				$(UTILS_DIR)/print_error.c \
@@ -69,7 +72,7 @@ SOURCES 	= minishell.c \
 				$(ENV_SRCS) \
 				$(EXEC_SRCS) \
 				$(PARS_SRCS) \
-				$(SIGN_SRCS) \
+				$(CONFIG_SRCS) \
 				$(UTILS_SRCS)
 
 # Objects
@@ -90,7 +93,7 @@ all: $(OBJ_DIR) libft $(NAME)
 $(OBJ_DIR):
 	mkdir -p $(OBJ_DIR)
 
-$(NAME): | libft $(OBJECTS)
+$(NAME): $(OBJECTS) | libft
 	$(CC) $(CFLAGS) $(CEXTRA_INC) $(OBJECTS) -o $(NAME) $(CEXTRA_LIB)
 
 libft:

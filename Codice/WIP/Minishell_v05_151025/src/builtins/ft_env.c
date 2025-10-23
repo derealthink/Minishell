@@ -6,7 +6,7 @@
 /*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 14:32:42 by aielo             #+#    #+#             */
-/*   Updated: 2025/10/15 13:09:14 by aielo            ###   ########.fr       */
+/*   Updated: 2025/10/22 10:43:22 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,7 @@ int	ft_env(t_minishell *shell, char **new_envp)
 	if (i > 1)
 	{
 		print_quoted_exe_error("env", args[1], "No such file or directory");
-		shell->last_exit_status = 127;
-		return (shell->last_exit_status);
+		return (shell->last_exit_status = 127);
 	}
 	i = 0;
 	while (new_envp[i])

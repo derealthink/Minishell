@@ -6,13 +6,13 @@
 /*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 14:05:15 by aielo             #+#    #+#             */
-/*   Updated: 2025/10/13 17:12:44 by aielo            ###   ########.fr       */
+/*   Updated: 2025/10/22 10:47:33 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 
-int	ft_pwd(char **new_envp)
+int	ft_pwd(t_minishell *shell, char **new_envp)
 {
 	char	*directory;
 	int		i;
@@ -28,15 +28,10 @@ int	ft_pwd(char **new_envp)
 		}
 		i++;
 	}
-//	directory = getcwd(NULL, 0);
 	if (!directory)
 	{
 		perror("pwd: ");
 		return (1);
 	}
-//	printf("%s\n", directory);
-//	free(directory);
-	return (0);
+	return (shell->last_exit_status = 0);
 }
-// dopo il test uncommentare le lines di ft_pwd, servono da failsafe
-// nel caso pwd venga modificata da fuori dalla shell e non con cd

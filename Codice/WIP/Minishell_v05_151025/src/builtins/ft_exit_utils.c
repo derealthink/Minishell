@@ -6,7 +6,7 @@
 /*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 15:13:58 by aielo             #+#    #+#             */
-/*   Updated: 2025/10/15 13:11:04 by aielo            ###   ########.fr       */
+/*   Updated: 2025/10/16 18:44:43 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	ft_atol_limit_check(const char *str, long long *val_out)
 	return (0);
 }
 
-static const char *skip_spaces_and_sign(const char *str, int *sign)
+static const char	*skip_spaces_and_sign(const char *str, int *sign)
 {
 	while (*str && (*str == ' ' || *str == '\t'))
 		str++;
@@ -68,7 +68,7 @@ static const char *skip_spaces_and_sign(const char *str, int *sign)
 	return (str);
 }
 
-static int check_overflow(long long result, int digit, int sign)
+static int	check_overflow(long long result, int digit, int sign)
 {
 	if (sign == 1)
 	{

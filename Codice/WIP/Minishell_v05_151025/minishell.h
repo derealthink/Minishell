@@ -6,7 +6,7 @@
 /*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 13:35:43 by aielo             #+#    #+#             */
-/*   Updated: 2025/10/06 15:00:11 by aielo            ###   ########.fr       */
+/*   Updated: 2025/10/16 20:49:23 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # include "environment.h"
 # include "executions.h"
 # include "parsing.h"
-# include "signals.h"
+# include "configuration.h"
 # include "utils.h"
 
 #endif

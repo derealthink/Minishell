@@ -6,7 +6,7 @@
 /*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 18:16:26 by aielo             #+#    #+#             */
-/*   Updated: 2025/10/15 13:28:05 by aielo            ###   ########.fr       */
+/*   Updated: 2025/10/16 19:46:47 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ void		create_env_list(t_minishell *shell, char **envp);
 void		init_env_list(t_env_list *lst);
 t_new_envp	*new_env_node(char *name, char *value);
 void		list_add_back(t_new_envp **lst, t_new_envp *new);
+
+void		update_shlvl(t_minishell *shell);
 
 char		**env_list_array(t_env_list *env_list);
 

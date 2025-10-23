@@ -6,54 +6,74 @@
 /*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 17:35:44 by aielo             #+#    #+#             */
-/*   Updated: 2025/10/13 14:25:57 by aielo            ###   ########.fr       */
+/*   Updated: 2025/10/22 08:49:00 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "signals.h"
+#include "configuration.h"
 
 volatile sig_atomic_t g_global_signal = 0;
 
-// alla fine del file ci sono note su quale env uploadare allo start di shell
+int	shell_is_interactive(void)
+{
+	if (isatty(STDIN_FILENO))
+		return (1);
+	else
+		return (0);
+}
 
-void	set_signal_action(void)
+void	setup_interactive_parent_signals(void)
+{
+	set_signal_handler(SIGINT, handle_sigint, 0);
+	set_signal_handler(SIGQUIT, SIG_IGN, 0);
+}
+
+void	setup_child_signals(void)
+{
+	set_signal_handler(SIGINT, SIG_DFL, 0);
+	set_signal_handler(SIGQUIT, SIG_IGN, 0);
+//	set_signal_handler(SIGQUIT, SIG_DFL, 0);
+}
+
+void	set_signal_handler(int signum, void (*handler)(int), int flags) //passo shell per settare exit_status = -1 in caso fallisca sigaction?
 {
 	struct sigaction sa;
 
-	ft_bzero(&sa, sizeof(sa));
+	sa.sa_flags = flags;
+	sa.sa_handler = handler;
 	sigemptyset(&sa.sa_mask);
-	sa.sa_flags = SA_RESTART;
-	sa.sa_handler = signal_handler;
-	sigaction(SIGINT, &sa, NULL);
-	sa.sa_handler = SIG_IGN;
+	if (sigaction(signum, &sa, NULL) == -1)
+		print_simple_error("sigaction error", "Invalid argument");
+}
+
+void	handle_sigint(int sig)
+{
+	g_global_signal = sig;
+	write(1, "\n", 1);
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
+}
+
+void	here_doc_sigint_handler(int sig)
+{
+    (void)sig;
+	g_global_signal = SIGINT;
+	write(STDOUT_FILENO, "\n", 1);
+    // Just close and exit - let parent handle the cleanup
+    //close(STDIN_FILENO);
+    //exit(130); // Exit heredoc child process on SIGINT
+}
+
+void	setup_heredoc_signals(void)
+{
+    struct sigaction sa;
+
+    sa.sa_handler = here_doc_sigint_handler;
+    sigemptyset(&sa.sa_mask);
+    sa.sa_flags = 0;
+    sigaction(SIGINT, &sa, NULL);
 	sigaction(SIGQUIT, &sa, NULL);
-}
-
-void	set_terminal_mode(void)
-{
-	struct termios	term;
-
-	if(tcgetattr(STDIN_FILENO, &term) == -1)
-		return ;
-//	term.c_cc[VQUIT] = _POSIX_VDISABLE;
-//	term.c_cc[VSUSP] = _POSIX_VDISABLE;
-//	term.c_cc[VSTOP] = _POSIX_VDISABLE;
-//	term.c_cc[VSTART] = _POSIX_VDISABLE;
-	term.c_lflag &= ~ECHOCTL;
-	if (tcsetattr(STDIN_FILENO, TCSANOW, &term) == -1)
-		return ;
-}
-
-void	signal_handler(int signum)
-{
-	if (signum == SIGINT)
-		g_global_signal = signum;
-}
-
-void	reset_signals_child(void)
-{
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL);
 }
 
 /*
@@ -128,25 +148,7 @@ void	ignore_sigquit(void)
 }
 */
 
-/* UPDATE shell level in main
-
-Place this function at the start of your minishell main function, after parsing the inherited environment.
-
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-
-void update_shlvl(char **envp) {
-    char *shlvl_str = getenv("SHLVL");
-    int shlvl = shlvl_str ? atoi(shlvl_str) : 0;
-    shlvl += 1;
-    char new_shlvl[32];
-    snprintf(new_shlvl, sizeof(new_shlvl), "%d", shlvl);
-    setenv("SHLVL", new_shlvl, 1);  // Updates SHLVL in the shell's environment
-}
-
-*/
-/**
+/*
  my_termios.c_lflag &= ~(ICANON | ECHO | ECHOE | ECHOK | ECHONL | ECHOCTL | ECHOPRT | ECHOKE);
         my_termios.c_oflag &= ~OPOST; // Raw output is selected by resetting the OPOST option in the c_oflag member: 
         my_termios.c_cc[VINTR]    = 0;     // Ctrl-c 

@@ -6,7 +6,7 @@
 /*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 21:28:03 by aielo             #+#    #+#             */
-/*   Updated: 2025/10/15 18:08:36 by aielo            ###   ########.fr       */
+/*   Updated: 2025/10/21 16:15:02 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static int	single_command(t_minishell *shell, t_cmd *cmd_list, char **new_envp)
 	pid = fork();
 	if (pid == 0)
 	{
-		reset_signals_child();
+		setup_child_signals();
 		if (check_redirection(cmd_list) == -1)
 			exit(1);
 		exe_child(shell, cmd_list, new_envp);
@@ -132,6 +132,7 @@ static int	exe_child(t_minishell *shell, t_cmd *cmd_list, char **new_envp)
 	else
 	{
 		execute_cmd(cmd_list->args[0], cmd_list->args, new_envp);
+// se execve fallisce perche´ manca il comando (in caso di redirection) allora exit_status = 0
 		exit(status = 127);
 	}
 }

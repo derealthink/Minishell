@@ -24,13 +24,6 @@ dobbiamo dare errore, uscire senza fare nulla?
 Test only spaces or tabs.
 con tab, il tab non dovrebbe venir scritto, a noi esce il contenuto della cartella.
 
-***
-
-signal ctrl-C - tenere ^C??
-ale@noise:Minishell_v05_151025$ bash
-ale@noise:Minishell_v05_151025$ fdsjkhdsfhjkdshjkf^C
-ale@noise:Minishell_v05_151025$ ^C
-ale@noise:Minishell_v05_151025$ 
 
 ***
 
@@ -44,6 +37,21 @@ echo ´<´ non stampa, non e´ singolo nel token
 << stop > out > out_2
 
 non crea entrambi out e out_2
+
+
+***
+
+minishell> << stop > out
+heredoc> 
+minishell> minishell> 
+
+***
+
+minishell> ^C
+minishell> ^C
+minishell> << stop > out
+minishell> << stop > out
+heredoc> 
 
 ***
 

@@ -6,7 +6,7 @@
 /*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 15:13:58 by aielo             #+#    #+#             */
-/*   Updated: 2025/10/15 20:45:15 by aielo            ###   ########.fr       */
+/*   Updated: 2025/10/22 10:44:13 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,23 +26,24 @@ int	ft_exit(t_minishell *shell, char **new_envp)
 		return (-1);
 	if (ft_strcmp(args[0], "exit") != 0)
 		return (-1);
-	write(STDERR_FILENO, "exit\n", 5);
+	if (shell->is_interactive)
+		write(STDERR_FILENO, "exit\n", 5);
 	i = 0;
 	while (args[i])
 		i++;
 	if (i > 2)
 	{
 		print_simple_error("exit", "too many arguments");
-		shell->last_exit_status = 1;
-		return (shell->last_exit_status);
+		return (shell->last_exit_status = 1);
 	}
 	if (args[1])
 		return (handle_exit_args(shell, args, new_envp));
+	restore_terminal(shell);
 	cleanup_and_exit(shell, new_envp);
 	return (0);
 }
 
-static void cleanup_and_exit(t_minishell *shell, char **new_envp)
+static void	cleanup_and_exit(t_minishell *shell, char **new_envp)
 {
 	if (new_envp)
 		array_clear(new_envp);
@@ -50,7 +51,7 @@ static void cleanup_and_exit(t_minishell *shell, char **new_envp)
 	exit(shell->last_exit_status);
 }
 
-static int handle_exit_args(t_minishell *shell, char **args, char **new_envp)
+static int	handle_exit_args(t_minishell *shell, char **args, char **new_envp)
 {
 	ft_exit_status(shell, args);
 	cleanup_and_exit(shell, new_envp);
@@ -59,7 +60,7 @@ static int handle_exit_args(t_minishell *shell, char **args, char **new_envp)
 
 static int	ft_exit_status(t_minishell *shell, char **args)
 {
-	long long exit_val;
+	long long	exit_val;
 
 	if (ft_is_numeric(args[1]) == 0)
 	{
