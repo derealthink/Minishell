@@ -9,18 +9,18 @@ void	type_tracking(t_table *tokens)
 	temp = tokens->head;
 	while (temp)
 	{
-		if (is_pipe(temp->value))
+		if (is_pipe(temp->value) && !temp->d_quotes && !temp->s_quotes)
 			temp->type = TYPE_PIPE; //, printf("TYPE_PIPE\n");
-		else if (is_append(temp->value))
+		else if (is_append(temp->value) && !temp->d_quotes && !temp->s_quotes)
 			temp->type = TYPE_APP; //, printf("TYPE_APP\n");
-		else if (is_heredoc(temp->value))
+		else if (is_heredoc(temp->value) && !temp->d_quotes && !temp->s_quotes)
 			temp->type = TYPE_HERED; //, printf("TYPE_HERED\n");
-		 else if(is_rin(temp->value))
+		 else if(is_rin(temp->value) && !temp->d_quotes && !temp->s_quotes)
 			temp->type = TYPE_RIN; //, printf("TYPE_RIN\n");
-		else if (is_rout(temp->value))
+		else if (is_rout(temp->value) && !temp->d_quotes && !temp->s_quotes)
 			temp->type = TYPE_ROUT; //, printf("TYPE_ROUT\n");
-		else if (is_env(temp->value))
-			temp->type = TYPE_ENV;
+		/*else if (is_env(temp->value) && !temp->s_quotes && !temp->d_quotes)
+			temp->type = TYPE_ENV;*/
 		else
 			temp->type = TYPE_ARG; //, printf("TYPE_ARG\n");
 		temp = temp->next;
@@ -99,7 +99,41 @@ t_token	*sort_herd(t_token *token, t_cmd *table)
 	return (NULL);
 }
 
-void args_to_cmd(t_cmd *cmd, t_token *start)
+/*void	env_to_cmd(t_cmd *cmd, t_token *start)
+{
+	t_token	*temp;
+	int		count;
+	int		i;
+	char	**n_env;
+
+	count = 0;
+	while (temp && temp->type != TYPE_PIPE)
+	{
+		if (!temp->moved && temp->type == TYPE_ENV)
+			count++;
+		temp = temp->next;
+	}
+	n_env = malloc(sizeof(char *) * (count + 1));
+	if (!n_env)
+		return ;
+	temp = start;
+	i = 0;
+	while (temp && temp->type != TYPE_PIPE)
+	{
+		if (!temp->moved && temp->type == TYPE_ENV)
+		{
+			n_env[i] = ft_strdup(temp->value);
+			temp->moved = 1;
+			i++;
+		}
+		temp = temp->next;
+	}
+	n_env[i] = NULL;
+	cmd->env = n_env;
+	
+}*/
+
+void	args_to_cmd(t_cmd *cmd, t_token *start)
 {
     int count = 0;
     t_token *temp = start;
@@ -114,7 +148,7 @@ void args_to_cmd(t_cmd *cmd, t_token *start)
     }
     n_args = malloc(sizeof(char *) * (count + 1));
     if (!n_args)
-        return;
+        return ;
     temp = start;
     i = 0;
     while (temp && temp->type != TYPE_PIPE)
@@ -133,7 +167,7 @@ void args_to_cmd(t_cmd *cmd, t_token *start)
 
 t_token	*parser_loop(t_token *temp, t_cmd *table)
 {
-    t_token *start = temp; // <-- save where this command begins
+    t_token *start = temp;
 
     while (temp && temp->type != TYPE_PIPE)
     {
@@ -146,7 +180,7 @@ t_token	*parser_loop(t_token *temp, t_cmd *table)
         else
             temp = temp->next;
     }
-    args_to_cmd(table, start); // <-- pass the real start
+	args_to_cmd(table, start); // <-- pass the real start
     return (temp);
 }
 

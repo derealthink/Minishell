@@ -51,6 +51,8 @@ typedef struct s_token
 	char			*value;
 	t_type			type;
 	int				moved;
+	int				s_quotes;
+	int				d_quotes;
 }	t_token;
 
 typedef struct l_table

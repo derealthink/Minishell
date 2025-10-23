@@ -57,6 +57,7 @@ int	tokenizer_squotes(char *str, t_table *list)
 	free(token);
 	if (!new)
 		return (0);
+	new->s_quotes = 1;
 	if (!list->head)
 	{
 		list->head = new;
@@ -84,6 +85,7 @@ int	tokenizer_dquotes(char *str, t_table *list)
 	free(token);
 	if (!new)
 		return (0);
+	new->d_quotes = 1;
 	if (!list->head)
 	{
 		list->head = new;
