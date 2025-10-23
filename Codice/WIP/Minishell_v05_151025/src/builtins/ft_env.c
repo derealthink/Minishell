@@ -6,7 +6,7 @@
 /*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 14:32:42 by aielo             #+#    #+#             */
-/*   Updated: 2025/10/22 10:43:22 by aielo            ###   ########.fr       */
+/*   Updated: 2025/10/22 19:36:30 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ int	ft_env(t_minishell *shell, char **new_envp)
 	return (0);
 }
 
-// trova il valore della envp (ex $HOME)
 int	env_variable(char **args, char **new_envp)
 {
+	// trova il valore della envp (ex $HOME) se non serve cancellare questa funzione, anche in builtin.h
 	int		i;
 	char	*path_value;
 

@@ -6,7 +6,7 @@
 #    By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/09 13:19:32 by aielo             #+#    #+#              #
-#    Updated: 2025/10/22 11:36:32 by aielo            ###   ########.fr        #
+#    Updated: 2025/10/22 19:28:32 by aielo            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,6 +32,7 @@ UTILS_DIR 	= src/utils
 # Sources
 BUILT_SRCS 	= $(BUILT_DIR)/builtin_manager.c \
 				$(BUILT_DIR)/ft_cd.c \
+				$(BUILT_DIR)/ft_cd_utils.c \
 				$(BUILT_DIR)/ft_echo.c \
 				$(BUILT_DIR)/ft_env.c \
 				$(BUILT_DIR)/ft_exit.c \
