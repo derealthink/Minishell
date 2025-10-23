@@ -45,7 +45,8 @@ BUILT_SRCS 	= $(BUILT_DIR)/builtin_manager.c \
 ENV_SRCS 	= $(ENV_DIR)/create_env_list.c \
 				$(ENV_DIR)/create_env_list_utils.c \
 				$(ENV_DIR)/create_env_array.c \
-				$(ENV_DIR)/shell_level.c
+				$(ENV_DIR)/shell_level.c \
+				$(ENV_DIR)/expand_var.c
 
 EXEC_SRCS 	= $(EXEC_DIR)/execute_command.c \
 				$(EXEC_DIR)/path.c \

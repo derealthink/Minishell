@@ -142,6 +142,7 @@ int main(int argc, char **argv, char **envp)
 				add_history(line);
 			shell.token_list = lexer(line);
 			free(line);
+			find_env(&shell);
 			shell.cmd_list = parser(shell.token_list, shell.cmd_list);
 			if (shell.token_list)
 				token_list_clear(shell.token_list);
