@@ -17,6 +17,7 @@
 # include "libft.h"
 # include "types.h"
 # include "utils.h"
+# include "parsing.h"
 
 void		create_env_list(t_minishell *shell, char **envp);
 void		init_env_list(t_env_list *lst);

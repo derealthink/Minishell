@@ -27,7 +27,23 @@ int is_heredoc(char *str)
 
 int is_env(char *str)
 {
-    return(str && str[0] == '$');
+    int i;
+    int len;
+
+    i = 0;
+    len = ft_strlen(str);
+    while (i < len)
+    {
+        if (str[i] == '$' && (i == 0 || str[i -1] != '\\'))
+        {
+            if (str[i] && (str[i + 1] == '_' || ft_isalpha(str[i + 1])))
+                return (1);
+            if (str[i] && ft_strchr("@#?!", str[i + 1]))
+                return (1);
+        }
+        i++;
+    }
+    return (0);
 }
 
 void init_cmd(t_cmd *cmd)

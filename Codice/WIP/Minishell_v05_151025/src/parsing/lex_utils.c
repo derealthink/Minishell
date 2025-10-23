@@ -15,6 +15,8 @@ t_token	*new_token(char *value)
 	tok->next = NULL;
 	tok->type = 0;
 	tok->moved = 0;
+	tok->s_quotes = 0;
+	tok->d_quotes = 0;
 	return (tok);
 }
 
