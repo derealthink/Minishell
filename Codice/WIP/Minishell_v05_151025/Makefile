@@ -81,7 +81,7 @@ SOURCES 	= minishell.c \
 OBJECTS 	= $(SOURCES:%.c=$(OBJ_DIR)/%.o)
 
 # Compiler
-CC 			= cc
+CC 		= cc
 CFLAGS 		= -Wall -Wextra -Werror
 CEXTRA_INC 	= -I. -I$(LIB_INC) -I$(INCLUDES)
 CEXTRA_LIB 	= -L$(LIB_DIR) -l$(LIB_NAME) -lreadline

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
+/*   By: aielo <aielo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 13:33:49 by aielo             #+#    #+#             */
-/*   Updated: 2025/10/22 19:10:51 by aielo            ###   ########.fr       */
+/*   Updated: 2025/10/24 16:59:57 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ int main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	init_minishell(&shell);
-//	print_logo();
+	print_logo();
 	if (shell.is_interactive)
 	{
 		set_terminal_mode(&shell);
@@ -147,6 +147,7 @@ int main(int argc, char **argv, char **envp)
 			if (shell.token_list)
 				token_list_clear(shell.token_list);
 			shell.token_list = NULL;
+//print_cmd_list(shell.cmd_list);
 			new_envp = env_list_array(shell.env_list);
 			if(shell.cmd_list)
 			{

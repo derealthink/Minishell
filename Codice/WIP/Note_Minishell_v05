@@ -1,36 +1,52 @@
+minishell> echo  -nnnnnnnnnnnnnnnnnnnn  test teou
+-nnnnnnnnnnnnnnnnnnnn test teou
+
+***
+
+awk fare test
+
+***
+
+ ✗  "| test" 
+
+Your exit status : 0
+Expected exit status : 2
+
+ ✗  "echo > <" 
+
+Your exit status : 0
+Expected exit status : 2
+
+ ✗  "echo | |" 
+
+Your exit status : 0
+Expected exit status : 2
+
+***
 
 << stop > out
 dovrebbe creare il file out ma vuoto e ritornare 0
 
 ***
 
-echo "test" |
-echo "|" crash!
-> exit
-ale@noise:Minishell_v04_061025$ echo "test" | exit
-ale@noise:Minishell_v04_061025$ echo "test
+echo "test" |  ---crash!
+
+***
+
+echo "test" | exit  --- exit: command not found??
+
+***
+
+dquote - prompt?
+echo "test
 > test"
 test
 test
 
 ***
 
-echo "unclosed
-a noi stampa la stringa come se fosse chiusa tra quotes.
-dobbiamo dare errore, uscire senza fare nulla?
-
-***
-
 Test only spaces or tabs.
 con tab, il tab non dovrebbe venir scritto, a noi esce il contenuto della cartella.
-
-
-***
-
-echo '$USER' - single quote
-$USER
-a noi non stampa un cazzo
-echo ´<´ non stampa, non e´ singolo nel token
 
 ***
 
@@ -38,22 +54,35 @@ echo ´<´ non stampa, non e´ singolo nel token
 
 non crea entrambi out e out_2
 
-
 ***
 
 minishell> << stop > out
-heredoc> 
+heredoc> ^C
 minishell> minishell> 
 
 ***
 
 minishell> ^C
-minishell> ^C
 minishell> << stop > out
 minishell> << stop > out
 heredoc> 
 
 ***
+
+copia - incolla da sistemare (termios)
+buffer da flush
+minishell> echo "testtest" >> out
+minishell> echo "tescat out 
+testtest
+
+***
+
+Set the USER environment variable.
+echo "'$USER'" should print the value of the USER variable.
+echo '"$USER"' should print "$USER".
+
+***
+
 
 In your minishell command:
 
