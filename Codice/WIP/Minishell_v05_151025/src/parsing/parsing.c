@@ -99,40 +99,6 @@ t_token	*sort_herd(t_token *token, t_cmd *table)
 	return (NULL);
 }
 
-/*void	env_to_cmd(t_cmd *cmd, t_token *start)
-{
-	t_token	*temp;
-	int		count;
-	int		i;
-	char	**n_env;
-
-	count = 0;
-	while (temp && temp->type != TYPE_PIPE)
-	{
-		if (!temp->moved && temp->type == TYPE_ENV)
-			count++;
-		temp = temp->next;
-	}
-	n_env = malloc(sizeof(char *) * (count + 1));
-	if (!n_env)
-		return ;
-	temp = start;
-	i = 0;
-	while (temp && temp->type != TYPE_PIPE)
-	{
-		if (!temp->moved && temp->type == TYPE_ENV)
-		{
-			n_env[i] = ft_strdup(temp->value);
-			temp->moved = 1;
-			i++;
-		}
-		temp = temp->next;
-	}
-	n_env[i] = NULL;
-	cmd->env = n_env;
-	
-}*/
-
 void	args_to_cmd(t_cmd *cmd, t_token *start)
 {
     int count = 0;

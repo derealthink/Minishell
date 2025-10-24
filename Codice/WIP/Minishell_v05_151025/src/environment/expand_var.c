@@ -2,7 +2,6 @@
 
 #include "environment.h"
 
-/* Extracts substring starting from '$' and including the variable name */
 char    *create_sub(char *tok)
 {
     int     i;
@@ -14,7 +13,7 @@ char    *create_sub(char *tok)
     while (tok[i] && tok[i] != '$')
         i++;
     pos = i;
-    len = 1;                     // include '$'
+    len = 1;
     i++;
     while (tok[i] && !is_space(tok[i]) && !is_quotes(tok[i]) && tok[i] != '$')
     {
@@ -25,7 +24,6 @@ char    *create_sub(char *tok)
     return (s);
 }
 
-/* Finds variable name 'tok' (without '$') in the environment list */
 char    *env_find(char *tok, t_minishell *ms)
 {
     t_new_envp  *temp;
@@ -40,23 +38,21 @@ char    *env_find(char *tok, t_minishell *ms)
     return (ft_strdup(""));
 }
 
-/* Expands a single variable token like "$VAR" or "$?" */
 char    *process_sub(char *tok, t_minishell *ms)
 {
     char    *res;
 
     if (!tok || tok[0] != '$')
         return (ft_strdup(tok));
-    if (tok[1] == '\0')                     // '$' alone
+    if (tok[1] == '\0')
         return (ft_strdup(""));
-    if (tok[1] == '?')                      // special case
+    if (tok[1] == '?')
         res = ft_itoa(ms->last_exit_status);
     else
-        res = env_find(&tok[1], ms);        // skip '$'
+        res = env_find(&tok[1], ms);
     return (res);
 }
 
-/* Expands all variables in the given token string */
 char    *env_str(char *tok, t_minishell *ms)
 {
     int         i;
@@ -79,8 +75,6 @@ char    *env_str(char *tok, t_minishell *ms)
         while (tok[i] && tok[i] != '$')
             i++;
         count = i - pos;
-
-        // Copy literal text before '$'
         if (count > 0)
         {
             rest = ft_substr(tok, pos, count);
@@ -89,26 +83,23 @@ char    *env_str(char *tok, t_minishell *ms)
             free(rest);
             res = joined;
         }
-
-        // Handle '$' expansion
         if (tok[i] == '$')
         {
-            temp = create_sub(&tok[i]);   // includes '$'
+            temp = create_sub(&tok[i]);
             if (!temp)
                 break;
-            exp = process_sub(temp, ms);  // expand it
+            exp = process_sub(temp, ms);
             joined = ft_strjoin(res, exp);
             free(res);
             free(exp);
             res = joined;
-            i += ft_strlen(temp);         // skip over '$VAR'
+            i += ft_strlen(temp);
             free(temp);
         }
     }
     return (res);
 }
 
-/* Goes through each token in the list and expands environment variables */
 void    find_env(t_minishell *ms)
 {
     t_token *temp;
