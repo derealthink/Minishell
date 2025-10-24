@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_env_array.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
+/*   By: aielo <aielo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 18:17:00 by aielo             #+#    #+#             */
-/*   Updated: 2025/10/16 18:50:11 by aielo            ###   ########.fr       */
+/*   Updated: 2025/10/24 14:05:40 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char	**env_list_array(t_env_list *env_list)
 		tmp = tmp->next;
 		i++;
 	}
-	full_env[i] = '\0';
+	full_env[i] = NULL;
 	return (full_env);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
+/*   By: aielo <aielo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 14:05:15 by aielo             #+#    #+#             */
-/*   Updated: 2025/10/22 10:47:33 by aielo            ###   ########.fr       */
+/*   Updated: 2025/10/24 14:01:43 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ int	ft_pwd(t_minishell *shell, char **new_envp)
 	char	*directory;
 	int		i;
 
+	directory = NULL;
 	i = 0;
 	while (new_envp[i])
 	{
