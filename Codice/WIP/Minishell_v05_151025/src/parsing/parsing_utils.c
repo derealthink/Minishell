@@ -38,7 +38,7 @@ int is_env(char *str)
         {
             if (str[i] && (str[i + 1] == '_' || ft_isalpha(str[i + 1])))
                 return (1);
-            if (str[i] && ft_strchr("@#?!", str[i + 1]))
+            if (str[i] && ft_strchr("?", str[i + 1]))
                 return (1);
         }
         i++;

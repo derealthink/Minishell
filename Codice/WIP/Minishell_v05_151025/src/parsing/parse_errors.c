@@ -27,7 +27,7 @@ int pipe_misuse(char *str)
     if (str[i] == '|')
         return (0);//edxit status deve eseere 2
     len = ft_strlen(str);
-    if (str[len] == '|')
+    if (str[len -1] == '|')
         return (0);
     while (i < len)
     {
@@ -41,6 +41,3 @@ int pipe_misuse(char *str)
 //redir misuse
 
 //pipe redir misuse
-
-
-
