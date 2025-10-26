@@ -6,7 +6,7 @@
 #    By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/09 13:19:32 by aielo             #+#    #+#              #
-#    Updated: 2025/10/22 19:28:32 by aielo            ###   ########.fr        #
+#    Updated: 2025/10/26 22:20:09 by aielo            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -62,6 +62,7 @@ PARS_SRCS 	= $(PARS_DIR)/lexing.c \
 				$(PARS_DIR)/parsing_utils.c
 
 CONFIG_SRCS	= $(CONFIG_DIR)/signals.c \
+				$(CONFIG_DIR)/signals_heredoc.c \
 				$(CONFIG_DIR)/terminal_config.c
 
 UTILS_SRCS 	= $(UTILS_DIR)/print_logo.c \

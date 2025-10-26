@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipeline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aielo <aielo@student.42.fr>                +#+  +:+       +#+        */
+/*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 21:28:03 by aielo             #+#    #+#             */
-/*   Updated: 2025/10/24 16:42:42 by aielo            ###   ########.fr       */
+/*   Updated: 2025/10/26 22:26:03 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,6 @@ int	execute_pipeline(t_minishell *shell, char **new_envp)
 	num_cmds = list_size(cmd_list);
 	if (num_cmds == 0)
 		return (shell->last_exit_status);
-// se $ modificare/creare una nuova cmd_list con expansion da passare a builtins e execve
-// name=value senza export??
 	if (num_cmds == 1)
 		return (single_command(shell, cmd_list, new_envp));
 	return (handle_pipe(shell, cmd_list, num_cmds, new_envp));
@@ -39,8 +37,9 @@ int	execute_pipeline(t_minishell *shell, char **new_envp)
 
 static int	single_command(t_minishell *shell, t_cmd *cmd_list, char **new_envp)
 {
-	pid_t	pid;
-	int		status;
+	pid_t				pid;
+	int					status;
+	struct sigaction	sa_original;
 
 	status = 0;
 	if (is_parent_builtin(cmd_list->args[0]))
@@ -48,6 +47,8 @@ static int	single_command(t_minishell *shell, t_cmd *cmd_list, char **new_envp)
 		shell->last_exit_status = execute_builtin(shell, cmd_list, &new_envp);
 		return (shell->last_exit_status);
 	}
+	sigaction(SIGINT, NULL, &sa_original);
+	set_signal_handler(SIGINT, SIG_IGN, 0);
 	pid = fork();
 	if (pid == 0)
 	{
@@ -57,6 +58,7 @@ static int	single_command(t_minishell *shell, t_cmd *cmd_list, char **new_envp)
 		exe_child(shell, cmd_list, new_envp);
 	}
 	waitpid(pid, &status, 0);
+	sigaction(SIGINT, &sa_original, NULL);
 	if (WIFEXITED(status))
 		shell->last_exit_status = WEXITSTATUS(status);
 	else if (WIFSIGNALED(status))
@@ -69,16 +71,19 @@ static int	single_command(t_minishell *shell, t_cmd *cmd_list, char **new_envp)
 static int	handle_pipe(t_minishell *shell, t_cmd *cmd_list,
 				int num_cmds, char **new_envp)
 {
-	t_cmd	*current;
-	pid_t	pid;
-	int		*pipes;
-	int		i;
+	struct sigaction	sa_original;
+	t_cmd				*current;
+	pid_t				pid;
+	int					*pipes;
+	int					i;
 
 	pipes = initialize_pipes(num_cmds);
 	if (!pipes)
 		return (1);
 	current = cmd_list;
 	i = 0;
+	sigaction(SIGINT, NULL, &sa_original);
+	set_signal_handler(SIGINT, SIG_IGN, 0);
 	while (current)
 	{
 		pid = fork();
@@ -92,6 +97,7 @@ static int	handle_pipe(t_minishell *shell, t_cmd *cmd_list,
 		i++;
 		current = current->next;
 	}
+	sigaction(SIGINT, &sa_original, NULL);
 	close_pipes_and_wait(shell, pipes, num_cmds);
 	return (shell->last_exit_status);
 }

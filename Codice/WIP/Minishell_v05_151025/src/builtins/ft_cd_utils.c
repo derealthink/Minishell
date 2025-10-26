@@ -6,7 +6,7 @@
 /*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 14:05:15 by aielo             #+#    #+#             */
-/*   Updated: 2025/10/22 19:36:40 by aielo            ###   ########.fr       */
+/*   Updated: 2025/10/26 22:15:09 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,18 +40,21 @@ int	cd_special_cases(char **path, char **args, char **new_envp)
 static int	cd_home(char **path, char **new_envp)
 {
 	int	i;
+	int	found;
 
 	i = 0;
+	found = 0;
 	while (new_envp[i])
 	{
 		if (ft_strncmp(new_envp[i], "HOME=", 5) == 0)
 		{
 			*path = new_envp[i] + 5;
+			found = 1;
 			break ;
 		}
 		i++;
 	}
-	if (*path == NULL)
+	if (found == 0)
 	{
 		print_simple_error("cd", "HOME not set");
 		return (1);
@@ -64,19 +67,22 @@ static int	cd_tilde(char **path, char **args, char **new_envp)
 	char	*tmp_home;
 	char	*rest_path;
 	int		i;
+	int		found;
 
 	tmp_home = NULL;
 	i = 0;
+	found = 0;
 	while (new_envp[i])
 	{
 		if (ft_strncmp(new_envp[i], "HOME=", 5) == 0)
 		{
 			tmp_home = new_envp[i] + 5;
+			found = 1;
 			break ;
 		}
 		i++;
 	}
-	if (tmp_home == NULL)
+	if (found == 0)
 	{
 		print_simple_error("cd", "HOME not set");
 		return (1);
@@ -94,18 +100,21 @@ static int	cd_tilde(char **path, char **args, char **new_envp)
 static int	cd_previous(char **path, char **new_envp)
 {
 	int	i;
+	int	found;
 
 	i = 0;
+	found = 0;
 	while (new_envp[i])
 	{
 		if (ft_strncmp(new_envp[i], "OLDPWD=", 7) == 0)
 		{
 			*path = new_envp[i] + 7;
+			found = 1;
 			break ;
 		}
 		i++;
 	}
-	if (*path == NULL)
+	if (found == 0)
 	{
 		print_simple_error("cd", "OLDPWD not set");
 		return (1);

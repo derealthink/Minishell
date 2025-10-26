@@ -6,7 +6,7 @@
 /*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 14:05:15 by aielo             #+#    #+#             */
-/*   Updated: 2025/10/22 19:32:10 by aielo            ###   ########.fr       */
+/*   Updated: 2025/10/26 18:02:50 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ int	ft_cd(t_minishell *shell, char **args, char **new_envp)
 	int		i;
 	int		free_path_flag;
 
-//	path = NULL;
 	old_directory = getcwd(NULL, 0);
 	free_path_flag = 0;
 	path = args[1];
