@@ -6,7 +6,7 @@
 /*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 18:05:02 by aielo             #+#    #+#             */
-/*   Updated: 2025/10/17 15:14:30 by aielo            ###   ########.fr       */
+/*   Updated: 2025/10/27 13:47:03 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ typedef struct s_minishell
 	t_table			*token_list;
 	t_cmd			*cmd_list;
 	struct termios	original_termios;
-	struct termios	new_termios;
+	struct termios	clean_termios;
 	int				last_exit_status;
 	bool			is_interactive;
 }	t_minishell;

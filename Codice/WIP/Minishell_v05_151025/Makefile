@@ -6,7 +6,7 @@
 #    By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/09 13:19:32 by aielo             #+#    #+#              #
-#    Updated: 2025/10/26 22:20:09 by aielo            ###   ########.fr        #
+#    Updated: 2025/10/27 13:08:29 by aielo            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,6 +52,7 @@ ENV_SRCS 	= $(ENV_DIR)/create_env_list.c \
 EXEC_SRCS 	= $(EXEC_DIR)/execute_command.c \
 				$(EXEC_DIR)/path.c \
 				$(EXEC_DIR)/pipeline.c \
+				$(EXEC_DIR)/pipeline_command.c \
 				$(EXEC_DIR)/pipeline_utils_one.c \
 				$(EXEC_DIR)/pipeline_utils_two.c \
 				$(EXEC_DIR)/redirections.c

@@ -6,7 +6,7 @@
 /*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 15:44:14 by aielo             #+#    #+#             */
-/*   Updated: 2025/10/22 19:28:07 by aielo            ###   ########.fr       */
+/*   Updated: 2025/10/27 11:39:23 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ int	ft_exit(t_minishell *shell, char **new_envp);
 int	ft_is_numeric(const char *str);
 int	ft_atol_limit_check(const char *str, long long *val_out);
 
-int	env_variable(char **args, char **new_envp);
 int	ft_is_valid_name(const char *name);
 int	update_env_var(t_minishell *shell, char *name, char *value);
 int	delete_env_node(t_minishell *shell, char *name);

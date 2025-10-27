@@ -6,18 +6,14 @@
 /*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 21:28:03 by aielo             #+#    #+#             */
-/*   Updated: 2025/10/26 22:26:03 by aielo            ###   ########.fr       */
+/*   Updated: 2025/10/27 13:07:30 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executions.h"
 
-static int	single_command(t_minishell *shell,
-				t_cmd *cmd_list, char **new_envp);
 static int	handle_pipe(t_minishell *shell, t_cmd *cmd_list,
 				int num_cmds, char **new_envp);
-static int	check_redirection(t_cmd *cmd_list);
-static int	exe_child(t_minishell *shell, t_cmd *cmd_list, char **new_envp);
 
 int	execute_pipeline(t_minishell *shell, char **new_envp)
 {
@@ -35,6 +31,28 @@ int	execute_pipeline(t_minishell *shell, char **new_envp)
 	return (handle_pipe(shell, cmd_list, num_cmds, new_envp));
 }
 
+static int	handle_pipe(t_minishell *shell, t_cmd *cmd_list,
+				int num_cmds, char **new_envp)
+{
+	struct sigaction	sa_original;
+	int					*pipes;
+	int					status;
+
+	(void)cmd_list;
+	pipes = initialize_pipes(num_cmds);
+	if (!pipes)
+		return (1);
+	sigaction(SIGINT, NULL, &sa_original);
+	set_signal_handler(SIGINT, SIG_IGN, 0);
+	status = execute_pipe_children(shell, pipes, num_cmds, new_envp);
+	sigaction(SIGINT, &sa_original, NULL);
+	if (status != 0)
+		return (status);
+	close_pipes_and_wait(shell, pipes, num_cmds);
+	return (shell->last_exit_status);
+}
+
+/*
 static int	single_command(t_minishell *shell, t_cmd *cmd_list, char **new_envp)
 {
 	pid_t				pid;
@@ -66,7 +84,6 @@ static int	single_command(t_minishell *shell, t_cmd *cmd_list, char **new_envp)
 	else
 		shell->last_exit_status = 1;
 	return (shell->last_exit_status);
-}
 
 static int	handle_pipe(t_minishell *shell, t_cmd *cmd_list,
 				int num_cmds, char **new_envp)
@@ -101,46 +118,4 @@ static int	handle_pipe(t_minishell *shell, t_cmd *cmd_list,
 	close_pipes_and_wait(shell, pipes, num_cmds);
 	return (shell->last_exit_status);
 }
-
-static int	check_redirection(t_cmd *cmd_list)
-{
-	int	fd;
-
-	if (cmd_list->input_file || cmd_list->delimiter)
-	{
-		fd = handle_redirect_in(cmd_list);
-		if (fd == -1)
-			return (-1);
-		dup2(fd, STDIN_FILENO);
-		close(fd);
-	}
-	if (cmd_list->output_file)
-	{
-		fd = handle_redirect_out(cmd_list);
-		if (fd == -1)
-			return (-1);
-		dup2(fd, STDOUT_FILENO);
-		close(fd);
-	}
-	return (0);
-}
-
-static int	exe_child(t_minishell *shell, t_cmd *cmd_list, char **new_envp)
-{
-	int	status;
-
-	status = shell->last_exit_status;
-	if (is_child_builtin(cmd_list->args[0]))
-	{
-		status = execute_builtin(shell, cmd_list, &new_envp);
-		exit(status);
-	}
-// se execve fallisce perche´ manca il comando (in caso di redirection) allora exit_status = 0
-//	if (!cmd_list->args && cmd_list->output_file)
-//		exit(status = 2);
-	else
-	{
-		execute_cmd(cmd_list->args[0], cmd_list->args, new_envp);
-		exit(status = 127);
-	}
-}
+*/

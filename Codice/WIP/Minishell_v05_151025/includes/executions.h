@@ -6,7 +6,7 @@
 /*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 15:44:25 by aielo             #+#    #+#             */
-/*   Updated: 2025/10/26 22:07:48 by aielo            ###   ########.fr       */
+/*   Updated: 2025/10/27 13:06:31 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ char	*find_executable(char *cmd, char **path_dirs);
 char	*find_command_in_path(char *cmd, char **envp);
 
 int		execute_pipeline(t_minishell *shell, char **new_envp);
+int		single_command(t_minishell *shell, t_cmd *cmd_list,	char **new_envp);
+int		execute_pipe_children(t_minishell *shell, int *pipes, int num_cmds, char **new_envp);
 
 int		create_pipes(int num_cmds, int *pipes);
 void	setup_in_out(t_cmd *cmd, int *pipes, int i, int num_cmds);

@@ -6,13 +6,11 @@
 /*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 17:35:44 by aielo             #+#    #+#             */
-/*   Updated: 2025/10/26 22:22:02 by aielo            ###   ########.fr       */
+/*   Updated: 2025/10/27 13:55:21 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "configuration.h"
-
-//static void	init_new_term(struct termios *new_term);
 
 void	set_terminal_mode(t_minishell *shell)
 {
@@ -21,10 +19,7 @@ void	set_terminal_mode(t_minishell *shell)
 		shell->last_exit_status = 9;
 		return ;
 	}
-	shell->new_termios = shell->original_termios;
-//	init_new_term(&shell->new_termios);
-	if (tcsetattr(STDIN_FILENO, TCSAFLUSH, &shell->new_termios) == -1)
-		return ;
+	shell->clean_termios = shell->original_termios;
 }
 
 void	restore_terminal(t_minishell *shell)

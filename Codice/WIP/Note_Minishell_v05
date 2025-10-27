@@ -1,6 +1,9 @@
+A + U
+
 awk fare test
 
 ***
+A
 
  ✗  "| test" 
 
@@ -18,19 +21,23 @@ Your exit status : 0
 Expected exit status : 2
 
 ***
+A
 
 << stop > out
 dovrebbe creare il file out ma vuoto e ritornare 0
 
 ***
+U
 
 echo "test" |  ---crash!
 
 ***
+A
 
 echo "test" | exit  --- exit: command not found??
 
 ***
+U
 
 dquote - prompt?
 echo "test
@@ -39,11 +46,13 @@ test
 test
 
 ***
+A not interactive signals
 
 Test only spaces or tabs.
 con tab, il tab non dovrebbe venir scritto, a noi esce il contenuto della cartella.
 
 ***
+U o forse A
 
 << stop > out > out_2
 
@@ -51,6 +60,7 @@ non crea entrambi out e out_2
  
 
 ***
+A
 
 copia - incolla da sistemare (termios)
 buffer da flush
@@ -59,6 +69,7 @@ minishell> echo "tescat out
 testtest
 
 ***
+U
 
 Set the USER environment variable.
 echo "'$USER'" should print the value of the USER variable.

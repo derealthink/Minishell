@@ -6,7 +6,7 @@
 /*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 17:35:44 by aielo             #+#    #+#             */
-/*   Updated: 2025/10/26 22:23:09 by aielo            ###   ########.fr       */
+/*   Updated: 2025/10/27 13:29:15 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	setup_interactive_parent_signals(void)
 void	setup_child_signals(void)
 {
 	set_signal_handler(SIGINT, SIG_DFL, 0);
-	set_signal_handler(SIGQUIT, SIG_IGN, 0);
+	set_signal_handler(SIGQUIT, SIG_DFL, 0);
 }
 
 void	set_signal_handler(int signum, void (*handler)(int), int flags)
