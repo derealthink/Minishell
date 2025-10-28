@@ -6,7 +6,7 @@
 /*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 21:39:14 by aielo             #+#    #+#             */
-/*   Updated: 2025/10/15 18:02:34 by aielo            ###   ########.fr       */
+/*   Updated: 2025/10/27 16:08:42 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,13 @@ int	execute_cmd(char *cmd_path, char **args, char **envp)
 		free(executable_path);
 	}
 	else
+    {
+		if (is_parent_builtin(cmd_path))
+			return (0); 
 		print_unquoted_exe_error(cmd_path, "command not found");
+	}
+//	else
+//		print_unquoted_exe_error(cmd_path, "command not found");
 	return (1);
 }
 
