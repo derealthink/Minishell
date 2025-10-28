@@ -49,23 +49,18 @@ int	main(int argc, char **argv, char **envp)
 			break ;
 		if (*line == '\0')
 		{
-<<<<<<< HEAD
+			free(line);
+			continue ;
+		}
+		if (shell.is_interactive)
 			add_history(line);
-			if (!pre_parse(line))
+		if (!pre_parse(line))
 		{
 			printf("minishell: syntax error\n");
 			free(line);
 			shell.last_exit_status = 2; // typical bash syntax error code
 			continue; // skip to next prompt
 		}
-			shell.token_list = lexer(line);
-=======
->>>>>>> 3db55ec24ade398a02ea7fb7f8be669e61cfe003
-			free(line);
-			continue ;
-		}
-		if (shell.is_interactive)
-			add_history(line);
 		shell.token_list = lexer(line);
 		free(line);
 		find_env(&shell);
