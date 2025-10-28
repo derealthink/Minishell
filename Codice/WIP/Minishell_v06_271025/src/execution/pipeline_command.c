@@ -6,7 +6,7 @@
 /*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 21:28:03 by aielo             #+#    #+#             */
-/*   Updated: 2025/10/27 14:37:11 by aielo            ###   ########.fr       */
+/*   Updated: 2025/10/27 16:45:19 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,6 @@ static int	exe_child(t_minishell *shell, t_cmd *cmd_list, char **new_envp);
 
 int	single_command(t_minishell *shell, t_cmd *cmd_list,	char **new_envp)
 {
-/*	if (cmd_list->args[0] == NULL)
-	{
-		if (cmd_list->input_file || cmd_list->delimiter || cmd_list->output_file)
-		{
-			if (check_redirection(cmd_list) == 0)
-				return (shell->last_exit_status = 0); 
-			return (shell->last_exit_status = 1); 
-		}
-		return (shell->last_exit_status = 0);
-	}*/
 	if (is_parent_builtin(cmd_list->args[0]))
 	{
 		shell->last_exit_status = execute_builtin(shell, cmd_list, &new_envp);
@@ -126,7 +116,14 @@ static int	exe_child(t_minishell *shell, t_cmd *cmd_list, char **new_envp)
 	}
 	else
 	{
-		execute_cmd(cmd_list->args[0], cmd_list->args, new_envp);
-		exit(status = 127);
+		status = execute_cmd(cmd_list->args[0], cmd_list->args, new_envp);
+		if (cmd_list->input_file || cmd_list->delimiter || cmd_list->output_file)
+		{
+			if (check_redirection(cmd_list) == 0)
+				status = 0; 
+		}
+		if (status == 1)
+			 exit(127);
+		exit(status);
 	}
 }

@@ -1,30 +1,45 @@
-A + U
+A - ok
 
 awk fare test
 
 ***
-A
+U
 
  ✗  "| test" 
 
-Your exit status : 0
 Expected exit status : 2
+
+| test
+bash: syntax error near unexpected token `|'
+
 
  ✗  "echo > <" 
 
-Your exit status : 0
 Expected exit status : 2
+
+echo > <
+bash: syntax error near unexpected token `<'
 
  ✗  "echo | |" 
 
-Your exit status : 0
 Expected exit status : 2
 
+echo | |
+bash: syntax error near unexpected token `|'
+
+--- Action to Fix Your Minishell
+
+To fix this, you need to change your parser or your initial command validation logic to recognize this specific type of syntax error and ensure the shell exits immediately with status 2.
+
+    Parser Check: After tokenizing, your parser must check if the very first token is a pipe (|).
+
+    Immediate Exit: If the first token is a pipe, your shell must print the syntax error message and set the last exit status to 2, skipping all execution.
+
 ***
-A
+A - ok
 
 << stop > out
-dovrebbe creare il file out ma vuoto e ritornare 0
+$? = 0
 
 ***
 U
@@ -32,9 +47,9 @@ U
 echo "test" |  ---crash!
 
 ***
-A
+A - ok
 
-echo "test" | exit  --- exit: command not found??
+echo "test" | exit
 
 ***
 U
@@ -46,21 +61,50 @@ test
 test
 
 ***
-A not interactive signals
+A - ok
 
 Test only spaces or tabs.
-con tab, il tab non dovrebbe venir scritto, a noi esce il contenuto della cartella.
+con tab, il tab non dovrebbe venir scritto se non ci sono lettere, a noi esce il contenuto della cartella.
+
+Tab completion readline?
+
+The 42 subject doesn't require custom tab completion.
+With only those allowed functions, you cannot customize readline's tab completion behavior. You can't:
+
+Intercept tab keypresses
+Set custom completion functions
+Disable completion conditionally
+Modify readline's internal completion settings
 
 ***
-U o forse A
+A - ok
+
+exit sdfg 234
+esce e da errore
+bash: exit: sdf: numeric argument required
+$? 2
+
+***
+U - A
 
 << stop > out > out_2
 
 non crea entrambi out e out_2
- 
+
+questo e´ un problema sia del parsing che del redirection
+
+The required parser fix necessitates deep changes to your I/O execution:
+
+Parser: Must store a list of redirections per command.
+
+Check_redirection: Must be replaced with a function that iterates through this list.
+
+I/O Helpers: Must be updated to open all files encountered but only link the final file to STDIN or STDOUT via dup2.
+
+Exe_child: Remove the redundant call to check_redirection.
 
 ***
-A
+A - ok
 
 copia - incolla da sistemare (termios)
 buffer da flush
@@ -74,55 +118,3 @@ U
 Set the USER environment variable.
 echo "'$USER'" should print the value of the USER variable.
 echo '"$USER"' should print "$USER".
-
-***
-
-
-In your minishell command:
-
-```
-<< stop > out
-```
-
-This is valid syntax with **no command specified**, meaning only redirections and a heredoc are present.
-
-### How bash/yash/zsh treat this:
-
-- The shell sets up the heredoc input (reading until `stop` line).
-- The heredoc input is redirected to the file `out`.
-- But since **no command is given**, the shell effectively runs **no command**, just the redirection.
-- In classic shells (bash, zsh), this opens the file `out` (truncates/creates it), writes the heredoc content into it, and the command exit status is usually 0 because the redirection itself was successful.[1][4][6]
-- So the heredoc content is saved into `out` without needing an external command.
-
-### What to do in your minishell:
-
-Your minishell should handle this zero-command heredoc + redirection case by:
-
-- Detecting the absence of a command after parsing.
-- Performing the redirections (open `out` for write) and **write the heredoc content to that file directly**.
-- Returning success (exit status 0) after this operation.
-- Not trying to `execve()` with empty or null argv, since there is **no command to run**.
-- This differs from a typical command launch with heredoc and redirection.
-
-### Why your `exit` after this might show 127:
-
-If your shell tries to `execve` with an empty argument list (no actual command) after parsing `<< stop > out`, this results in execve failing and returning 127 due to missing command [previous explanation]. So:
-
-- You need to prevent calling `execve` when no command is given.
-- Instead, manually write the heredoc content to the redirected file(s).
-- Then return from the command processing as if the command succeeded.
-
-### Summary recommendation:
-
-For the input line:
-
-```
-<< stop > out
-```
-
-- If command is NULL (empty), write heredoc input to `out` file yourself.
-- Do not fork/exec; just do the I/O redirection manually behind the scenes.
-- Return 0 exit status.
-- This matches standard shell behavior where redirections + heredoc alone are valid and produce side-effects without real commands.[4][6][1]
-
-This approach avoids passing empty argv to execve and prevents exit status 127 from "command not found" errors.
