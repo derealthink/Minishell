@@ -6,7 +6,7 @@
 /*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 21:28:03 by aielo             #+#    #+#             */
-/*   Updated: 2025/10/27 16:45:19 by aielo            ###   ########.fr       */
+/*   Updated: 2025/10/29 00:21:17 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,13 +117,14 @@ static int	exe_child(t_minishell *shell, t_cmd *cmd_list, char **new_envp)
 	else
 	{
 		status = execute_cmd(cmd_list->args[0], cmd_list->args, new_envp);
-		if (cmd_list->input_file || cmd_list->delimiter || cmd_list->output_file)
+		if (cmd_list->input_file || cmd_list->delimiter
+			|| cmd_list->output_file)
 		{
 			if (check_redirection(cmd_list) == 0)
-				status = 0; 
+				status = 0;
 		}
 		if (status == 1)
-			 exit(127);
+			exit(127);
 		exit(status);
 	}
 }

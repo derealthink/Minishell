@@ -6,7 +6,7 @@
 /*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 17:35:44 by aielo             #+#    #+#             */
-/*   Updated: 2025/10/27 17:03:31 by aielo            ###   ########.fr       */
+/*   Updated: 2025/10/29 00:19:45 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,20 +20,6 @@ void	set_terminal_mode(t_minishell *shell)
 		return ;
 	}
 	shell->clean_termios = shell->original_termios;
-
-/*	shell->clean_termios.c_lflag &= ~(ICANON | ECHO);
-    
-    //    Set VMIN (minimum number of characters for read) and VTIME (timeout)
-    //    These are often set by Readline itself, but setting them to 1 and 0 is robust.
-    shell->clean_termios.c_cc[VMIN] = 1;
-    shell->clean_termios.c_cc[VTIME] = 0; 
-    
-    // 4. APPLY the initial interactive mode (IMPORTANT)
-    if (tcsetattr(STDIN_FILENO, TCSANOW, &shell->clean_termios) == -1)
-    {
-        shell->last_exit_status = 9;
-        return ;
-    }*/
 }
 
 void	restore_terminal(t_minishell *shell)
