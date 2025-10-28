@@ -54,6 +54,13 @@ int	main(int argc, char **argv, char **envp)
 		}
 		if (shell.is_interactive)
 			add_history(line);
+		if (!pre_parse(line))
+		{
+			printf("minishell: syntax error\n");
+			free(line);
+			shell.last_exit_status = 2; // typical bash syntax error code
+			continue; // skip to next prompt
+		}
 		shell.token_list = lexer(line);
 		free(line);
 		find_env(&shell);
