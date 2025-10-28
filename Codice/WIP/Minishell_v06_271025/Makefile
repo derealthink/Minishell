@@ -60,7 +60,8 @@ EXEC_SRCS 	= $(EXEC_DIR)/execute_command.c \
 PARS_SRCS 	= $(PARS_DIR)/lexing.c \
 				$(PARS_DIR)/lex_utils.c \
 				$(PARS_DIR)/parsing.c \
-				$(PARS_DIR)/parsing_utils.c
+				$(PARS_DIR)/parsing_utils.c \
+				$(PARS_DIR)/parse_errors.c
 
 CONFIG_SRCS	= $(CONFIG_DIR)/signals.c \
 				$(CONFIG_DIR)/signals_heredoc.c \
