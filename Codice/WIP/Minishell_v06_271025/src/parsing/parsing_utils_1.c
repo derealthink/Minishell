@@ -58,3 +58,80 @@ t_cmd	*new_cmd(t_cmd *prev)
 		prev->next = cmd;
 	return (cmd);
 }
+
+/*void	args_to_cmd(t_cmd *cmd, t_token *start)
+{
+	int		count;
+	t_token	*temp;
+	char	**n_args;
+	int		i;
+
+	count = 0;
+	temp = start;
+	while (temp && temp->type != TYPE_PIPE)
+	{
+		if (!temp->moved && temp->type == TYPE_ARG)
+			count++;
+		temp = temp->next;
+	}
+	n_args = malloc(sizeof(char *) * (count + 1));
+	if (!n_args)
+		return ;
+	temp = start;
+	i = 0;
+	while (temp && temp->type != TYPE_PIPE)
+	{
+		if (!temp->moved && temp->type == TYPE_ARG)
+		{
+			n_args[i] = ft_strdup(temp->value);
+			temp->moved = 1;
+			i++;
+		}
+		temp = temp->next;
+	}
+	n_args[i] = NULL;
+	cmd->args = n_args;
+}*/
+
+static int	count_args(t_token *start)
+{
+	int		count;
+	t_token	*temp;
+
+	count = 0;
+	temp = start;
+	while (temp && temp->type != TYPE_PIPE)
+	{
+		if (!temp->moved && temp->type == TYPE_ARG)
+			count++;
+		temp = temp->next;
+	}
+	return (count);
+}
+
+void	args_to_cmd(t_cmd *cmd, t_token *start)
+{
+	int		count;
+	t_token	*temp;
+	char	**n_args;
+	int		i;
+
+	count = count_args(start);
+	n_args = malloc(sizeof(char *) * (count + 1));
+	if (!n_args)
+		return ;
+	temp = start;
+	i = 0;
+	while (temp && temp->type != TYPE_PIPE)
+	{
+		if (!temp->moved && temp->type == TYPE_ARG)
+		{
+			n_args[i] = ft_strdup(temp->value);
+			temp->moved = 1;
+			i++;
+		}
+		temp = temp->next;
+	}
+	n_args[i] = NULL;
+	cmd->args = n_args;
+}

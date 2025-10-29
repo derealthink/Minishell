@@ -36,40 +36,6 @@ void	type_tracking(t_table *tokens)
 	}
 }
 
-void	args_to_cmd(t_cmd *cmd, t_token *start)
-{
-	int		count;
-	t_token	*temp;
-	char	**n_args;
-	int		i;
-
-	count = 0;
-	temp = start;
-	while (temp && temp->type != TYPE_PIPE)
-	{
-		if (!temp->moved && temp->type == TYPE_ARG)
-			count++;
-		temp = temp->next;
-	}
-	n_args = malloc(sizeof(char *) * (count + 1));
-	if (!n_args)
-		return ;
-	temp = start;
-	i = 0;
-	while (temp && temp->type != TYPE_PIPE)
-	{
-		if (!temp->moved && temp->type == TYPE_ARG)
-		{
-			n_args[i] = ft_strdup(temp->value);
-			temp->moved = 1;
-			i++;
-		}
-		temp = temp->next;
-	}
-	n_args[i] = NULL;
-	cmd->args = n_args;
-}
-
 t_token	*parser_loop(t_token *temp, t_cmd *table)
 {
 	t_token	*start;
@@ -90,7 +56,7 @@ t_token	*parser_loop(t_token *temp, t_cmd *table)
 	return (temp);
 }
 
-t_cmd	*parser(t_table *list, t_cmd *table)
+/*t_cmd	*parser(t_table *list, t_cmd *table)
 {
 	t_token	*temp;
 	t_cmd	*pipe;
@@ -119,6 +85,46 @@ t_cmd	*parser(t_table *list, t_cmd *table)
 				temp = parser_loop(temp, pipe);
 			}
 		}
+		else
+			temp = temp->next;
+	}
+	return (head);
+}*/
+
+static t_token	*handle_pipe_token(t_token *temp, t_cmd **table)
+{
+	t_cmd	*pipe;
+
+	pipe = new_cmd(*table);
+	if (temp->next)
+	{
+		temp = temp->next;
+		(*table)->next = pipe;
+		*table = pipe;
+		temp = parser_loop(temp, pipe);
+	}
+	return (temp);
+}
+
+t_cmd	*parser(t_table *list, t_cmd *table)
+{
+	t_token	*temp;
+	t_cmd	*head;
+
+	if (table == NULL)
+	{
+		table = new_cmd(NULL);
+		if (!table)
+			return (NULL);
+		head = table;
+	}
+	type_tracking(list);
+	temp = list->head;
+	temp = parser_loop(temp, table);
+	while (temp)
+	{
+		if (!temp->moved && temp->type == TYPE_PIPE)
+			temp = handle_pipe_token(temp, &table);
 		else
 			temp = temp->next;
 	}
