@@ -49,6 +49,7 @@ int		tokenizer_norm(char *str, t_table *list);
 t_token	*sort_redir(t_token *token, t_cmd *table);
 t_token	*sort_app(t_token *token, t_cmd *table);
 t_token	*sort_herd(t_token *token, t_cmd *table);
+void	args_to_cmd(t_cmd *cmd, t_token *start);
 
 #endif
 

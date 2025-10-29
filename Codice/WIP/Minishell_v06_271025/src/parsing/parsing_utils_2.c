@@ -12,38 +12,6 @@
 
 #include "parsing.h"
 
-/*t_token	*sort_redir(t_token *token, t_cmd *table)
-{
-	t_token	*temp;
-
-	temp = token;
-	{
-		if (!temp->moved && temp->type == TYPE_RIN)
-		{
-			temp->moved = 1;
-			if (temp->next)
-			{
-				temp = temp->next;
-				table->input_file = ft_strdup(temp->value);
-				temp->moved = 1;
-				return (temp->next);
-			}
-		}
-		else if (temp->type == TYPE_ROUT)
-		{
-			temp->moved = 1;
-			if (temp->next)
-			{
-				temp = temp->next;
-				table->output_file = ft_strdup(temp->value);
-				temp->moved = 1;
-				return (temp->next);
-			}
-		}
-	}
-	return (NULL);
-}*/
-
 static t_token	*handle_redir_type(t_token *temp, t_cmd *table, t_type type)
 {
 	if (!temp->moved && temp->type == type)
@@ -116,4 +84,3 @@ t_token	*sort_herd(t_token *token, t_cmd *table)
 	}
 	return (NULL);
 }
-
