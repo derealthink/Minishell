@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
+/*   By: aielo <aielo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 15:13:58 by aielo             #+#    #+#             */
-/*   Updated: 2025/10/29 00:19:09 by aielo            ###   ########.fr       */
+/*   Updated: 2025/10/29 16:45:21 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,12 +76,6 @@ static int	ft_exit_status(t_minishell *shell, char **args)
 {
 	long long	exit_val;
 
-/*	if (ft_is_numeric(args[1]) == 0)
-	{
-		print_unquoted_error("exit", args[1], "numeric argument required");
-		shell->last_exit_status = 2;
-		return (1);
-	}*/
 	if (ft_atol_limit_check(args[1], &exit_val) != 0)
 	{
 		print_unquoted_error("exit", args[1], "numeric argument required");

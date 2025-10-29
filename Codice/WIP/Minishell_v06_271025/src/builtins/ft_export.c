@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
+/*   By: aielo <aielo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 14:32:42 by aielo             #+#    #+#             */
-/*   Updated: 2025/10/22 10:42:06 by aielo            ###   ########.fr       */
+/*   Updated: 2025/10/29 16:13:04 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ static int	handle_simple_export(t_minishell *shell, char *arg)
 {
 	if (ft_is_valid_name(arg) == 0)
 	{
-		print_quoted_error("export", arg, "not a valid identifier");
+		print_quoted_error("export4545", arg, "not a valid identifier");
 		shell->last_exit_status = 1;
 		return (1);
 	}

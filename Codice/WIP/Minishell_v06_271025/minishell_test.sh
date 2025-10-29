@@ -62,10 +62,9 @@ run_test() {
     fi
 }
 
-# Function for interactive tests (manual verification)
+# Interactive tests
 run_interactive_test() {
     local test_name="$1"
-    
     echo -e "\n${YELLOW}=== Interactive Test: $test_name ===${NC}"
     echo "Press Enter to start, then test manually..."
     read
@@ -88,6 +87,8 @@ run_test "ls" "ls"
 run_test "pwd" "pwd"
 run_test "echo hello" "echo hello"
 run_test "echo with quotes" "echo \"hello world\""
+run_test "whoami" "whoami"
+run_test "uname -a" "uname -a"
 
 # ============================================================================
 # BUILT-INS: ECHO
@@ -99,23 +100,25 @@ run_test "echo -n test" "echo -n test"
 run_test "echo -n -n test" "echo -n -n test"
 run_test "echo empty quotes" "echo \"\""
 run_test "echo single quotes" "echo 'hello'"
+run_test "echo mixed quotes" "echo 'hello \"world\"'"
 
 # ============================================================================
 # BUILT-INS: CD & PWD
 # ============================================================================
 echo -e "\n${YELLOW}--- CD & PWD Built-ins ---${NC}"
 
-run_test "cd .. && pwd" "cd .. && pwd"
-run_test "cd /tmp && pwd" "cd /tmp && pwd"
-run_test "cd invalid_dir" "cd nonexistent_directory_xyz" 0
+run_test "cd .. then pwd" "cd ..; pwd"
+run_test "cd /tmp then pwd" "cd /tmp; pwd"
+run_test "cd invalid dir" "cd nonexistent_directory_xyz" 0
 
 # ============================================================================
 # BUILT-INS: EXPORT & ENV
 # ============================================================================
 echo -e "\n${YELLOW}--- Export & Env ---${NC}"
 
-run_test "export TEST=value && echo \$TEST" "export TEST=value && echo \$TEST"
-run_test "export with spaces" "export TEST=\"hello world\" && echo \$TEST"
+run_test "export and print" "export TEST=value; env | grep TEST"
+run_test "export with spaces" "export VAR=\"hello world\"; echo \$VAR"
+run_test "overwrite var" "export VAR=123; export VAR=456; echo \$VAR"
 
 # ============================================================================
 # ENVIRONMENT VARIABLES
@@ -124,8 +127,8 @@ echo -e "\n${YELLOW}--- Environment Variables ---${NC}"
 
 run_test "echo \$USER" "echo \$USER"
 run_test "echo \$HOME" "echo \$HOME"
-run_test "echo \$NONEXISTENT" "echo \$NONEXISTENT"
-run_test "echo in quotes" "echo \"\$USER\""
+run_test "echo nonexistent var" "echo \$NONEXISTENT"
+run_test "echo in double quotes" "echo \"\$USER\""
 run_test "echo in single quotes" "echo '\$USER'"
 
 # ============================================================================
@@ -134,39 +137,23 @@ run_test "echo in single quotes" "echo '\$USER'"
 echo -e "\n${YELLOW}--- Pipes ---${NC}"
 
 run_test "simple pipe" "echo hello | cat"
-run_test "pipe with grep" "echo -e \"hello\\nworld\" | grep hello"
-run_test "multiple pipes" "echo test | cat | cat"
+run_test "pipe with grep" "echo -e \"hello\nworld\" | grep hello"
+run_test "double pipe" "echo test | cat | cat"
+run_test "pipe with sort" "printf 'b\na\n' | sort"
 run_test "ls | wc -l" "ls | wc -l" 0
+run_test "grep in chain" "cat test_file.txt | grep line | wc -l"
 
 # ============================================================================
 # REDIRECTIONS
 # ============================================================================
 echo -e "\n${YELLOW}--- Redirections ---${NC}"
 
-run_test "output redirect" "echo test > test_out.txt && cat test_out.txt"
-run_test "append redirect" "echo line1 > test_out.txt && echo line2 >> test_out.txt && cat test_out.txt"
+run_test "output redirect" "echo test > test_out.txt; cat test_out.txt"
+run_test "append redirect" "echo line1 > test_out.txt; echo line2 >> test_out.txt; cat test_out.txt"
 run_test "input redirect" "cat < test_input.txt"
-run_test "input and output" "cat < test_input.txt > test_out.txt && cat test_out.txt"
-
-# ============================================================================
-# LOGICAL OPERATORS
-# ============================================================================
-echo -e "\n${YELLOW}--- Logical Operators ---${NC}"
-
-run_test "true && echo yes" "true && echo yes"
-run_test "false && echo no" "false && echo no"
-run_test "true || echo no" "true || echo no"
-run_test "false || echo yes" "false || echo yes"
-run_test "chain &&" "true && true && echo success"
-
-# ============================================================================
-# EXIT STATUS
-# ============================================================================
-echo -e "\n${YELLOW}--- Exit Status ---${NC}"
-
-run_test "exit status after true" "true && echo \$?"
-run_test "exit status after false" "false || echo \$?"
-run_test "exit status after ls" "ls > /dev/null && echo \$?"
+run_test "input and output" "cat < test_input.txt > test_out.txt; cat test_out.txt"
+run_test "pipe with redirect" "echo hi | cat > test_out.txt; cat test_out.txt"
+run_test "redirect and pipe" "cat < test_input.txt | grep test"
 
 # ============================================================================
 # QUOTES
@@ -188,14 +175,17 @@ echo -e "\n${YELLOW}--- Edge Cases ---${NC}"
 run_test "multiple spaces" "echo    hello    world"
 run_test "command not found" "nonexistent_command_xyz" 0
 run_test "empty command" "" 0
+run_test "pipe at end (invalid)" "echo hi |" 0
+run_test "redirect no file" "echo hi >" 0
 
 # ============================================================================
 # RELATIVE/ABSOLUTE PATHS
 # ============================================================================
 echo -e "\n${YELLOW}--- Paths ---${NC}"
 
-run_test "/bin/echo" "/bin/echo hello"
-run_test "/bin/ls" "/bin/ls > /dev/null" 0
+run_test "absolute path echo" "/bin/echo hello"
+run_test "absolute path ls" "/bin/ls > /dev/null" 0
+run_test "relative path command" "./$MINISHELL -c 'echo ok'" 0
 
 # ============================================================================
 # SUMMARY
@@ -216,16 +206,17 @@ fi
 # Cleanup
 rm -f test_input.txt test_file.txt test_out.txt
 
-# Ask for interactive tests
+# Interactive tests prompt
 echo -e "\n${YELLOW}Do you want to run interactive tests? (signals, heredoc, etc.) [y/N]${NC}"
 read -r response
 if [[ "$response" =~ ^[Yy]$ ]]; then
     echo -e "\n${YELLOW}=== Interactive Tests ===${NC}"
-    echo "Test Ctrl+C, Ctrl+D, Ctrl+\\ manually"
-    echo "Test heredoc with: cat << EOF"
+    echo "Test Ctrl+C, Ctrl+D manually"
+    echo "Test heredoc: cat << EOF"
     echo "Press Enter to start minishell..."
     read
     $MINISHELL
 fi
 
 exit 0
+

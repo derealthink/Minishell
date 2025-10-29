@@ -6,14 +6,11 @@
 /*   By: aielo <aielo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 13:33:49 by aielo             #+#    #+#             */
-/*   Updated: 2025/10/29 14:53:59 by aielo            ###   ########.fr       */
+/*   Updated: 2025/10/29 17:25:48 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static void	init_minishell(t_minishell *shell);
-//static void	print_cmd_list(t_cmd *cmd_list);
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -24,21 +21,21 @@ int	main(int argc, char **argv, char **envp)
 
 	(void)argc;
 	(void)argv;
-	init_minishell(&shell);
-	if (shell.is_interactive)
-	{
-		print_logo();
-		set_terminal_mode(&shell);
-		setup_interactive_parent_signals();
-	}
-	create_env_list(&shell, envp);
-	update_shlvl(&shell);
-	while (1)
+	init_minishell(&shell, envp);		//-----part 0 init
+//	if (shell.is_interactive)
+//	{
+//		print_logo();
+//		set_terminal_mode(&shell);
+//		setup_interactive_parent_signals();
+//	}
+//	create_env_list(&shell, envp);
+//	update_shlvl(&shell);
+	while (1) //----------------------------main loop
 	{
 		exit_flag = 0;
 		g_global_signal = 0;
 		new_envp = NULL;
-		if (shell.is_interactive)
+		if (shell.is_interactive)		//----part 1 readline
 		{
 			line = readline("\001\033[1;32m\002minishell> \001\033[0m\002");
 			if (g_global_signal == SIGINT)
@@ -55,7 +52,7 @@ int	main(int argc, char **argv, char **envp)
 		}
 		if (shell.is_interactive)
 			add_history(line);
-		if (!pre_parse(line))
+		if (!pre_parse(line))		 //----part 2 token/lexer
 		{
 			printf("minishell: syntax error\n");
 			free(line);
@@ -69,8 +66,7 @@ int	main(int argc, char **argv, char **envp)
 		if (shell.token_list)
 			token_list_clear(shell.token_list);
 		shell.token_list = NULL;
-//print_cmd_list(shell.cmd_list);
-		new_envp = env_list_array(shell.env_list);
+		new_envp = env_list_array(shell.env_list);		//-----part 3 execution
 		if (shell.cmd_list && shell.cmd_list->args && shell.cmd_list->args[0])
 		{
 			if (ft_strcmp(shell.cmd_list->args[0], "exit") == 0)
@@ -87,170 +83,14 @@ int	main(int argc, char **argv, char **envp)
 			cmd_list_clear(shell.cmd_list);
 		shell.cmd_list = NULL;
 	}
-	if (shell.is_interactive)
+	if (shell.is_interactive)		//-----fuori dal loop part 4 restore & clean
 		restore_terminal(&shell);
 	final_cleanup(&shell);
 	return (0);
 }
 
-static void	init_minishell(t_minishell *shell)
-{
-	if (!shell)
-		return ;
-
-	shell->env_list = NULL;
-	shell->token_list = NULL;
-	shell->cmd_list = NULL;
-	shell->last_exit_status = 0;
-	shell->is_interactive = shell_is_interactive();
-}
-
 /*
-int main(int argc, char **argv, char **envp)
-{
-	t_minishell	shell;
-	char		**new_envp;
-	char		*line;
 
-	(void)argc;
-	(void)argv;
-	init_minishell(&shell);
-	print_logo();
-	if (shell.is_interactive)
-	{
-		set_terminal_mode(&shell);
-		setup_interactive_parent_signals();
-	}
-//	else
-//	{
-//		set_signal_handler(SIGINT, SIG_DFL, 0);
-//		set_signal_handler(SIGQUIT, SIG_DFL, 0);
-//	}
-	create_env_list(&shell, envp);
-	update_shlvl(&shell);
-	while (1)
-	{
-		g_global_signal = 0;
-		new_envp = NULL;
-		if (shell.is_interactive)
-		{
-			line = readline("\033[32mminishell> \033[0m");
-			if (g_global_signal == SIGINT)
-			{
-				shell.last_exit_status = 130; // Set exit status for Ctrl-C
-				if (line)
-					free(line);
-				continue;
-			}
-			if (!line)
-				break;
-		}
-		else
-		{
-			line = get_next_line(STDIN_FILENO);
-			if (!line)
-				break;
-		}
-		if (*line == '\0') // Empty line, just Enter pressed
-		{
-			free(line);
-			continue;
-		}
-		if (line)
-		{
-			if (shell.is_interactive)
-				add_history(line);
-			shell.token_list = lexer(line);
-			free(line);
-			find_env(&shell);
-			shell.cmd_list = parser(shell.token_list, shell.cmd_list);
-			if (shell.token_list)
-				token_list_clear(shell.token_list);
-			shell.token_list = NULL;
-//print_cmd_list(shell.cmd_list);
-			new_envp = env_list_array(shell.env_list);
-			if(shell.cmd_list)
-			{
-				if (ft_exit(&shell, new_envp) == -1)
-					execute_pipeline(&shell, new_envp);
-			}
-			if (new_envp)
-				array_clear(new_envp);
-			if (shell.cmd_list)
-				cmd_list_clear(shell.cmd_list);
-			shell.cmd_list = NULL;
-		}
-	}
-	if (shell.is_interactive)
-		restore_terminal(&shell);
-	final_cleanup(&shell); //aggiornare clear_history con if(shell.is_interactive)
-	return (0);
-}
-*/
-
-/*
-int	main(int argc, char **argv, char **envp)
-{
-	t_minishell	shell;
-	char		**new_envp;
-	char		*line;
-
-	(void)argc;
-	(void)argv;
-	init_minishell(&shell);
-	print_logo();
-	set_terminal_mode(&shell);
-	setup_interactive_parent_signals();
-	create_env_list(&shell, envp);
-	update_shlvl(&shell);
-	while (1)
-	{
-		g_global_signal = 0;
-		new_envp = NULL;
-		line = readline("\033[32mminishell> \033[0m");
-		if (g_global_signal == SIGINT)
-		{
-			g_global_signal = 0;
-			continue ;
-		}
-		if (!line)
-			break ;
-//else if (parse_error(shell, line)) shell per exit status
-//		add_history(line);
-//		free(line);
-//		else if (line && *line != '\0')
-		if (line && *line != '\0')
-		{
-			add_history(line);
-			shell.token_list = lexer(line);
-			free(line);
-//print_tokens(shell.token_list);
-			shell.cmd_list = parser(shell.token_list, shell.cmd_list);
-			if (shell.token_list)
-				token_list_clear(shell.token_list);
-			shell.token_list = NULL;
-//print_cmd_list(shell.cmd_list);
-			new_envp = env_list_array(shell.env_list);
-			if(shell.cmd_list)
-			{
-				if (ft_exit(&shell, new_envp) == -1)
-					execute_pipeline(&shell, new_envp);
-			}
-			if (new_envp)
-				array_clear(new_envp);
-			if (shell.cmd_list)
-				cmd_list_clear(shell.cmd_list);
-			shell.cmd_list = NULL;
-		}
-	}
-	restore_terminal(&shell);
-	final_cleanup(&shell);
-	return (0);
-}
-
-*/
-/*
-ok
 int	main(int argc, char **argv, char **envp)
 {
 	t_minishell	shell;
@@ -260,7 +100,7 @@ int	main(int argc, char **argv, char **envp)
 
 	(void)argc;
 	(void)argv;
-	init_minishell(&shell);
+	init_minishell(&shell);		//-----part 0 init
 	if (shell.is_interactive)
 	{
 		print_logo();
@@ -269,101 +109,62 @@ int	main(int argc, char **argv, char **envp)
 	}
 	create_env_list(&shell, envp);
 	update_shlvl(&shell);
-	while (1)
+	while (1) //----------------------------main loop
 	{
 		exit_flag = 0;
 		g_global_signal = 0;
 		new_envp = NULL;
-		line = readline("\001\033[1;32m\002minishell> \001\033[0m\002");
-		if (g_global_signal == SIGINT)
-			shell.last_exit_status = 130;
-		if (!line)
-			break ;
-		if (line && *line != '\0')
+		if (shell.is_interactive)		//----part 1 readline
 		{
-			if (shell.is_interactive)
-				add_history(line);
-			shell.token_list = lexer(line);
-			free(line);
-			find_env(&shell);
-			shell.cmd_list = parser(shell.token_list, shell.cmd_list);
-			if (shell.token_list)
-				token_list_clear(shell.token_list);
-			shell.token_list = NULL;
-//print_cmd_list(shell.cmd_list);
-			new_envp = env_list_array(shell.env_list);
-			if (shell.cmd_list && shell.cmd_list->args && shell.cmd_list->args[0])
-			{
-				if (ft_strcmp(shell.cmd_list->args[0], "exit") == 0)
-				{
-					exit_flag = 1;
-					ft_exit(&shell, new_envp);
-				}
-			}
-			if (shell.cmd_list && exit_flag == 0)
-				execute_pipeline(&shell, new_envp);
-			if (new_envp)
-				array_clear(new_envp);
-			if (shell.cmd_list)
-				cmd_list_clear(shell.cmd_list);
-			shell.cmd_list = NULL;
-		}
-	}
-	restore_terminal(&shell);
-	final_cleanup(&shell);
-	return (0);
-}
-*/
-/*
-static void	print_cmd_list(t_cmd *cmd_list)
-{
-	t_cmd	*current;
-	int		cmd_count;
-	int		arg_count;
-
-	if (!cmd_list)
-	{
-		printf("Command list is empty (NULL)\n");
-		return;
-	}
-	
-	current = cmd_list;
-	cmd_count = 0;
-	
-	printf("\n=== PARSER OUTPUT ===\n");
-	while (current)
-	{
-		printf("\n--- Command %d ---\n", cmd_count);
-		
-		printf("Path: %s\n", current->path ? current->path : "(null)");
-		
-		if (current->args)
-		{
-			printf("Args: ");
-			arg_count = 0;
-			while (current->args[arg_count])
-			{
-				printf("[%s] ", current->args[arg_count]);
-				arg_count++;
-			}
-			printf("(total: %d args)\n", arg_count);
+			line = readline("\001\033[1;32m\002minishell> \001\033[0m\002");
+			if (g_global_signal == SIGINT)
+				shell.last_exit_status = 130;
 		}
 		else
+			line = get_next_line(STDIN_FILENO);
+		if (!line)
+			break ;
+		if (*line == '\0')
 		{
-			printf("Args: (null)\n");
+			free(line);
+			continue ;
 		}
-		
-		printf("Input file: %s\n", current->input_file ? current->input_file : "(null)");
-		printf("Output file: %s\n", current->output_file ? current->output_file : "(null)");
-		printf("Delimiter: %s\n", current->delimiter ? current->delimiter : "(null)");
-		printf("Trunc mode: %d (1=truncate, 0=append)\n", current->trunc_mode);
-		printf("Next command: %s\n", current->next ? "yes" : "no");
-		
-		current = current->next;
-		cmd_count++;
+		if (shell.is_interactive)
+			add_history(line);
+		if (!pre_parse(line))		 //----part 2 token/lexer
+		{
+			printf("minishell: syntax error\n");
+			free(line);
+			shell.last_exit_status = 2; // typical bash syntax error code
+			continue; // skip to next prompt
+		}
+		shell.token_list = lexer(line);
+		free(line);
+		find_env(&shell);
+		shell.cmd_list = parser(shell.token_list, shell.cmd_list);
+		if (shell.token_list)
+			token_list_clear(shell.token_list);
+		shell.token_list = NULL;
+		new_envp = env_list_array(shell.env_list);		//-----part 3 execution
+		if (shell.cmd_list && shell.cmd_list->args && shell.cmd_list->args[0])
+		{
+			if (ft_strcmp(shell.cmd_list->args[0], "exit") == 0)
+			{
+				exit_flag = 1;
+				ft_exit(&shell, new_envp);
+			}
+		}
+		if (shell.cmd_list && exit_flag == 0)
+			execute_pipeline(&shell, new_envp);
+		if (new_envp)
+			array_clear(new_envp);
+		if (shell.cmd_list)
+			cmd_list_clear(shell.cmd_list);
+		shell.cmd_list = NULL;
 	}
-	
-	printf("\nTotal commands: %d\n", cmd_count);
-	printf("====================\n\n");
+	if (shell.is_interactive)		//-----fuori dal loop part 4 restore & clean
+		restore_terminal(&shell);
+	final_cleanup(&shell);
+	return (0);
 }
 */

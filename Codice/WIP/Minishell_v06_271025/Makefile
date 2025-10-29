@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+         #
+#    By: aielo <aielo@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/09 13:19:32 by aielo             #+#    #+#              #
-#    Updated: 2025/10/29 00:55:38 by aielo            ###   ########.fr        #
+#    Updated: 2025/10/29 17:19:52 by aielo            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,7 @@ OBJ_DIR 	= obj
 BUILT_DIR 	= src/builtins
 ENV_DIR		= src/environment
 EXEC_DIR 	= src/execution
+MAIN_DIR 	= src/main
 PARS_DIR 	= src/parsing
 CONFIG_DIR	= src/configuration
 UTILS_DIR 	= src/utils
@@ -58,6 +59,8 @@ EXEC_SRCS 	= $(EXEC_DIR)/execute_command.c \
 				$(EXEC_DIR)/pipeline_utils_two.c \
 				$(EXEC_DIR)/redirections.c
 
+MAIN_SRCS	= $(MAIN_DIR)/init.c
+
 PARS_SRCS 	= $(PARS_DIR)/lexing.c \
 				$(PARS_DIR)/lex_utils.c \
 				$(PARS_DIR)/parsing.c \
@@ -80,6 +83,7 @@ SOURCES 	= minishell.c \
 				$(BUILT_SRCS) \
 				$(ENV_SRCS) \
 				$(EXEC_SRCS) \
+				$(MAIN_SRCS) \
 				$(PARS_SRCS) \
 				$(CONFIG_SRCS) \
 				$(UTILS_SRCS)
