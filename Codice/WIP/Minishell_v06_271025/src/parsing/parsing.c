@@ -1,35 +1,44 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: uponci <uponci@student.42berlin.de>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/29 10:35:30 by uponci            #+#    #+#             */
+/*   Updated: 2025/10/29 10:35:32 by uponci           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "parsing.h"
 #include "types.h"
 
 void	type_tracking(t_table *tokens)
 {
 	t_token	*temp;
-//	printf("entering type_tracking\n");
 
 	temp = tokens->head;
 	while (temp)
 	{
 		if (is_pipe(temp->value) && !temp->d_quotes && !temp->s_quotes)
-			temp->type = TYPE_PIPE; //, printf("TYPE_PIPE\n");
+			temp->type = TYPE_PIPE; 
 		else if (is_append(temp->value) && !temp->d_quotes && !temp->s_quotes)
-			temp->type = TYPE_APP; //, printf("TYPE_APP\n");
+			temp->type = TYPE_APP;
 		else if (is_heredoc(temp->value) && !temp->d_quotes && !temp->s_quotes)
-			temp->type = TYPE_HERED; //, printf("TYPE_HERED\n");
-		 else if(is_rin(temp->value) && !temp->d_quotes && !temp->s_quotes)
-			temp->type = TYPE_RIN; //, printf("TYPE_RIN\n");
+			temp->type = TYPE_HERED;
+		else if (is_rin(temp->value) && !temp->d_quotes && !temp->s_quotes)
+			temp->type = TYPE_RIN;
 		else if (is_rout(temp->value) && !temp->d_quotes && !temp->s_quotes)
-			temp->type = TYPE_ROUT; //, printf("TYPE_ROUT\n");
-		/*else if (is_env(temp->value) && !temp->s_quotes && !temp->d_quotes)
-			temp->type = TYPE_ENV;*/
+			temp->type = TYPE_ROUT;
 		else
-			temp->type = TYPE_ARG; //, printf("TYPE_ARG\n");
+			temp->type = TYPE_ARG;
 		temp = temp->next;
 	}
 }
 
 t_token	*sort_redir(t_token *token, t_cmd *table)
 {
-	t_token *temp;
+	t_token	*temp;
 
 	temp = token;
 	{
@@ -38,8 +47,8 @@ t_token	*sort_redir(t_token *token, t_cmd *table)
 			temp->moved = 1;
 			if (temp->next)
 			{
-				temp = temp->next;//null checks
-				table->input_file= ft_strdup(temp->value);
+				temp = temp->next;
+				table->input_file = ft_strdup(temp->value);
 				temp->moved = 1;
 				return (temp->next);
 			}
@@ -49,7 +58,7 @@ t_token	*sort_redir(t_token *token, t_cmd *table)
 			temp->moved = 1;
 			if (temp->next)
 			{
-				temp = temp->next;//null checks
+				temp = temp->next;
 				table->output_file = ft_strdup(temp->value);
 				temp->moved = 1;
 				return (temp->next);
@@ -61,10 +70,9 @@ t_token	*sort_redir(t_token *token, t_cmd *table)
 
 t_token	*sort_app(t_token *token, t_cmd *table)
 {
-	t_token *temp;
+	t_token	*temp;
 
 	temp = token;
-	//printf("entered sort_app\n");
 	if (!temp->moved && temp->type == TYPE_APP)
 	{
 		temp->moved = 1;
@@ -101,56 +109,59 @@ t_token	*sort_herd(t_token *token, t_cmd *table)
 
 void	args_to_cmd(t_cmd *cmd, t_token *start)
 {
-    int count = 0;
-    t_token *temp = start;
-    char **n_args;
-    int i;
+	int		count;
+	t_token	*temp;
+	char	**n_args;
+	int		i;
 
-    while (temp && temp->type != TYPE_PIPE)
-    {
-        if (!temp->moved && temp->type == TYPE_ARG)
-            count++;
-        temp = temp->next;
-    }
-    n_args = malloc(sizeof(char *) * (count + 1));
-    if (!n_args)
-        return ;
-    temp = start;
-    i = 0;
-    while (temp && temp->type != TYPE_PIPE)
-    {
-        if (!temp->moved && temp->type == TYPE_ARG)
-        {
-            n_args[i] = ft_strdup(temp->value);
-            temp->moved = 1;
-            i++;
-        }
-        temp = temp->next;
-    }
-    n_args[i] = NULL;
-    cmd->args = n_args;
+	count = 0;
+	temp = start;
+	while (temp && temp->type != TYPE_PIPE)
+	{
+		if (!temp->moved && temp->type == TYPE_ARG)
+			count++;
+		temp = temp->next;
+	}
+	n_args = malloc(sizeof(char *) * (count + 1));
+	if (!n_args)
+		return ;
+	temp = start;
+	i = 0;
+	while (temp && temp->type != TYPE_PIPE)
+	{
+		if (!temp->moved && temp->type == TYPE_ARG)
+		{
+			n_args[i] = ft_strdup(temp->value);
+			temp->moved = 1;
+			i++;
+		}
+		temp = temp->next;
+	}
+	n_args[i] = NULL;
+	cmd->args = n_args;
 }
 
 t_token	*parser_loop(t_token *temp, t_cmd *table)
 {
-    t_token *start = temp;
+	t_token	*start;
 
-    while (temp && temp->type != TYPE_PIPE)
-    {
-        if (temp->type == TYPE_RIN || temp->type == TYPE_ROUT)
-            temp = sort_redir(temp, table);
-        else if (temp->type == TYPE_APP)
-            temp = sort_app(temp, table);
-        else if (temp->type == TYPE_HERED)
-            temp = sort_herd(temp, table);
-        else
-            temp = temp->next;
-    }
-	args_to_cmd(table, start); // <-- pass the real start
-    return (temp);
+	start = temp;
+	while (temp && temp->type != TYPE_PIPE)
+	{
+		if (temp->type == TYPE_RIN || temp->type == TYPE_ROUT)
+			temp = sort_redir(temp, table);
+		else if (temp->type == TYPE_APP)
+			temp = sort_app(temp, table);
+		else if (temp->type == TYPE_HERED)
+			temp = sort_herd(temp, table);
+		else
+			temp = temp->next;
+	}
+	args_to_cmd(table, start);
+	return (temp);
 }
 
-t_cmd	*parser(t_table *list, t_cmd *table)// undestand how to handle double input or output update and free? or array of strings
+t_cmd	*parser(t_table *list, t_cmd *table)
 {
 	t_token	*temp;
 	t_cmd	*pipe;
@@ -166,12 +177,11 @@ t_cmd	*parser(t_table *list, t_cmd *table)// undestand how to handle double inpu
 	type_tracking(list);
 	temp = list->head;
 	temp = parser_loop(temp, table);
-	while(temp)
+	while (temp)
 	{
 		if (!temp->moved && temp->type == TYPE_PIPE)
 		{
 			pipe = new_cmd(table);
-			//temp->moved = 1;
 			if (temp->next)
 			{
 				temp = temp->next;

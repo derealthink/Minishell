@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lexing.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: uponci <uponci@student.42berlin.de>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/29 10:04:59 by uponci            #+#    #+#             */
+/*   Updated: 2025/10/29 10:05:03 by uponci           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "parsing.h"
 
 t_state	state_tracker(char c, t_state state)
@@ -113,7 +125,7 @@ t_table	*lexer(char *str)
 	if (!str)
 		exit (1);
 	i = 0;
-while (str[i])
+	while (str[i])
 	{
 		advance = process_token_at_position(str, i, state, res);
 		if (advance > 0)
@@ -152,7 +164,8 @@ char	*str_div(char *str)
 	start = i;
 	if (str[i] != '<' && str[i] != '>' && str[i] != '|')
 	{
-		while (str[i] && !is_space(str[i]) && str[i] != '<' && str[i] != '>' && str[i] != '|' && !is_quotes(str[i]))
+		while (str[i] && !is_space(str[i]) && str[i] != '<' && str[i] != '>' 
+			&& str[i] != '|' && !is_quotes(str[i]))
 		{
 			count++;
 			i++;
@@ -176,11 +189,9 @@ char	*str_div_q(char *str)
 	size_t			count;
 	unsigned int	start;
 	char			*res;
-	//char			quote_char;
 
 	i = 0;
 	count = 0;
-	//quote_char = str[i];
 	if (is_quotes(str[i]))
 		i++;
 	start = i;
@@ -192,4 +203,3 @@ char	*str_div_q(char *str)
 	res = ft_substr(str, start, count);
 	return (res);
 }
-
