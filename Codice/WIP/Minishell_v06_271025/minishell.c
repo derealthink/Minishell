@@ -6,13 +6,14 @@
 /*   By: aielo <aielo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 13:33:49 by aielo             #+#    #+#             */
-/*   Updated: 2025/10/29 14:16:34 by aielo            ###   ########.fr       */
+/*   Updated: 2025/10/29 14:53:59 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static void	init_minishell(t_minishell *shell);
+//static void	print_cmd_list(t_cmd *cmd_list);
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -68,6 +69,7 @@ int	main(int argc, char **argv, char **envp)
 		if (shell.token_list)
 			token_list_clear(shell.token_list);
 		shell.token_list = NULL;
+//print_cmd_list(shell.cmd_list);
 		new_envp = env_list_array(shell.env_list);
 		if (shell.cmd_list && shell.cmd_list->args && shell.cmd_list->args[0])
 		{
@@ -310,5 +312,58 @@ int	main(int argc, char **argv, char **envp)
 	restore_terminal(&shell);
 	final_cleanup(&shell);
 	return (0);
+}
+*/
+/*
+static void	print_cmd_list(t_cmd *cmd_list)
+{
+	t_cmd	*current;
+	int		cmd_count;
+	int		arg_count;
+
+	if (!cmd_list)
+	{
+		printf("Command list is empty (NULL)\n");
+		return;
+	}
+	
+	current = cmd_list;
+	cmd_count = 0;
+	
+	printf("\n=== PARSER OUTPUT ===\n");
+	while (current)
+	{
+		printf("\n--- Command %d ---\n", cmd_count);
+		
+		printf("Path: %s\n", current->path ? current->path : "(null)");
+		
+		if (current->args)
+		{
+			printf("Args: ");
+			arg_count = 0;
+			while (current->args[arg_count])
+			{
+				printf("[%s] ", current->args[arg_count]);
+				arg_count++;
+			}
+			printf("(total: %d args)\n", arg_count);
+		}
+		else
+		{
+			printf("Args: (null)\n");
+		}
+		
+		printf("Input file: %s\n", current->input_file ? current->input_file : "(null)");
+		printf("Output file: %s\n", current->output_file ? current->output_file : "(null)");
+		printf("Delimiter: %s\n", current->delimiter ? current->delimiter : "(null)");
+		printf("Trunc mode: %d (1=truncate, 0=append)\n", current->trunc_mode);
+		printf("Next command: %s\n", current->next ? "yes" : "no");
+		
+		current = current->next;
+		cmd_count++;
+	}
+	
+	printf("\nTotal commands: %d\n", cmd_count);
+	printf("====================\n\n");
 }
 */

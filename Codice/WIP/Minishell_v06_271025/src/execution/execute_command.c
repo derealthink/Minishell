@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   execute_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
+/*   By: aielo <aielo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 21:39:14 by aielo             #+#    #+#             */
-/*   Updated: 2025/10/29 00:44:27 by aielo            ###   ########.fr       */
+/*   Updated: 2025/10/29 14:36:31 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executions.h"
-
+/*
 static int	execute_absolute(char *cmd_path, char **args, char **envp);
 
 int	execute_cmd(char *cmd_path, char **args, char **envp)
@@ -56,7 +56,7 @@ static int	execute_absolute(char *cmd_path, char **args, char **envp)
 	}
 	return (1);
 }
-
+*/
 char	*find_executable(char *cmd, char **path_dirs)
 {
 	int		i;
@@ -83,7 +83,7 @@ char	*find_executable(char *cmd, char **path_dirs)
 	return (NULL);
 }
 
-/*
+
 int	execute_cmd(char *cmd_path, char **args, char **envp)
 {
 	char	*executable_path;
@@ -116,5 +116,5 @@ int	execute_cmd(char *cmd_path, char **args, char **envp)
 	}
 //	else
 //		print_unquoted_exe_error(cmd_path, "command not found");
+	return (1);
 }
-*/

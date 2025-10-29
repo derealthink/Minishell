@@ -118,3 +118,17 @@ U
 Set the USER environment variable.
 echo "'$USER'" should print the value of the USER variable.
 echo '"$USER"' should print "$USER".
+
+***
+
+exit
+aielo@c4c3c5:~/Documents/WIP/09_Minishell/Codice/WIP/Minishell_v06_271025$ echo "$t1"
+cat        minishell.c
+aielo@c4c3c5:~/Documents/WIP/09_Minishell/Codice/WIP/Minishell_v06_271025$ echo hello$t1'asdasd'
+hellocat minishell.casdasd
+aielo@c4c3c5:~/Documents/WIP/09_Minishell/Codice/WIP/Minishell_v06_271025$ echo hello$t1'asdasd'$PATH
+hellocat minishell.casdasd/home/aielo/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+aielo@c4c3c5:~/Documents/WIP/09_Minishell/Codice/WIP/Minishell_v06_271025$ echo hello$t1'asdasd' $PATH
+hellocat minishell.casdasd /home/aielo/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+aielo@c4c3c5:~/Documents/WIP/09_Minishell/Codice/WIP/Minishell_v06_271025$ 
+

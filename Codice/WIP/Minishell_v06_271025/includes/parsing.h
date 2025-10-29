@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
+/*   By: aielo <aielo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 15:44:32 by aielo             #+#    #+#             */
-/*   Updated: 2025/10/27 11:22:45 by aielo            ###   ########.fr       */
+/*   Updated: 2025/10/29 14:21:41 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ char	*str_div(char *str);
 char	*str_div_q(char *str);
 int		process_token_at_position(char *str, int pos,
 			t_state state, t_table *list);
-void	print_tokens(t_table *list);//temp
-void	print_cmd_list(t_cmd *cmd_list);//temp
+//void	print_tokens(t_table *list);//temp
+//void	print_cmd_list(t_cmd *cmd_list);//temp
 int		is_pipe(char *str);
 int		is_rout(char *str);
 int		is_rin(char *str);

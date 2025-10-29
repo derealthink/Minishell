@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_manager.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
+/*   By: aielo <aielo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 21:39:14 by aielo             #+#    #+#             */
-/*   Updated: 2025/10/27 15:59:41 by aielo            ###   ########.fr       */
+/*   Updated: 2025/10/29 14:53:26 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ int	is_parent_builtin(char *cmd)
 	if (!cmd)
 		return (0);
 	if (ft_strcmp(cmd, "cd") == 0
+		|| ft_strcmp(cmd, "export") == 0
 		|| ft_strcmp(cmd, "unset") == 0
 		|| ft_strcmp(cmd, "exit") == 0)
 		return (1);
