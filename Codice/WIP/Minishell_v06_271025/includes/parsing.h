@@ -43,6 +43,12 @@ void	init_cmd(t_cmd *cmd);
 t_cmd	*parser(t_table *list, t_cmd *table);
 int		is_env(char *str);
 int 	pre_parse(char *str);
+int		tokenizer_dquotes(char *str, t_table *list);
+int		tokenizer_squotes(char *str, t_table *list);
+int		tokenizer_norm(char *str, t_table *list);
+t_token	*sort_redir(t_token *token, t_cmd *table);
+t_token	*sort_app(t_token *token, t_cmd *table);
+t_token	*sort_herd(t_token *token, t_cmd *table);
 
 #endif
 

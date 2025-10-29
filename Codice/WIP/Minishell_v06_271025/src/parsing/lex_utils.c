@@ -53,3 +53,24 @@ int	is_quotes(char c)
 	else
 		return (0);
 }
+
+char	*str_div_q(char *str)
+{
+	int				i;
+	size_t			count;
+	unsigned int	start;
+	char			*res;
+
+	i = 0;
+	count = 0;
+	if (is_quotes(str[i]))
+		i++;
+	start = i;
+	while (str[i] && !is_quotes(str[i]))
+	{
+		count++;
+		i++;
+	}
+	res = ft_substr(str, start, count);
+	return (res);
+}

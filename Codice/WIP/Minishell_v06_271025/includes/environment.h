@@ -26,5 +26,8 @@ void		list_add_back(t_new_envp **lst, t_new_envp *new);
 void		update_shlvl(t_minishell *shell);
 char		**env_list_array(t_env_list *env_list);
 void		find_env(t_minishell *ms);
+char	    *create_sub(char *tok);
+char	    *env_find(char *tok, t_minishell *ms);
+char	    *process_sub(char *tok, t_minishell *ms);
 
 #endif
