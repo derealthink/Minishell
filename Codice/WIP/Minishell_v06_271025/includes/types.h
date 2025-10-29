@@ -17,8 +17,8 @@
 # include <signal.h>
 # include <termios.h>
 
-# define true 1
-# define false 0
+# define TRUE 1
+# define FALSE 0
 
 extern volatile sig_atomic_t	g_global_signal;
 

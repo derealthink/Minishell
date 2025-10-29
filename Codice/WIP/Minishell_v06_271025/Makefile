@@ -47,7 +47,8 @@ ENV_SRCS 	= $(ENV_DIR)/create_env_list.c \
 				$(ENV_DIR)/create_env_list_utils.c \
 				$(ENV_DIR)/create_env_array.c \
 				$(ENV_DIR)/shell_level.c \
-				$(ENV_DIR)/expand_var.c
+				$(ENV_DIR)/expand_var.c \
+				$(ENV_DIR)/expand_var_utils.c
 
 EXEC_SRCS 	= $(EXEC_DIR)/execute_command.c \
 				$(EXEC_DIR)/path.c \
@@ -61,7 +62,10 @@ PARS_SRCS 	= $(PARS_DIR)/lexing.c \
 				$(PARS_DIR)/lex_utils.c \
 				$(PARS_DIR)/parsing.c \
 				$(PARS_DIR)/parsing_utils.c \
-				$(PARS_DIR)/parse_errors.c
+				$(PARS_DIR)/parse_errors.c \
+				$(PARS_DIR)/lex_utils_1.c \
+				$(PARS_DIR)/parsing_utils_1.c \
+				$(PARS_DIR)/parsing_utils_2.c
 
 CONFIG_SRCS	= $(CONFIG_DIR)/signals.c \
 				$(CONFIG_DIR)/signals_heredoc.c \
