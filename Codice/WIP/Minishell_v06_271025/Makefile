@@ -6,7 +6,7 @@
 #    By: aielo <aielo@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/09 13:19:32 by aielo             #+#    #+#              #
-#    Updated: 2025/10/29 17:19:52 by aielo            ###   ########.fr        #
+#    Updated: 2025/10/29 17:49:42 by aielo            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -59,7 +59,8 @@ EXEC_SRCS 	= $(EXEC_DIR)/execute_command.c \
 				$(EXEC_DIR)/pipeline_utils_two.c \
 				$(EXEC_DIR)/redirections.c
 
-MAIN_SRCS	= $(MAIN_DIR)/init.c
+MAIN_SRCS	= $(MAIN_DIR)/init.c \
+				$(MAIN_DIR)/main_loop.c
 
 PARS_SRCS 	= $(PARS_DIR)/lexing.c \
 				$(PARS_DIR)/lex_utils.c \

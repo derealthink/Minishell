@@ -4,7 +4,7 @@ pwd
 echo hello
 echo "hello world"
 cat Makefile
-grep main *.c
+grep main minishell.c
 wc -l minishell.c
 
 # Echo

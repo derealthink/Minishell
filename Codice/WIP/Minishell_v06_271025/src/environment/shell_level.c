@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_level.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aielo <aielo@student.42berlin.de>          +#+  +:+       +#+        */
+/*   By: aielo <aielo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 19:12:24 by aielo             #+#    #+#             */
-/*   Updated: 2025/10/22 18:30:54 by aielo            ###   ########.fr       */
+/*   Updated: 2025/10/29 18:18:26 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	update_shlvl(t_minishell *shell)
 	int			shlvl;
 	char		*shlvl_c;
 
-	if (!shell)
+	if (!shell || !shell->env_list)
 		return ;
 	current = &shell->env_list->head;
 	while (*current)
