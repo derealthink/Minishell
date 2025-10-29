@@ -6,7 +6,7 @@
 /*   By: aielo <aielo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 15:44:32 by aielo             #+#    #+#             */
-/*   Updated: 2025/10/29 14:21:41 by aielo            ###   ########.fr       */
+/*   Updated: 2025/10/29 15:03:46 by aielo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,6 @@ char	*str_div(char *str);
 char	*str_div_q(char *str);
 int		process_token_at_position(char *str, int pos,
 			t_state state, t_table *list);
-//void	print_tokens(t_table *list);//temp
-//void	print_cmd_list(t_cmd *cmd_list);//temp
 int		is_pipe(char *str);
 int		is_rout(char *str);
 int		is_rin(char *str);
@@ -42,7 +40,7 @@ t_cmd	*new_cmd(t_cmd *prev);
 void	init_cmd(t_cmd *cmd);
 t_cmd	*parser(t_table *list, t_cmd *table);
 int		is_env(char *str);
-int 	pre_parse(char *str);
+int		pre_parse(char *str);
 int		tokenizer_dquotes(char *str, t_table *list);
 int		tokenizer_squotes(char *str, t_table *list);
 int		tokenizer_norm(char *str, t_table *list);
@@ -52,15 +50,3 @@ t_token	*sort_herd(t_token *token, t_cmd *table);
 void	args_to_cmd(t_cmd *cmd, t_token *start);
 
 #endif
-
-/*
-	Your parser would be responsible for creating and populating this linked list. 
-	Each t_cmd node represents a single command and holds its arguments, 
-	along with file descriptors for any I/O redirections. 
-	The input_fd and output_fd would be set to STDIN_FILENO and STDOUT_FILENO by default 
-	and updated if redirections are found.
-
-	// Your parser should populate:
-	cmd->path = "ls";           // or full path
-	cmd->args = {"ls", "-la", NULL};  // including command as args[0]
-*/
