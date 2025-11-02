@@ -16,6 +16,7 @@
 # include "utils.h"
 # include "types.h"
 # include "libft.h"
+# include "minishell.h"
 
 void	init_minishell(t_minishell *shell, char **envp);
 void	minishell_main_loop(t_minishell	*shell);

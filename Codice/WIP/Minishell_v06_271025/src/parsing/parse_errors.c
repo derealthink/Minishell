@@ -91,9 +91,9 @@ int	redir_misuse(char *str)
 
 int hered_redir_check(char *str)
 {
-	int	i;
+	//int	i;
 
-	i = 0;
+	//i = 0;
 	if (str[0] == '<' && str[1] != '<')
 		return (0);
 	return (1);
@@ -139,6 +139,7 @@ int	pre_parse(char *str)
 {
 	if (!str)
 		return (0);
-	return (hered_backtrail(str) && back_trail(str) && hered_redir_check(str) && redir_misuse(str) && pipe_misuse(str) 
+	return (hered_backtrail(str) && back_trail(str) && hered_redir_check(str) 
+		&& redir_misuse(str) && pipe_misuse(str) 
 		&& unclosed_quotes(str));
 }

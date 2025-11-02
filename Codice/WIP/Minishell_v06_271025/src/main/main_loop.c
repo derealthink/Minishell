@@ -15,7 +15,7 @@
 static char	*read_input(t_minishell *shell);
 static void	execution(t_minishell *shell);
 
-void	minishell_main_loop(t_minishell	*shell)
+/*void	minishell_main_loop(t_minishell	*shell)
 {
 	char		*line;
 
@@ -48,7 +48,7 @@ void	minishell_main_loop(t_minishell	*shell)
 		shell->token_list = NULL;	//-----end part 2
 		execution(shell);
 	}
-}
+}*/
 
 static char	*read_input(t_minishell *shell)
 {
@@ -89,6 +89,54 @@ static void	execution(t_minishell *shell)
 		cmd_list_clear(shell->cmd_list);
 	shell->cmd_list = NULL;
 }
+
+static void	process_tokens(t_minishell *shell, char *line)
+{
+	shell->token_list = lexer(line);
+	free(line);
+	find_env(shell);
+	shell->cmd_list = parser(shell->token_list, shell->cmd_list);
+	if (shell->token_list)
+		token_list_clear(shell->token_list);
+	shell->token_list = NULL;
+}
+
+static bool	parse_input(t_minishell *shell, char *line)
+{
+	if (!pre_parse(line))
+	{
+		printf("minishell: syntax error\n");
+		free(line);
+		shell->last_exit_status = 2; // typical bash syntax error code
+		return (false); // skip to next prompt
+	}
+	process_tokens(shell, line);
+	return (true);
+}
+
+void	minishell_main_loop(t_minishell *shell)
+{
+	char	*line;
+
+	while (1)
+	{
+		g_global_signal = 0;
+		line = read_input(shell);
+		if (!line)
+			break ;
+		if (*line == '\0')
+		{
+			free(line);
+			continue ;
+		}
+		if (shell->is_interactive)
+			add_history(line);
+		if (!parse_input(shell, line))
+			continue ;
+		execution(shell);
+	}
+}
+
 
 /*
 int	main(int argc, char **argv, char **envp)
