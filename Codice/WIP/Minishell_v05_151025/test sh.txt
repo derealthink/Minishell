@@ -1,6 +1,0 @@
-interactive
-./test_sigint.sh
-
-not interactive
-./test_sigint.sh &
-kill -INT (pid)
