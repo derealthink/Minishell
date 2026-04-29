@@ -65,4 +65,7 @@ minishell$ exit
 
 - `Ctrl+C` (`SIGINT`) → sends SIGINT to active process
 - `Ctrl+D` → exit shell
-- `Ctrl+\` (`SIGQUIT`) → sends SIGQUIT to active process
+
+## Authors
+- [jqrsound](https://github.com/jqrsound)
+- [derealthink](https://github.com/derealthink)
