@@ -1,7 +1,19 @@
 # Minishell
 
-Minishell is a 42 school project that recreates a simplified Unix shell in C.  
-It supports command parsing, pipes, redirections, environment variable expansion, and common built-in commands.
+<p align="center">
+  <img src="https://img.shields.io/badge/Language-00599C?logo=c&logoColor=white" alt="C Badge" />
+  <img src="https://img.shields.io/badge/Shell-Bash?logo=gnu-bash&logoColor=white" alt="Shell Badge" />
+  <img src="https://img.shields.io/badge/42%20School-Project-000000" alt="42 Badge" />
+</p>
+
+<p align="center">
+  <strong>Minishell</strong> is a 42 school project that recreates a simplified Unix shell in C.
+</p>
+
+## Overview
+
+Minishell is a command-line shell written in **C** that mimics key Bash-like behavior.  
+It handles parsing, execution, redirections, pipes, environment variables, and built-in commands.
 
 ## Features
 
@@ -17,7 +29,9 @@ It supports command parsing, pipes, redirections, environment variable expansion
   - `env`
   - `exit`
 - Execution of external commands using the system `PATH`.
-- Input/output redirections and heredoc handling.
+- Input/output redirections.
+- Heredoc support.
+- Signal handling for interactive shell behavior.
 
 **Key learning objectives:**
 - Lexical analysis and parsing
@@ -37,11 +51,7 @@ make
 ```bash
 ./minishell
 ```
-
-## Notes
-
-This project focuses on process management, file descriptors, signal handling, and shell behavior.  
-Its behavior is designed to stay close to bash where required by the project rules.
+## Example
 
 ```bash
 $ ./minishell
@@ -65,6 +75,13 @@ minishell$ exit
 
 - `Ctrl+C` (`SIGINT`) → sends SIGINT to active process
 - `Ctrl+D` → exit shell
+
+
+## Notes
+
+This project focuses on process management, file descriptors, signal handling, and shell behavior.  
+Its behavior is designed to stay close to bash where required by the project rules.
+
 
 ## Authors
 - [jqrsound](https://github.com/jqrsound)
