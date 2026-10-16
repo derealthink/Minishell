@@ -86,3 +86,7 @@ Its behavior is designed to stay close to bash where required by the project rul
 ## Authors
 - [jqrsound](https://github.com/jqrsound)
 - [derealthink](https://github.com/derealthink)
+
+---
+
+Part of my [42 School project collection](https://github.com/derealthink/42-school).
