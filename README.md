@@ -1,3 +1,5 @@
+> **Moved:** the maintained public copy is now in [42-school/projects/Minishell](https://github.com/derealthink/42-school/tree/main/projects/Minishell). This repository is retained as a historical archive.
+
 # Minishell
 
 <p align="center">
